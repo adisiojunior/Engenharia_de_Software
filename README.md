@@ -1,19 +1,30 @@
 # Engenharia_de_Software
 Grupo criado, para poder realizar o projeto da disciplinas de Engenharia de Software - UFCG
 
-#Nosso time
+##Nosso time
 
 ADISIO PEREIRA FIALHO JUNIOR - adisio.junior@ccc.ufcg.edu.br
+
 DANIELLE DE LIMA VIEIRA - danielle.vieira@ccc.ufcg.edu.br
+
 EDSON ESLLEY ALMEIDA DO NASCIMENTO -edson.weslley.nascimento@ccc.ufcg.edu.br
+
 EUCLIDES RAMOS DE ARAUJO FILHO - euclides.filho@ccc.ufcg.edu.br
+
 GABRIEL MAX VIEIRA MATOS - gabriel.matos@ccc.ufcg.edu.br
+
 GABRIEL NASCIMENTO SANTOS - gabriel.nascimento.santos@ccc.ufcg.edu.br
+
 IGOR FRANCA GADELHA FILHO - igor.filho@ccc.ufcg.edu.br
+
 JAILSON BARROS DA SILVA JUNIOR - jailson.junior@ccc.ufcg.edu.br
+
 JERONIMO JAIRO SILVA DE ARAUJO - jeronimo.araujo@ccc.ufcg.edu.br 
+
 LARISSA GABRIELA AMORIM DA COSTA- larissa.gabriela.costa@ccc.ufcg.edu.br 
+
 MATEUS ALVES TRANQUILINO - matheus.alves@ccc.ufcg.edu.br 
+
 ODY JUNIOR DE MELO MENDES - ody.mendes@ccc.ufcg.edu.br
 
 #Divisão da equipe:
