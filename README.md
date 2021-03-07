@@ -13,7 +13,7 @@ Grupo criado, para poder realizar o projeto da disciplinas de Engenharia de Soft
 - JAILSON BARROS DA SILVA JUNIOR  jailson.junior@ccc.ufcg.edu.br
 - JERONIMO JAIRO SILVA DE ARAUJO  jeronimo.araujo@ccc.ufcg.edu.br 
 - LARISSA GABRIELA AMORIM DA COSTA larissa.gabriela.costa@ccc.ufcg.edu.br 
-- MATEUS ALVES TRANQUILINO matheus.alves@ccc.ufcg.edu.br 
+- MATHEUS FRANCISCO FLOR ALVES matheus.alves@ccc.ufcg.edu.br 
 - ODY JUNIOR DE MELO MENDES  ody.mendes@ccc.ufcg.edu.br
 
 ## Divisão da equipe:
