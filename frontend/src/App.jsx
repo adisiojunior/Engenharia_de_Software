@@ -1,5 +1,5 @@
 import React from 'react';
-import Results from './pages/Results';
+import { Results } from './pages/Results';
 
 function App() {
   return (
