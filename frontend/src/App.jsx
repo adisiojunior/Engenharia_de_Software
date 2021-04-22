@@ -1,12 +1,15 @@
 import React from 'react';
-import { Results } from './pages/Results';
+import Routes from './routes';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css'; 
 
-function App() {
+const App = () => {
   return (
-    <div className='App'>
-      <Results />
+    <div>
+      <Routes />
+      <ToastContainer />
     </div>
-  );
-}
+  )
+};
 
 export default App;
