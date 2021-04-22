@@ -1,15 +1,16 @@
 import React from 'react';
-import Routes from './routes';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css'; 
+import Routes from './routes';
+import 'react-toastify/dist/ReactToastify.min.css';
+import './styles/global.css';
 
 const App = () => {
   return (
-    <div>
+    <div id='root'>
       <Routes />
       <ToastContainer />
     </div>
-  )
+  );
 };
 
 export default App;

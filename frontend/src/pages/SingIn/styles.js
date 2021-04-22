@@ -1,0 +1,21 @@
+import styled from 'styled-components';
+import Background from '../../assets/bg-image-login.jpg';
+
+export const Container = styled.div`
+  width: auto;
+  height: 100%;
+  background-image: url(${Background});
+  background-size: 100%;
+`;
+
+export const Login = styled.div`
+  height: 100%;
+  width: 40%;
+  background-color: white;
+  opacity: 70%;
+  padding: 30px;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
