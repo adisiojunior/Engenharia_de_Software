@@ -1,7 +1,7 @@
 import React from 'react';
-import './components/user/userRegistrationPage';
+import './userRegistrationPage.css';
 
-function App() {
+export const userRegistrationPage = () => {
   return (
     <main className='main'>
       <h1 className='title'>Cadastro do usuário</h1>
@@ -35,6 +35,4 @@ function App() {
       <button type='button'>Cadastrar Empresa</button>
     </main>
   );
-}
-
-export default App;
+};
