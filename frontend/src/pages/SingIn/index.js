@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Button, FormGroup, Input, Label } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import api from '../../services/api';
 import { login } from '../../services/auth';
 import { Container, Login } from './styles';
@@ -9,9 +9,11 @@ import { Container, Login } from './styles';
 const SingIn = () => {
   const history = useHistory();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleSingIn = async (e) => {
     e.preventDefault();
-    const { email, password } = e;
 
     if (!email || !password) {
       toast.error('Informe um e-mail e uma senha para efetuar login.');
@@ -31,18 +33,32 @@ const SingIn = () => {
   return (
     <Container>
       <Login>
-        <div w='70%'>
+        <Form onSubmit={handleSingIn} className='w-75'>
           <FormGroup>
             <Label for='inputEmail'>E-mail</Label>
-            <Input type='email' id='inputEmail' placeholder='email@email.com' />
+            <Input
+              type='email'
+              id='inputEmail'
+              placeholder='email@email.com'
+              onChange={(emailValue) => {
+                setEmail(emailValue.target.value);
+              }}
+            />
           </FormGroup>
           <FormGroup>
-            <Input />
+            <Label for='inputPassword'>Senha</Label>
+            <Input
+              type='password'
+              id='inputPassword'
+              onChange={(passwordValue) => {
+                setPassword(passwordValue.target.value);
+              }}
+            />
           </FormGroup>
-          <FormGroup>
-            <Button onClick={(e) => handleSingIn(e)}>FAZER LOGIN</Button>
-          </FormGroup>
-        </div>
+          <Button type='submit' color='primary' outline className='w-100'>
+            FAZER LOGIN
+          </Button>
+        </Form>
       </Login>
     </Container>
   );

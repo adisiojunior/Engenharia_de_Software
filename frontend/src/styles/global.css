@@ -6,7 +6,7 @@ html, body, #root {
   margin:0;
   height: 100%;
 }
-.um { background: #333; color: white; padding: 50px 20px; 
+.um { background: #333; color: white; padding: 50px 20px;
   height: 100%;
   height: -webkit-calc(100% - 100px);
   height: -moz-calc(100% - 100px);
