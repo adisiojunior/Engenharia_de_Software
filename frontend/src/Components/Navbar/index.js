@@ -3,8 +3,8 @@ import { Container, Navbar, NavbarBrand, NavbarToggler } from 'reactstrap';
 
 const NavBar = () => {
   return (
-    <Navbar expand='lg' color='white' light fixed='top' className='shadow m-0'>
-      <Container>
+    <Navbar expand='lg' color='white' light fixed='top'>
+      <Container className='m-0'>
         <div className='navbar-translate'>
           <NavbarBrand>Micro Explorer</NavbarBrand>
           <NavbarToggler>

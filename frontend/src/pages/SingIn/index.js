@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap';
 import api from '../../services/api';
 import { login } from '../../services/auth';
-import { Container, Login } from './styles';
+import { Container, Login, Title } from './styles';
 
 const SingIn = () => {
   const history = useHistory();
@@ -34,6 +34,7 @@ const SingIn = () => {
     <Container>
       <Login>
         <Form onSubmit={handleSingIn} className='w-75'>
+          <Title>Login</Title>
           <FormGroup>
             <Label for='inputEmail'>E-mail</Label>
             <Input
@@ -55,9 +56,14 @@ const SingIn = () => {
               }}
             />
           </FormGroup>
-          <Button type='submit' color='primary' outline className='w-100'>
-            FAZER LOGIN
-          </Button>
+          <FormGroup>
+            <Button type='submit' color='primary' outline className='w-100'>
+              FAZER LOGIN
+            </Button>
+            <FormText color='muted'>
+              Esqueceu suas informações de login? Clique aqui.
+            </FormText>
+          </FormGroup>
         </Form>
       </Login>
     </Container>

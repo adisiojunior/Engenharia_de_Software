@@ -19,3 +19,8 @@ export const Login = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 50px;
+`;
