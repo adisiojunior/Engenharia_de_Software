@@ -1,3 +1,4 @@
+import { Button } from 'reactstrap';
 import styled from 'styled-components';
 import Background from '../../assets/bg-image-login.jpg';
 
@@ -23,4 +24,16 @@ export const Login = styled.div`
 export const Title = styled.h1`
   text-align: center;
   margin-bottom: 50px;
+`;
+
+export const StyledButton = styled(Button)`
+  outline
+  width: 100%;
+  color: #34669A;
+  border-color: #34669A;
+
+  :hover {
+    background-color: #34669A;
+    border-color: #34669A;
+  }
 `;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap';
+import { Form, FormGroup, FormText, Input, Label } from 'reactstrap';
 import api from '../../services/api';
 import { login } from '../../services/auth';
-import { Container, Login, Title } from './styles';
+import { Container, Login, StyledButton, Title } from './styles';
 
 const SingIn = () => {
   const history = useHistory();
@@ -57,9 +57,9 @@ const SingIn = () => {
             />
           </FormGroup>
           <FormGroup>
-            <Button type='submit' color='primary' outline className='w-100'>
+            <StyledButton type='submit' outline className='w-100'>
               FAZER LOGIN
-            </Button>
+            </StyledButton>
             <FormText color='muted'>
               Esqueceu suas informações de login? Clique aqui.
             </FormText>
