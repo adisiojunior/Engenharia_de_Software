@@ -41,7 +41,7 @@ export const RegisterUser = () => {
               Cadastrar
             </StyledButton>
             <StyledButton type='submit' outline className='w-50'>
-              Cadasrar Empresa
+              Cadastrar Empresa
             </StyledButton>
           </Buttons>
         </Form>
