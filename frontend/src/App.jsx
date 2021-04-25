@@ -1,50 +1,20 @@
 import React from 'react';
 import './components/user/userRegistrationPage';
+import { ToastContainer } from 'react-toastify';
+import Routes from './routes';
+import 'react-toastify/dist/ReactToastify.min.css';
+import './styles/global.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import NavBar from './Components/Navbar';
 
-function App() {
+const App = () => {
   return (
-    <main className='main'>
-      <h1 className='title'>Cadastro do usuário</h1>
-      <form className='form'>
-        <div>
-          <label htmlFor='name'>
-            Nome
-            <input type='text' id='name' name='name' />
-          </label>
-        </div>
-        <div>
-          <label htmlFor='last-name'>
-            Sobrenome
-            <input type='text' id='last-name' name='last-name' />
-          </label>
-        </div>
-        <div>
-          <label htmlFor='email'>
-            E-mail
-            <input type='text' id='email' name='email' />
-          </label>
-        </div>
-        <div>
-          <label htmlFor='password'>
-            Senha
-            <input type='password' id='password' name='password' />
-          </label>
-        </div>
-        <div>
-          <label htmlFor='confirm-password'>
-            Confirme a sua senha
-            <input
-              type='password'
-              id='confirm-password'
-              name='confirm-password'
-            />
-          </label>
-        </div>
-      </form>
-      <button type='submit'>Concluir</button>
-      <button type='button'>Cadastrar Empresa</button>
-    </main>
+    <div id='root'>
+      <NavBar />
+      <Routes />
+      <ToastContainer />
+    </div>
   );
-}
+};
 
 export default App;
