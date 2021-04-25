@@ -22,4 +22,11 @@ userRoutes.delete('/users/:email', celebrate({
     })
 }, joiOpts), userController.delete);
 
+userRoutes.put('/users/:email', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        email: Joi.string().required().email()
+    })
+}, joiOpts), userController.update);
+
+
 module.exports = userRoutes;
