@@ -2,7 +2,7 @@ const { Schema, SchemaTypes, model } = require('../database/index')
 
 const RatingSchema = new Schema({
     stars : {
-        type: Integer,
+        type: Number,
         require: true
     },
     description : {
@@ -24,5 +24,5 @@ const RatingSchema = new Schema({
 
 const Rating = model('Rating', RatingSchema);
 
-moddule.exports = Rating;
+module.exports = Rating;
 
