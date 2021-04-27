@@ -12,11 +12,11 @@ const RatingSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    user_id : {
+    userId : {
         type: SchemaTypes.ObjectId,
         require : true
     },
-    service_id : {
+    serviceId : {
         type: SchemaTypes.ObjectId,
         require : true
     }
