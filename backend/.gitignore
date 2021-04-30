@@ -1,0 +1,8 @@
+node_modules
+__tests__
+
+package-lock.json
+.env
+.vscode
+# Coverage tests dir
+coverage
