@@ -19,7 +19,7 @@ const SingIn = () => {
       toast.error('Informe um e-mail e uma senha para efetuar login.');
     } else {
       try {
-        const response = await api.post('/sessions', { email, password });
+        const response = await api.post('/login', { email, password });
         login(response.data.token);
         history.push('/app');
       } catch (error) {
