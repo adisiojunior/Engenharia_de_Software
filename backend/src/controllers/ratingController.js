@@ -4,7 +4,7 @@ const create = async (req, res) => {
     const { stars, userId, description, serviceId } = req.body;
 
     try {
-        const doc = await Rating.find({ stars, userId, description, serviceId })
+        const doc = await Rating.findOne({ stars, userId, description, serviceId })
         
         if (doc) {
             return res.status(409).send({ error: 'Duplicated rating' });
