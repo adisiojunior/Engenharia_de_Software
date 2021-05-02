@@ -6,7 +6,7 @@ import { Form, FormGroup, Input, Label } from 'reactstrap';
 // import { login } from '../../../services/auth';
 import { Container, Title, StyledButton, Register, Buttons } from './styles';
 
-export const RegisterUser = () => {
+const RegisterUser = () => {
   return (
     <Container>
       <Register>
