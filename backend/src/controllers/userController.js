@@ -28,5 +28,42 @@ module.exports = {
         catch (err) {
             return res.status(400).send({ error: 'Falha no cadastro de usuário.' });
         }
+    },
+
+    async delete(req, res) {
+        
+        const { email } = req.params;
+
+        try {
+            const user = await User.findOne({ email: email });
+            if (!user) {
+                return res.status(404).send({ error: `Usuário com email: ${ email } não encontrado` })
+            }
+
+            await User.deleteOne({ email });
+
+            return res.status(204).send();
+        } catch (err) {
+            return res.status(400).send({ error: 'Falha no durante a remoção de usuário.' });
+        }
+    },
+
+    async update(req, res) {
+        
+        const { email } = req.params;
+
+        try {
+            const user = await User.findOne({ email: email });
+            if (!user) {
+                return res.status(404).send({ error: `Usuário com email: ${ email } não encontrado` })
+            }
+
+            await User.updateOne({ email });
+
+            return res.status(204).send();
+        } catch (err) {
+            return res.status(400).send({ error: 'Falha na atualização do usuário.' });
+        }
     }
+
 }
