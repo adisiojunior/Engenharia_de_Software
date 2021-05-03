@@ -54,4 +54,10 @@ userRoutes.post(
   userController.login
 );
 
+userRoutes.put('/users/:email', celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+      email: Joi.string().required().email()
+  })
+}, joiOpts), userController.update);
+
 module.exports = userRoutes;
