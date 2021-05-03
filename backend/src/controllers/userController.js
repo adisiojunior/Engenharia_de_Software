@@ -35,24 +35,22 @@ module.exports = {
         }
     },
 
-    async delete(req, res) {
-        const { email } = req.params;
-
+    async delete(req, res, next) {
         try {
-            const user = await User.findOne({ email: email });
+            const user = await User.findOne({ _id: req.userId });
+
             if (!user) {
-                return res
-                    .status(404)
-                    .send({ error: `Usuário com email: ${email} não encontrado` });
+                throw new HttpError("Usuário não existe.", 404)
             }
 
-            await User.deleteOne({ email });
+            await User.deleteOne({ _id: req.userId });
 
             return res.status(204).send();
-        } catch (err) {
-            return res
-                .status(400)
-                .send({ error: "Falha durante a remoção de usuário." });
+        } catch (error) {
+            if (!error instanceof HttpError) {
+                error = new HttpError(error.message, 400)
+            }
+            return next(error);
         }
     },
 

@@ -1,6 +1,9 @@
 const express = require("express");
-const userController = require("../controllers/userController");
 const { celebrate, Segments, Joi } = require("celebrate");
+
+const userController = require("../controllers/userController");
+const authMiddleware = require("../middleware/auth");
+
 
 const userRoutes = express.Router();
 
@@ -25,19 +28,6 @@ userRoutes.post(
   userController.create
 );
 
-userRoutes.delete(
-  "/users/:email",
-  celebrate(
-    {
-      [Segments.PARAMS]: Joi.object().keys({
-        email: Joi.string().required().email(),
-      }),
-    },
-    joiOpts
-  ),
-  userController.delete
-);
-
 userRoutes.post(
   "/login",
   celebrate(
@@ -52,6 +42,13 @@ userRoutes.post(
     joiOpts
   ),
   userController.login
+);
+
+userRoutes.use(authMiddleware);
+
+userRoutes.delete(
+  "/users",
+  userController.delete
 );
 
 userRoutes.put('/users/:email', celebrate({
