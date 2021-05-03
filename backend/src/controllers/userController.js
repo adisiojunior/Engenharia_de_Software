@@ -78,6 +78,7 @@ module.exports = {
                 "Email ou senha inválidos, tente novamente",
                 403
             );
+            return next(error);
         }
 
         //verifying provided password using hash
