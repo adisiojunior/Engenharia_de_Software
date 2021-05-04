@@ -6,8 +6,6 @@ require('dotenv/config');
 module.exports = {
 
     async create(req, res) {
-
-
         try {
 
             const user = await User.findById(req.userId).select('+password')   
@@ -68,5 +66,34 @@ module.exports = {
             );
             return next(error);
         }
+    },
+    async read (req, res, next) {
+        const { limit = 0, offset = 0, category } = req.query;
+
+        try {
+            let results = await Service.find({ category });
+
+            if (!results) {
+                throw new HttpError("Não foi encontrado nenhum serviço", 404);
+            }
+
+            if (offset > results.length) {
+                throw new HttpError("O valor de offset é maior que os resultados encontrados", 406)
+            }
+
+            results = results.slice(offset);
+
+            if (limit > 0) {
+                results = results.slice(0, limit);
+            }
+            
+            return res.status(200).send(results);
+        } catch (error) {
+            if (! error instanceof HttpError) {
+                error = new HttpError(error.message, 500); 
+            }
+            return next(error);
+        }
+
     }
 }
