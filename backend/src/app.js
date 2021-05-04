@@ -16,4 +16,5 @@ app.use((error, req, res, next) => {
     res.json({ message: error.message || 'Ocorreu um erro desconhecido' });
     //if theres no code or message, the error will return a standard response
   });
+
 module.exports = app;
