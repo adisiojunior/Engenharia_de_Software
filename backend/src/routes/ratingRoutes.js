@@ -11,16 +11,29 @@ const celebrateWithJoiOptions = (schema) => {
     return celebrate(schema, joiOpts)
 }
 
-// The routes after that will be private routes
-ratingRouter.use(authMiddleware);
+const objectIdRegex = new RegExp('^[0-9a-fA-F]{24}$');
 
-ratingRouter.post('/ratings/:serviceId', celebrateWithJoiOptions({
+ratingRouter.get('/services/:serviceId/ratings', celebrateWithJoiOptions({
+    [Segments.PARAMS] : Joi.object().keys({
+        serviceId: Joi.string().pattern(objectIdRegex).required()
+    })
+}), ratingController.readAll)
+
+ratingRouter.post('/services/:serviceId/ratings', celebrateWithJoiOptions({
+    [Segments.PARAMS] : Joi.object().keys({
+        serviceId: Joi.string().pattern(objectIdRegex).required()
+    }),
     [Segments.BODY]: Joi.object().keys({
         stars: Joi.number().integer().min(1).max(5).required(),
         description: Joi.string(),
     })
-}), ratingController.create);
+}), authMiddleware, ratingController.create);
 
-ratingRouter.delete('/ratings/delete/:serviceId/:ratingId', ratingController.delete);
+ratingRouter.delete('/services/:serviceId/ratings/:ratingId', celebrateWithJoiOptions({
+    [Segments.PARAMS]: Joi.object().keys({
+        serviceId: Joi.string().pattern(objectIdRegex).required(),
+        ratingId: Joi.string().pattern(objectIdRegex).required(),
+    })
+}), authMiddleware, ratingController.delete);
 
 module.exports = ratingRouter;
