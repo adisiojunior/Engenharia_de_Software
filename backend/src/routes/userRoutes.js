@@ -16,6 +16,7 @@ userRoutes.post(
     {
       [Segments.BODY]: Joi.object().keys({
         name: Joi.string().required(),
+        lastName: Joi.string().required(),
         email: Joi.string().required().email(),
         password: Joi.string()
           .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))

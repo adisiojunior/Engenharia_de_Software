@@ -80,5 +80,31 @@ module.exports = {
             );
             return next(error);
         }
+    },
+
+    async update(req, res, next) {
+        try {
+            if (!await User.findById(req.userId)) {
+                throw new HttpError('Usuário não cadastrado.', 403);
+            }
+
+            if (!await Service.findById(req.params.serviceId)) {
+                throw new HttpError('Serviço não cadastrado.', 403);
+            }
+
+            if (!await Rating.findById(req.params.ratingId)) {
+                throw new HttpError('Avaliação não cadastrada.', 403);
+            }
+
+            const rating = await Rating.findByIdAndUpdate(req.params.ratingId, req.body, { new: true });
+
+            return res.send({ rating });
+        }
+        catch (error) {
+            if (!error instanceof HttpError) {
+                error = new HttpError(error.message, 500);
+            }
+            return next(error);
+        }
     }
 }   

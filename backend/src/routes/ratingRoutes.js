@@ -23,4 +23,6 @@ ratingRouter.post('/ratings/:serviceId', celebrateWithJoiOptions({
 
 ratingRouter.delete('/ratings/delete/:serviceId/:ratingId', ratingController.delete);
 
+ratingRouter.put('/services/:serviceId/ratings/:ratingId', ratingController.update);
+
 module.exports = ratingRouter;
