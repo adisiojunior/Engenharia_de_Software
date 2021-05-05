@@ -1,20 +1,47 @@
-import React from 'react';
-// import { useHistory } from 'react-router-dom';
-// import { toast } from 'react-toastify';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-// import api from '../../../services/api';
+import api from '../../../services/api';
 // import { login } from '../../../services/auth';
 import { Container, Title, StyledButton, Register, Buttons } from './styles';
 
 export const RegisterUser = () => {
+  const history = useHistory();
+
+  const [name, setName] = useState('');
+
+  const handleRegisterUser = async (e) => {
+    e.preventDefault();
+    if (!name) {
+      toast.error('Informe o nome para realizar o registro');
+    }
+    try {
+      await api.post('/register', {
+        name,
+      });
+      history.push('/app');
+    } catch (error) {
+      toast.error(
+        'Houve um problema com seu cadastro. Preencha todos os campos corretamente'
+      );
+    }
+  };
   return (
     <Container>
       <Register>
-        <Form className='w-75'>
+        <Form onSubmit={handleRegisterUser} className='w-75'>
           <Title>Cadastro do usuário</Title>
           <FormGroup>
             <Label>Nome</Label>
-            <Input type='text' id='inputName' placheholder='Nome' />
+            <Input
+              type='text'
+              id='inputName'
+              placheholder='Nome'
+              onChange={(nameValue) => {
+                setName(nameValue.target.value);
+              }}
+            />
           </FormGroup>
           <FormGroup>
             <Label>Sobrenome</Label>

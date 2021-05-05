@@ -27,13 +27,13 @@ export const Title = styled.h1`
 `;
 
 export const StyledButton = styled(Button)`
-  outline
+  border: outline;
   width: 100%;
-  color: #34669A;
-  border-color: #34669A;
+  color: #34669a;
+  border-color: #34669a;
 
   :hover {
-    background-color: #34669A;
-    border-color: #34669A;
+    background-color: #34669a;
+    border-color: #34669a;
   }
 `;

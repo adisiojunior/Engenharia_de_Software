@@ -47,31 +47,3 @@ export const Buttons = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-// body {
-//   box-sizing: border-box;
-//   height: 100%;
-//   width: 100%;
-//   padding: 0;
-//   margin: 0;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-family: Raleway;
-// }
-
-// .main {
-//   background: #eeeeee;
-//   border-radius: 1rem;
-//   height: 80vh;
-//   width: 60vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .title {
-//   font-size: 2rem;
-//   font-weight: 900;
-// }

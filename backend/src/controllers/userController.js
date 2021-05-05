@@ -19,7 +19,10 @@ module.exports = {
           .send({ error: `Já existe um usuário com o e-mail: ${email}` });
       }
 
-      const user = await User.create(req.body);
+      const hash = await bcrypt.hash(req.body.password, 10);
+      const password = hash;
+
+      const user = await User.create({ ...req.body, password: password });
 
       user.password = undefined;
 
@@ -32,24 +35,22 @@ module.exports = {
     }
   },
 
-  async delete(req, res) {
-    const { email } = req.params;
-
+  async delete(req, res, next) {
     try {
-      const user = await User.findOne({ email: email });
+      const user = await User.findOne({ _id: req.userId });
+
       if (!user) {
-        return res
-          .status(404)
-          .send({ error: `Usuário com email: ${email} não encontrado` });
+        throw new HttpError("Usuário não existe.", 404);
       }
 
-      await User.deleteOne({ email });
+      await User.deleteOne({ _id: req.userId });
 
       return res.status(204).send();
-    } catch (err) {
-      return res
-        .status(400)
-        .send({ error: "Falha no durante a remoção de usuário." });
+    } catch (error) {
+      if (!error instanceof HttpError) {
+        error = new HttpError(error.message, 400);
+      }
+      return next(error);
     }
   },
 
@@ -60,7 +61,7 @@ module.exports = {
     let user;
 
     try {
-      user = await User.findOne({ email });
+      user = await User.findOne({ email }).select("+password");
     } catch (err) {
       const error = new HttpError(
         "Falha ao realizar login, tente novamente depois",
@@ -75,6 +76,7 @@ module.exports = {
         "Email ou senha inválidos, tente novamente",
         403
       );
+      return next(error);
     }
 
     //verifying provided password using hash
@@ -97,13 +99,15 @@ module.exports = {
       return next(error);
     }
 
+    user.password = undefined;
+
     //if everything goes right, a token is created and sent back
     let token;
     try {
       token = generateToken({ id: user.id });
       return res.send({
         user,
-        token
+        token,
       });
     } catch (err) {
       //if token couldn't de created
@@ -112,6 +116,27 @@ module.exports = {
         500
       );
       return next(error);
+    }
+  },
+
+  async update(req, res) {
+    const { email } = req.params;
+
+    try {
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        return res
+          .status(404)
+          .send({ error: `Usuário com email: ${email} não encontrado` });
+      }
+
+      await User.updateOne({ email });
+
+      return res.status(204).send();
+    } catch (err) {
+      return res
+        .status(400)
+        .send({ error: "Falha na atualização do usuário." });
     }
   },
 };
