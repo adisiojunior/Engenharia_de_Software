@@ -10,14 +10,14 @@ export const Title = styled.div`
 export const Background = styled.div`
   width: 100vw;
   height: 100vh;
-  background: #34669a;
+  background: #dbe9f4;
 `;
 
 export const Container = styled.div`
   width: 1200px;
   margin: 100px auto;
   height: 90%;
-  background-color: #ddd;
+  background-color: white;
   justify-content: space-between;
   align-items: center;
   border-radius: 1.2rem;
@@ -48,18 +48,30 @@ export const Category = styled.div`
 
 export const StyledButton = styled(Button)`
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: baseline;
 
   border: outline;
   border-radius: 3rem;
-  width: 50%;
+  width: 80%;
   height: 2.5rem;
-  color: #34669a;
-  border-color: #34669a;
+  background: #34669a;
+  color: #fff;
   transition: 0.2s;
 
-  :hover {
-    filter: 0.8;
+  p {
+    display: inline-block;
+    margin-top: 0.875rem;
   }
+
+  :hover {
+    background: #34669a;
+  }
+`;
+
+export const StyledImg = styled.img`
+  width: 20px;
+  /* padding-bottom: 6px; */
+  margin-right: 12px;
 `;

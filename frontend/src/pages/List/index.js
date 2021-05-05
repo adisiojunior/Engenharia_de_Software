@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Services from '../../Components/Services';
 import PaginationComponent from '../../Components/Pagination';
+import LogoMicroExplorer from '../../assets/LOGO MICRO EXPLORER 05.png';
+import LogoBairro from '../../assets/bairroZoom.png';
 import api from '../../services/api';
 import {
   Container,
@@ -9,6 +11,7 @@ import {
   Background,
   Title,
   StyledButton,
+  StyledImg,
 } from './styles';
 
 const List = () => {
@@ -50,8 +53,14 @@ const List = () => {
           <Filtros>
             <h3>Filtros</h3>
             <Category>
-              <StyledButton>Centro</StyledButton>
-              <StyledButton>Restaurantes</StyledButton>
+              <StyledButton>
+                <StyledImg src={LogoBairro} alt='Bairro' />
+                <p>Centro</p>
+              </StyledButton>
+              <StyledButton>
+                <StyledImg src={LogoMicroExplorer} alt='' />
+                <p>Restaurante</p>
+              </StyledButton>
             </Category>
           </Filtros>
           <h2>Resultados</h2>
