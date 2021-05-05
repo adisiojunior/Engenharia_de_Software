@@ -14,14 +14,14 @@ const celebrateWithJoiOptions = (schema) => {
 // The routes after that will be private routes
 ratingRouter.use(authMiddleware);
 
-ratingRouter.post('/ratings/:serviceId', celebrateWithJoiOptions({
+ratingRouter.post('/services/:serviceId/ratings', celebrateWithJoiOptions({
     [Segments.BODY]: Joi.object().keys({
         stars: Joi.number().integer().min(1).max(5).required(),
         description: Joi.string(),
     })
 }), ratingController.create);
 
-ratingRouter.delete('/ratings/delete/:serviceId/:ratingId', ratingController.delete);
+ratingRouter.delete('/services/:serviceId/ratings/:ratingId', ratingController.delete);
 
 ratingRouter.put('/services/:serviceId/ratings/:ratingId', ratingController.update);
 
