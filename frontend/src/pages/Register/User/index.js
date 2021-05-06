@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
+import DatePicker, { setDefaultLocale } from 'react-datepicker';
 import api from '../../../services/api';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
 
+setDefaultLocale('pt');
 export const RegisterUser = () => {
   const history = useHistory();
 
@@ -12,6 +15,7 @@ export const RegisterUser = () => {
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
@@ -65,6 +69,15 @@ export const RegisterUser = () => {
               onChange={(lastnameValue) => {
                 setLastname(lastnameValue.target.value);
               }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>Data de Nascimento</Label>
+            <br />
+            <DatePicker
+              locale='pt'
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
             />
           </FormGroup>
           <FormGroup>
