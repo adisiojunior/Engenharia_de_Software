@@ -23,9 +23,7 @@ const SingIn = () => {
         login(response.data.token);
         history.push('/app');
       } catch (error) {
-        toast.error(
-          'Houve um problema com o login. Verifique suas credencias e tente novamente.'
-        );
+        toast.error(`Houve um problema com o login: ${error.error}`);
       }
     }
   };
