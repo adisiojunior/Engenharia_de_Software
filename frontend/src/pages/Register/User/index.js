@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import DatePicker, { setDefaultLocale } from 'react-datepicker';
@@ -15,21 +15,15 @@ export const RegisterUser = () => {
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    if (!name) {
-      toast.error('Informe seu nome para realizar o registro');
-    }
-    if (!lastname) {
-      toast.error('Informe seu sobrenome para realizar o registro');
-    }
-    if (!email) {
-      toast.error('Informe seu e-mail para realizar o registro');
-    }
-    if (!password) {
-      toast.error('Informe uma senha para realizar o registro');
+    if (!name || !lastname || !email || !password) {
+      toast.error('Informe todos os seus dados para realizar o cadastro');
+    } else if (password !== confirmPassword) {
+      toast.error('Senhas diferentes');
     } else {
       try {
         await api.post('/register', {
@@ -110,9 +104,11 @@ export const RegisterUser = () => {
             </ButtonStyle>
           </FormButton>
         </Form>
-        <ButtonStyle type='submit' outline className='w-10'>
-          Cadastrar Empresa
-        </ButtonStyle>
+        <Link to='/RegisterBusiness'>
+          <ButtonStyle type='submit' outline className='w-10'>
+            Cadastrar Empresa
+          </ButtonStyle>
+        </Link>
       </Register>
     </Container>
   );
