@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import api from '../../../services/api';
-import { Container, Title, StyledButton, Register, Buttons } from './styles';
+import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
 
 export const RegisterUser = () => {
   const history = useHistory();
@@ -91,15 +91,15 @@ export const RegisterUser = () => {
             <Label>Confirme a sua senha</Label>
             <Input type='password' id='confirmPassword' />
           </FormGroup>
-          <Buttons>
-            <StyledButton type='submit' outline className='w-50'>
+          <FormButton>
+            <ButtonStyle type='submit' outline className='w-10'>
               Cadastrar
-            </StyledButton>
-            <StyledButton type='submit' outline className='w-50'>
-              Cadastrar Empresa
-            </StyledButton>
-          </Buttons>
+            </ButtonStyle>
+          </FormButton>
         </Form>
+        <ButtonStyle type='submit' outline className='w-10'>
+          Cadastrar Empresa
+        </ButtonStyle>
       </Register>
     </Container>
   );

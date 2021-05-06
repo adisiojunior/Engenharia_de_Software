@@ -20,6 +20,7 @@ export const Register = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 export const Title = styled.h1`
@@ -27,7 +28,7 @@ export const Title = styled.h1`
   margin-bottom: 50px;
 `;
 
-export const StyledButton = styled(Button)`
+export const ButtonStyle = styled(Button)`
   outline
   width: 100%;
   margin: 1rem;
@@ -41,9 +42,8 @@ export const StyledButton = styled(Button)`
   }
 `;
 
-export const Buttons = styled.div`
+export const FormButton = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
