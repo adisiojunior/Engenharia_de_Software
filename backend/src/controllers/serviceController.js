@@ -46,7 +46,7 @@ module.exports = {
 
             if (!user.services.includes(req.params.serviceId)) {
                 const error = new HttpError(
-                    "Tarefa não cadastrada.",
+                    "Serviço não cadastrado.",
                     400
                 );
                 return next(error);
