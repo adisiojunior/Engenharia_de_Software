@@ -48,8 +48,6 @@ serviceRoutes.post(
   serviceController.create
 );
 
-console.log("chegou")
-
 serviceRoutes.put(
   "/services/update/:sid",
   celebrate(
@@ -69,8 +67,6 @@ serviceRoutes.put(
   ),
   serviceController.updateService
 );
-
-console.log("passou")
 
 serviceRoutes.delete("/services/delete/:serviceId", serviceController.delete);
 
