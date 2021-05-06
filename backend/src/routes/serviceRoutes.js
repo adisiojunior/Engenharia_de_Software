@@ -6,7 +6,7 @@ const authMiddleware = require("../middleware/auth");
 
 const serviceRoutes = express.Router();
 
-// When a error occurs, all erros are returned
+// When an error occurs, all erros are returned
 const joiOpts = { abortEarly: false };
 
 serviceRoutes.get(
@@ -48,8 +48,10 @@ serviceRoutes.post(
   serviceController.create
 );
 
+console.log("chegou")
+
 serviceRoutes.put(
-  "services/:sid",
+  "/services/update/:sid",
   celebrate(
     {
       [Segments.BODY]: Joi.object().keys({
@@ -65,8 +67,10 @@ serviceRoutes.put(
     },
     joiOpts
   ),
-  serviceController.updatePlace
+  serviceController.updateService
 );
+
+console.log("passou")
 
 serviceRoutes.delete("/services/delete/:serviceId", serviceController.delete);
 

@@ -28,7 +28,7 @@ module.exports = {
   },
 
   async getServiceById(req, res, next) {
-    const serviceId = req.params.pid;
+    const serviceId = req.params.sid;
 
     let service;
     try {
@@ -52,7 +52,7 @@ module.exports = {
     res.send({ service: service.toObject({ getters: true }) });
   },
 
-  async updatePlace(req, res, next) {
+  async updateService(req, res, next) {
     const {
       name,
       street,
@@ -63,7 +63,8 @@ module.exports = {
       cnpj,
       image,
     } = req.body;
-    const serviceId = req.params.pid;
+
+    const serviceId = req.params.sid;
 
     let service;
     try {
@@ -95,7 +96,7 @@ module.exports = {
       return next(error);
     }
 
-    res.status(200).send();
+    res.status(200).send({ service: service.toObject({ getters: true }) });
   },
 
   async delete(req, res, next) {
