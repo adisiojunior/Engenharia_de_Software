@@ -29,15 +29,14 @@ export const Title = styled.h1`
 `;
 
 export const ButtonStyle = styled(Button)`
-  outline
-  width: 100%;
   margin: 1rem;
-  color: #34669A;
+  color: #34669a;
   border-radius: 1rem;
-  border-color: #34669A;
+  border-color: #34669a;
+
   :hover {
-    background-color: #34669A;
-    border-color: #34669A;
+    background-color: #34669a;
+    border-color: #34669a;
   }
 `;
 
