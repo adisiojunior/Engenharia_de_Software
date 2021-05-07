@@ -1,8 +1,11 @@
+# This dir should not be ignore
+# __tests__
+
 node_modules
-__tests__
 
 package-lock.json
 .env
 .vscode
-# Coverage tests dir
-coverage
+
+# Tests coverage dir
+__tests__/coverage
