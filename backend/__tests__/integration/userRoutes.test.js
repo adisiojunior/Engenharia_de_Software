@@ -1,56 +1,71 @@
 // A test case file with all tests of User Routes
-// Using black-box to test all the endpoints of User Routes
 
 const app = require('../../src/app')
 const request = require('supertest')
+const bcrypt = require('bcryptjs')
 
-const factory = require('../factories');
+const factory = require('../factories/userFactory');
 
-const { truncate, disconnect } = require('../utils/database');
+const { clearCollections, disconnect } = require('../utils/database');
 
-describe('DELETE', () => {
-    beforeEach(async ()=> {
-        await truncate();
-    })
+afterAll(async () => {
+    await disconnect();
+})
 
-    afterAll(async () => {
-        await disconnect();
-        await app.close();
+describe('DELETE /users', () => {
+    let token, user;
+
+    beforeAll(async ()=> {
+        await clearCollections();
+
+        user = await createUserWithDefinedPassword('123456')
+        token = await getAutenticatedToken(user);
     })
 
     it('should be able to delete a valid user', async () => {
-        const user = await factory.create("User");
-
-        const response = await request(app)
-            .delete(`/users/${user.email}`)
+        const { status, body } = await request(app)
+            .delete(`/users`)
+            .set('Authorization', 'Bearer ' + token) 
             .send();
 
-        expect(response.status).toBe(204);
+        expect(status).toBe(204);
+        expect(body).toStrictEqual({});
     })
-   
-    it('should delete a email not registered', async () => {
-        await factory.create("User", {
-            email: 'email@gmail.com'
-        });
 
-        const notRegisteredEmail = 'email1@gmail.com'
-
-        const response = await request(app)
-            .delete(`/users/${notRegisteredEmail}`)
+    it('should not be able to delete a previous deleted user', async () => {
+        const { status, body } = await request(app)
+            .delete(`/users`)
+            .set('Authorization', 'Bearer ' + token) 
             .send();
 
-        expect(response.status).toBe(404);
+        expect(status).toBe(400);
+        expect(body).toStrictEqual({ error: "Usuário não existe." });
     })
 
-    it('should not be able to delete a invalid email', async () => {
-        const invalidEmail = 'email1????????'
-
-        const response = await request(app)
-            .delete(`/users/${invalidEmail}`)
+    it('should not be able to delete user without autentication', async () => {
+        const { status, body } = await request(app)
+            .delete(`/users`)
             .send();
 
-        expect(response.status).toBe(400);
-    })
-
-    it.todo('should not be able to delete user without autentication')
+        expect(status).toBe(401);
+        expect(body).toStrictEqual({ error: "Token não fornecido." })
+    });
 });
+
+const getAutenticatedToken = async ({ email, password }) => {
+    const { body } = await request(app)
+        .post('/login')
+        .send({ email, password });
+
+    return body.token;
+}
+
+const createUserWithDefinedPassword = async ( password ) => {
+    const hash = await bcrypt.hash(password, 10);
+
+    const storedUser = await factory.create("User", {
+        password: hash
+    });
+
+    return { email: storedUser.email, password }
+}

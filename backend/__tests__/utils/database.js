@@ -1,6 +1,6 @@
 const mongoose = require('../../src/database/')
 
-module.exports.truncate = async () => {
+module.exports.clearCollections = async () => {
     const collections = mongoose.connection.collections;
 
     for (const key in collections) {
@@ -11,4 +11,4 @@ module.exports.truncate = async () => {
 
 module.exports.disconnect = async () => {
     mongoose.disconnect();
-}
+} 
