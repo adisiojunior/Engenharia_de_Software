@@ -77,7 +77,7 @@ module.exports = {
         try {
             let results = await Service.find( query );
 
-            if (!results) {
+            if (results.length === 0) {
                 throw new HttpError("Não foi encontrado nenhum serviço", 404);
             }
 
