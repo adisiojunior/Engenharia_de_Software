@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
+import Select from 'react-select';
+import categories from './categories';
 import api from '../../../services/api';
 import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
 
@@ -9,7 +11,7 @@ const RegisterBusiness = () => {
   const history = useHistory();
 
   const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
+  const [category] = useState('');
   const [street, setStreet] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
   const [description, setDescription] = useState('');
@@ -66,12 +68,16 @@ const RegisterBusiness = () => {
           </FormGroup>
           <FormGroup>
             <Label>Categoria</Label>
-            <Input
-              type='text'
-              id='inputCategory'
-              onChange={(categoryValue) => {
-                setCategory(categoryValue.target.value);
-              }}
+            <Select
+              isMulti
+              name='categories'
+              options={categories}
+              className='basic-multi-select'
+              classNamePrefix='select'
+              placeholder='Selecione'
+              // onChange={(categoryValue) => {
+              //   setCategory(categoryValue.target.value);
+              // }}
             />
           </FormGroup>
           <FormGroup>
