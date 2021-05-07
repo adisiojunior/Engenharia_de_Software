@@ -1,4 +1,4 @@
-import { Button, Input, Label } from 'reactstrap';
+import { Button, Input, Label, Row } from 'reactstrap';
 import styled from 'styled-components';
 import Background from '../../assets/bg-image-home.jpg';
 
@@ -12,12 +12,10 @@ export const Container = styled.div`
 `;
 
 export const SearchDiv = styled.div`
-  background-color: white;
-  opacity: 70%;
+  background-color: rgba(255, 255, 255, 0.7);
   height: 100%;
   width: 40%;
   padding: 30px;
-  display: flex;
   justify-content: center;
   align-items: center;
 `;
@@ -27,30 +25,15 @@ export const Title = styled.h4`
   margin-bottom: 50px;
 `;
 
-export const Image = styled.img`
-  width: 500px;
-  height: auto;
-  justify-self: center;
-`;
-
 export const Description = styled.p`
   text-align: left;
-  margin: 0 80px;
-  padding: 10px;
-  font-size: 13px;
-  color: white;
+  font-size: 15px;
+  color: #14142c;
 `;
 
 export const LineBar = styled.hr`
   height: 100%;
   width: 1px;
-`;
-
-export const SearchResult = styled.div`
-  display: grid;
-  height: 100%;
-  width: 60%;
-  padding: 70px 30px 30px;
 `;
 
 export const StyledButtonFilter = styled(Button)`
@@ -94,10 +77,16 @@ export const StyledButton = styled(Button)`
     background-color: #34669a;
     border-color: #34669a;
   }
+
+  svg {
+    width: 18px;
+    height: auto;
+    margin-bottom: 2px;
+  }
 `;
 
-export const Buttons = styled.div`
-  display: flex;
+export const Buttons = styled(Row)`
+  margin: 0;
   gap: 8px;
 `;
 
@@ -113,4 +102,8 @@ export const InputSearch = styled(Input)`
 
 export const Subtitle = styled(Label)`
   font-size: 20px;
+`;
+
+export const StyledRow = styled(Row)`
+  margin: ${(props) => `${props.marginTop} 50px 0 50px`};
 `;

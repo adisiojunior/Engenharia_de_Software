@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Form, FormGroup, FormText, Input, Label } from 'reactstrap';
+import { Form, FormGroup, FormText, Label } from 'reactstrap';
 import api from '../../services/api';
 import { login } from '../../services/auth';
-import { Container, Login, StyledButton, Title } from './styles';
+import { Container, Login, StyledButton, Title, StyledInput } from './styles';
 
 const SingIn = () => {
   const history = useHistory();
@@ -35,7 +35,7 @@ const SingIn = () => {
           <Title>Login</Title>
           <FormGroup>
             <Label for='inputEmail'>E-mail</Label>
-            <Input
+            <StyledInput
               type='email'
               id='inputEmail'
               placeholder='email@email.com'
@@ -46,7 +46,7 @@ const SingIn = () => {
           </FormGroup>
           <FormGroup>
             <Label for='inputPassword'>Senha</Label>
-            <Input
+            <StyledInput
               type='password'
               id='inputPassword'
               onChange={(passwordValue) => {
