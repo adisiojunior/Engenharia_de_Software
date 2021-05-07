@@ -75,9 +75,6 @@ const RegisterBusiness = () => {
               className='basic-multi-select'
               classNamePrefix='select'
               placeholder='Selecione'
-              // onChange={(categoryValue) => {
-              //   setCategory(categoryValue.target.value);
-              // }}
             />
           </FormGroup>
           <FormGroup>
