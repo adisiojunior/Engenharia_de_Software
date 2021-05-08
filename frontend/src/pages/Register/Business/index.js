@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Uploady from '@rpldy/uploady';
+import UploadButton from '@rpldy/upload-button';
+import UploadPreview from '@rpldy/upload-preview';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from 'react-select';
@@ -16,6 +19,10 @@ const RegisterBusiness = () => {
   const [description, setDescription] = useState('');
   const [slogan, setSlogan] = useState('');
   const [cnpj, setCnpj] = useState('');
+
+  const filterBySize = (file) => {
+    return file.size <= 5242880;
+  };
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
@@ -124,6 +131,18 @@ const RegisterBusiness = () => {
                 setCnpj(cnpjValue.target.value);
               }}
             />
+          </FormGroup>
+          <FormGroup>
+            <Uploady
+              multiple
+              id='Selecione'
+              destination={{ url: 'my-server.com/upload' }}
+              fileFilter={filterBySize}
+              accept='image/*'
+            >
+              <UploadButton />
+              <UploadPreview />
+            </Uploady>
           </FormGroup>
           <FormButton>
             <ButtonStyle type='submit' outline className='w-10'>
