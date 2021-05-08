@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import List from './pages/List';
+import Services from './pages/Service';
 import RegisterUser from './pages/Register/User';
 import RegisterBusiness from './pages/Register/Business';
 import SingIn from './pages/SingIn';
@@ -28,7 +29,8 @@ const Routes = () => (
       <Route path='/registeruser' component={() => <RegisterUser />} />
       <Route path='/registerbusiness' component={() => <RegisterBusiness />} />
       <Route path='/list' component={() => <List />} />
-      <Route path='/service/:slug' component={() => <UpdateService />} />
+      <Route path='/service/' component={() => <UpdateService />} />
+      <Route path='/services/:id' component={() => <Services />} />
       <PrivateRoute path='/app' component={() => <h1>App</h1>} />
       <Route path='*' component={() => <h1>Page not found</h1>} />
     </Switch>
