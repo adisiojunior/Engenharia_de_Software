@@ -1,62 +1,45 @@
-const mongoose = require('../database/index');
+const { SchemaTypes } = require("mongoose");
+const mongoose = require("../database/index");
 
 const ServiceSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    require: true,
+  },
 
-    name: {
-        type: String,
-        require: true
-    },
+  street: {
+    type: String,
+    require: true,
+  },
 
-    street: {
-        type: String,
-        require: true
-    },
+  neighborhood: {
+    type: String,
+    require: true,
+  },
 
-    neighborhood: {
-        type: String,
-        require: true
-    },
+  category: {
+    type: Array,
+    require: true,
+  },
 
-    category: {
-        type: Array,
-        require: true
-    },
+  description: {
+    type: String,
+    require: true,
+  },
 
-    description: {
-        type: String,
-        require: true
-    },
+  slogan: {
+    type: String,
+  },
 
-    slogan: {
-        type: String
-    },
+  cnpj: {
+    type: String,
+  },
 
-    cnpj: {
-        type: String
-    },
-
-    image: {
-        type: String
-    },
-
-    whatsapp : {
-        type: String
-    },
-    
-    instagram : {
-        type: String
-    },
-    
-    email : {
-        type: String
-    },
-    
-    ratingMean : {
-        type: Number,
-        default: 0
-    }
+  image: {
+    type: String,
+  },
 });
 
-const Service = mongoose.model('Service', ServiceSchema);
+const Service = mongoose.model("Service", ServiceSchema);
 
 module.exports = Service;
