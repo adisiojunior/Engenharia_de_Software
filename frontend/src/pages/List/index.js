@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Services from '../../Components/Services';
 import PaginationComponent from '../../Components/Pagination';
-import LogoMicroExplorer from '../../assets/LOGO MICRO EXPLORER 05.png';
-import LogoBairro from '../../assets/bairroZoom.png';
 import api from '../../services/api';
-import {
-  Container,
-  Category,
-  Filtros,
-  Background,
-  Title,
-  StyledButton,
-  StyledImg,
-} from './styles';
+import { Container } from './styles';
 
 const List = () => {
   // const [search, setSearch] = useState();
@@ -46,36 +36,18 @@ const List = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <Background>
-      <Title>Resultados para busca de restaurantes</Title>
-      <Container>
-        <section>
-          <Filtros>
-            <h3>Filtros</h3>
-            <Category>
-              <StyledButton>
-                <StyledImg src={LogoBairro} alt='Bairro' />
-                <p>Centro</p>
-              </StyledButton>
-              <StyledButton>
-                <StyledImg src={LogoMicroExplorer} alt='' />
-                <p>Restaurante</p>
-              </StyledButton>
-            </Category>
-          </Filtros>
-          <h2>Resultados</h2>
-          <ul>
-            <Services services={currentService} loading={loading} />
-            <PaginationComponent
-              servicesPerPage={servicesPerPage}
-              totalServices={services.length}
-              paginate={paginate}
-            />
-          </ul>
-        </section>
-        <main />
-      </Container>
-    </Background>
+    <Container>
+      <div>
+        <h2>Resultados</h2>
+        <Services services={currentService} loading={loading} />
+        <PaginationComponent
+          servicesPerPage={servicesPerPage}
+          totalServices={services.length}
+          paginate={paginate}
+        />
+      </div>
+      <main />
+    </Container>
   );
 };
 
