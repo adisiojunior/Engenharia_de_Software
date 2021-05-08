@@ -4,6 +4,7 @@ const HttpError = require("../error/http-error");
 const User = require("../models/User");
 const { SecretsManager } = require("aws-sdk");
 const Post = require("../models/Post");
+const { Types : { ObjectId } } = require('mongoose')
 require("dotenv/config");
 
 
@@ -33,27 +34,33 @@ module.exports = {
 
   async getServiceById(req, res, next) {
     const serviceId = req.params.sid;
+    const userId = req.userId;
 
-    let service;
     try {
-      service = await Service.findById(serviceId);
-    } catch (err) {
-      const error = new HttpError(
-        "Ocorreu um erro ao consultar o serviço",
-        500
-      );
-      return next(error);
-    }
+        let service = await Service.findById(serviceId);
 
-    if (!service) {
-      const error = new HttpError(
-        "Não foi possível encontrar um serviço com o ID fornecido",
-        404
-      );
-      return next(error);
-    }
+        if (!service) {
+            throw new HttpError("Não foi possível encontrar um serviço com o ID fornecido", 404);
+        }
 
-    res.send({ service: service.toObject({ getters: true }) });
+        let editable = false;
+        if (userId) {
+            const user = await User.findOne({ "services" : { "$in" : new ObjectId(serviceId) } }, '_id')
+            console.log(user)
+
+            if (user) {
+                editable = (userId === user._id.toString());
+            }
+        }
+
+        service = service.toObject({ getters: true });
+        res.send({ service: { ...service, editable } });
+    } catch (error) {
+        if (!error instanceof HttpError) {
+            new HttpError("Ocorreu um erro ao consultar o serviço", 500);
+        }
+        return next(error);
+    }
   },
 
   async updateService(req, res, next) {
