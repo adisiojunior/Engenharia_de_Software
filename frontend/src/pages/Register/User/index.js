@@ -13,10 +13,10 @@ export const RegisterUser = () => {
 
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword] = useState('');
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();

@@ -1,5 +1,6 @@
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
+import Background from '../../../assets/bg-image-registerUser.jpg';
 
 export const Container = styled.div`
   width: auto;
@@ -8,6 +9,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url(${Background});
 `;
 
 export const Register = styled.div`
@@ -29,7 +31,7 @@ export const Title = styled.h1`
 `;
 
 export const ButtonStyle = styled(Button)`
-  width: 75%;
+  width: 100px;
   margin: 1rem;
   color: #34669a;
   border-radius: 1rem;
