@@ -88,6 +88,19 @@ serviceRoutes.post("/posts", multer(multerConfig).single("file"), async (req, re
   return res.json(post);
 });
 
+serviceRoutes.get("/posts", async (req, res) => {
+  const posts = await Post.find();
+
+  return res.json(posts);
+});
+
+
+serviceRoutes.delete("/posts/:id", async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  await post.remove();
+  return res.send();
+});
+
 
 serviceRoutes.delete("/services/delete/:serviceId", serviceController.delete);
 

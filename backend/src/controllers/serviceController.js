@@ -3,6 +3,7 @@ const multer = require("multer");
 const HttpError = require("../error/http-error");
 const User = require("../models/User");
 const { SecretsManager } = require("aws-sdk");
+const Post = require("../models/Post");
 require("dotenv/config");
 
 
@@ -160,5 +161,17 @@ module.exports = {
       return next(error);
     }
   },
+
+
+  async image(req, res) {
+     try{
+       
+     }
+     catch (err) {
+      return res
+        .status(400)
+        .send({ error: "Falha no cadastro da imagem." });
+    }
+  }
 
 }
