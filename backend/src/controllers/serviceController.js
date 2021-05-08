@@ -1,7 +1,10 @@
 const Service = require("../models/Service");
+const multer = require("multer");
 const HttpError = require("../error/http-error");
 const User = require("../models/User");
+const { SecretsManager } = require("aws-sdk");
 require("dotenv/config");
+
 
 module.exports = {
   async create(req, res) {
@@ -157,4 +160,5 @@ module.exports = {
       return next(error);
     }
   },
-};
+
+}

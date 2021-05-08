@@ -1,8 +1,14 @@
 const express = require("express");
 const { celebrate, Segments, Joi } = require("celebrate");
-
 const serviceController = require("../controllers/serviceController");
 const authMiddleware = require("../middleware/auth");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
+const multerConfig = require("../config/multer");
+const Service = require("../models/Service");
+const Post = require("../models/Post");
+
 
 const serviceRoutes = express.Router();
 
@@ -28,8 +34,9 @@ serviceRoutes.get("/services/:sid", serviceController.getServiceById);
 
 serviceRoutes.use("/services", authMiddleware);
 
+
 serviceRoutes.post(
-  "/services/register",
+  "/services/register", multer(multerConfig).single("file"),
   celebrate(
     {
       [Segments.BODY]: Joi.object().keys({
@@ -49,7 +56,7 @@ serviceRoutes.post(
 );
 
 serviceRoutes.put(
-  "/services/update/:sid",
+  "/services/update",
   celebrate(
     {
       [Segments.BODY]: Joi.object().keys({
@@ -67,6 +74,20 @@ serviceRoutes.put(
   ),
   serviceController.updateService
 );
+
+serviceRoutes.post("/posts", multer(multerConfig).single("file"), async (req, res) => {
+  const { originalname: name, size, key, location: url = " " } = req.file;
+
+  const post = await Post.create({
+    name,
+    size,
+    key,
+    url
+  });
+
+  return res.json(post);
+});
+
 
 serviceRoutes.delete("/services/delete/:serviceId", serviceController.delete);
 

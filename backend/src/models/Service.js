@@ -1,3 +1,4 @@
+const { SchemaTypes } = require('mongoose');
 const mongoose = require('../database/index');
 
 const ServiceSchema = new mongoose.Schema({
@@ -37,8 +38,8 @@ const ServiceSchema = new mongoose.Schema({
 
     image: {
         type: String
-    }
-
+    },
+    
 });
 
 const Service = mongoose.model('Service', ServiceSchema);
