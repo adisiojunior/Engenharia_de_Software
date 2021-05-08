@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
 
 setDefaultLocale('pt');
-const RegisterUser = () => {
+export const RegisterUser = () => {
   const history = useHistory();
 
   const [name, setName] = useState('');
@@ -22,8 +22,7 @@ const RegisterUser = () => {
     e.preventDefault();
     if (!name || !lastname || !email || !password) {
       toast.error('Informe todos os seus dados para realizar o cadastro');
-    }
-    if (password !== confirmPassword) {
+    } else if (password !== confirmPassword) {
       toast.error('Senhas diferentes');
     } else {
       try {
