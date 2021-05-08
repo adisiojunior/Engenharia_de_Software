@@ -9,7 +9,6 @@ import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
 
 const RegisterBusiness = () => {
   const history = useHistory();
-
   const [name, setName] = useState('');
   const [category] = useState('');
   const [street, setStreet] = useState('');
@@ -26,7 +25,6 @@ const RegisterBusiness = () => {
       !street ||
       !neighborhood ||
       !description ||
-      !slogan ||
       !cnpj
     ) {
       toast.error(
@@ -34,7 +32,7 @@ const RegisterBusiness = () => {
       );
     } else {
       try {
-        await api.post('/services/register', {
+        await api.post('/register', {
           name,
           category,
           street,
