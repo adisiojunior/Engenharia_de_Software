@@ -124,14 +124,17 @@ module.exports = {
         try {
             const user = await User.findOne({ email: email });
             if (!user) {
-                return res.status(404).send({ error: `Usuário com email: ${ email } não encontrado` })
+                throw new HttpError("Usuário não existe.", 404)
             }
 
             await User.updateOne({ email });
 
             return res.status(204).send();
         } catch (err) {
-            return res.status(400).send({ error: 'Falha na atualização do usuário.' });
+            if (!error instanceof HttpError) {
+                error = new HttpError(error.message, 400)
+            }
+            return next(error);
         }
     }
 };

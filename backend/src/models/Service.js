@@ -36,9 +36,10 @@ const ServiceSchema = new mongoose.Schema({
         type: String
     },
 
-    image: {
-        type: String
-    },
+    postId : {
+        type: SchemaTypes.ObjectId,
+        require : true
+    }
     
 });
 
