@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const userRoutes = require("./routes/userRoutes");
 const { errors } = require("celebrate");
 
 const serviceRoutes = require("./routes/serviceRoutes");
@@ -9,8 +10,8 @@ const ratingRoutes = require("./routes/ratingRoutes");
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 app.use(ratingRoutes);
 app.use(serviceRoutes);
 app.use(userRoutes);

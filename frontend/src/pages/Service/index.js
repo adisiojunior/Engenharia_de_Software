@@ -45,6 +45,7 @@ const Service = () => {
 
     fetchService();
   }, []);
+
   const category = [];
   const contacts = [];
   const chosenCategory = () => {
@@ -55,7 +56,6 @@ const Service = () => {
     <Background>
       <Container>
         <Title>{service.name}</Title>
-
         <CategoryList>
           {service.category
             ? service.category.map((name) => (

@@ -32,7 +32,6 @@ module.exports = {
         .send({ error: "Falha no cadastro do serviço ou comércio." });
     }
   },
-
   async getServiceById(req, res, next) {
     const serviceId = req.params.sid;
     const userId = req.userId;
@@ -117,7 +116,6 @@ module.exports = {
       );
       return next(error);
     }
-
     res.status(200).send({ service: service.toObject({ getters: true }) });
   },
 
@@ -129,14 +127,14 @@ module.exports = {
         const error = new HttpError("Usuário não existe.", 404);
         return next(error);
       }
-
+      
       const serviceId = req.params.serviceId;
 
       if (!user.services.includes(req.params.serviceId)) {
         const error = new HttpError("Tarefa não cadastrada.", 400);
         return next(error);
       }
-
+      
       user.services.splice(user.services.indexOf(serviceId), 1);
       user.save();
 
@@ -179,11 +177,4 @@ module.exports = {
       return next(error);
     }
   },
-
-  async image(req, res) {
-    try {
-    } catch (err) {
-      return res.status(400).send({ error: "Falha no cadastro da imagem." });
-    }
-  },
-};
+}

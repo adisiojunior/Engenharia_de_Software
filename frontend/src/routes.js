@@ -6,7 +6,6 @@ import RegisterUser from './pages/Register/User';
 import RegisterBusiness from './pages/Register/Business';
 import SingIn from './pages/SingIn';
 import UpdateService from './pages/UpdateService';
-
 import { isAuthenticated } from './services/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (

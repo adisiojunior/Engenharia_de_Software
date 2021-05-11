@@ -67,6 +67,9 @@ serviceRoutes.put(
         slogan: Joi.string(),
         cnpj: Joi.string(),
         image: Joi.string(),
+        instagram: Joi.string(),
+        whatsapp: Joi.string(),
+        email: Joi.string().email(),
       }),
     },
     joiOpts
