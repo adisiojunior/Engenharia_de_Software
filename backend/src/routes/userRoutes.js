@@ -45,7 +45,7 @@ userRoutes.post(
   userController.login
 );
 
-userRoutes.use(authMiddleware);
+userRoutes.use('/users', authMiddleware);
 
 userRoutes.delete(
   "/users",

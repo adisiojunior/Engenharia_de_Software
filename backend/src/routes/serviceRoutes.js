@@ -15,10 +15,7 @@ serviceRoutes.get('/services', celebrate({
         limit: Joi.number().min(1).max(15),
         offset: Joi.number().min(0).max(14),
     })
-}, joiOpts), 
-serviceController.read);
-
-serviceRoutes.use('/services', authMiddleware);
+}, joiOpts), serviceController.read);
 
 serviceRoutes.post('/services/register', celebrate({
     [Segments.BODY]: Joi.object().keys({
@@ -29,10 +26,13 @@ serviceRoutes.post('/services/register', celebrate({
         description: Joi.string().required(),
         slogan: Joi.string(),
         cnpj: Joi.string(),
-        image: Joi.string()
+        image: Joi.string(),
+        instagram: Joi.string(),
+        whatsapp: Joi.string(),
+        email: Joi.string().email(),
     }, )
-}, joiOpts ), serviceController.create);
+}, joiOpts ), authMiddleware, serviceController.create);
 
-serviceRoutes.delete('/services/delete/:serviceId', serviceController.delete);
+serviceRoutes.delete('/services/delete/:serviceId', authMiddleware, serviceController.delete);
 
 module.exports = serviceRoutes;
