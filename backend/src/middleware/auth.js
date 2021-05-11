@@ -28,6 +28,10 @@ module.exports = (req, res, next) => {
             return res.status(400).send({ error: 'Usuário não existe.' });
         }
 
+        if (user.token !== token) {
+            return res.status(401).send({ error: 'Token vencido.' });
+        }
+
         req.userId = decoded.id;
         next();
     });

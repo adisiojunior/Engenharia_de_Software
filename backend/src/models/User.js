@@ -5,6 +5,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    lastName: {
+        type: String,
+        require: true
+    },
     email: {
         type: String,
         require: true
@@ -21,6 +25,9 @@ const UserSchema = new mongoose.Schema({
     birthDate: {
         type: Date,
         require: true
+    },
+    token: {
+        type: String
     },
     createdAt: {
         type: Date,
