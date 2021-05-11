@@ -9,7 +9,6 @@ const multerConfig = require("../config/multer");
 const Service = require("../models/Service");
 const Post = require("../models/Post");
 
-
 const serviceRoutes = express.Router();
 
 // When an error occurs, all erros are returned
@@ -33,7 +32,6 @@ serviceRoutes.get(
 serviceRoutes.get("/services/:sid", serviceController.getServiceById);
 
 serviceRoutes.use("/services", authMiddleware);
-
 
 serviceRoutes.post(
   "/services/register", multer(multerConfig).single("file"),
@@ -68,6 +66,9 @@ serviceRoutes.put(
         slogan: Joi.string(),
         cnpj: Joi.string(),
         image: Joi.string(),
+        instagram: Joi.string(),
+        whatsapp: Joi.string(),
+        email: Joi.string().email(),
       }),
     },
     joiOpts

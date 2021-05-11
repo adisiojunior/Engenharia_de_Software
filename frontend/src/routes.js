@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import List from './pages/List';
-import RegisterUser from './pages/Register/User';
+import { RegisterUser } from './pages/Register/User';
 import SingIn from './pages/SingIn';
 
 import { isAuthenticated } from './services/auth';
