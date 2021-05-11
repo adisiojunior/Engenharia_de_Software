@@ -9,134 +9,150 @@ function generateToken(params = {}) {
 }
 
 module.exports = {
-  async create(req, res) {
-    const { email } = req.body;
+    async create(req, res) {
+        const { email } = req.body;
 
-    try {
-      if (await User.findOne({ email })) {
-        return res
-          .status(409)
-          .send({ error: `Já existe um usuário com o e-mail: ${email}` });
-      }
+        try {
+            if (await User.findOne({ email })) {
+                return res
+                    .status(409)
+                    .send({ error: `Já existe um usuário com o e-mail: ${email}` });
+            }
 
-      const hash = await bcrypt.hash(req.body.password, 10);
-      const password = hash;
+            const hash = await bcrypt.hash(req.body.password, 10);
+            const password = hash;
 
-      const user = await User.create({ ...req.body, password: password });
+            const user = await User.create({ ...req.body, password: password });
 
-      user.password = undefined;
+            const token = generateToken({ id: user._id });
 
-      return res.send({
-        user,
-        token: generateToken({ id: user.id }),
-      });
-    } catch (err) {
-      return res.status(400).send({ error: "Falha no cadastro de usuário." });
-    }
-  },
+            const userAtt = await User.findByIdAndUpdate(user._id, { token: token }, { new: true })
 
-  async delete(req, res, next) {
-    try {
-      const user = await User.findOne({ _id: req.userId });
+            userAtt.password = undefined;
 
-      if (!user) {
-        throw new HttpError("Usuário não existe.", 404);
-      }
+            return res.send({
+                userAtt,
+            });
+        } catch (err) {
+            return res.status(400).send({ error: "Falha no cadastro de usuário." });
+        }
+    },
 
-      await User.deleteOne({ _id: req.userId });
+    async delete(req, res, next) {
+        try {
+            const user = await User.findOne({ _id: req.userId });
 
-      return res.status(204).send();
-    } catch (error) {
-      if (!error instanceof HttpError) {
-        error = new HttpError(error.message, 400);
-      }
-      return next(error);
-    }
-  },
+            if (!user) {
+                throw new HttpError("Usuário não existe.", 404)
+            }
 
-  async login(req, res, next) {
-    const { email, password } = req.body;
+            await User.deleteOne({ _id: req.userId });
 
-    //trying to find user with provided email on database
-    let user;
+            return res.status(204).send();
+        } catch (error) {
+            if (!error instanceof HttpError) {
+                error = new HttpError(error.message, 400)
+            }
+            return next(error);
+        }
+    },
 
-    try {
-      user = await User.findOne({ email }).select("+password");
-    } catch (err) {
-      const error = new HttpError(
-        "Falha ao realizar login, tente novamente depois",
-        500
-      );
-      return next(error);
-    }
+    async login(req, res, next) {
+        const { email, password } = req.body;
 
-    //if there's no such user
-    if (!user) {
-      const error = new HttpError(
-        "Email ou senha inválidos, tente novamente",
-        403
-      );
-      return next(error);
-    }
+        //trying to find user with provided email on database
+        let user;
 
-    //verifying provided password using hash
-    let validPasswrd = false;
-    try {
-      validPasswrd = await bcrypt.compare(password, user.password);
-    } catch (err) {
-      const error = new HttpError(
-        "Falha ao realizar login, tente novamente depois",
-        500
-      );
-      return next(error);
-    }
+        try {
+            user = await User.findOne({ email }).select('+password');
+        } catch (err) {
+            const error = new HttpError(
+                "Falha ao realizar login, tente novamente depois",
+                500
+            );
+            return next(error);
+        }
 
-    if (!validPasswrd) {
-      const error = new HttpError(
-        "Email ou senha inválidos, tente novamente",
-        403
-      );
-      return next(error);
-    }
+        //if there's no such user
+        if (!user) {
+            const error = new HttpError(
+                "Email ou senha inválidos, tente novamente",
+                403
+            );
+            return next(error);
+        }
 
-    user.password = undefined;
+        //verifying provided password using hash
+        let validPasswrd = false;
+        try {
+            validPasswrd = await bcrypt.compare(password, user.password);
+        } catch (err) {
+            const error = new HttpError(
+                "Falha ao realizar login, tente novamente depois",
+                500
+        );
+            return next(error);
+        }
 
-    //if everything goes right, a token is created and sent back
-    let token;
-    try {
-      token = generateToken({ id: user.id });
-      return res.send({
-        user,
-        token,
-      });
-    } catch (err) {
-      //if token couldn't de created
-      const error = new HttpError(
-        "Falha ao realizar login, tente novamente depois",
-        500
-      );
-      return next(error);
-    }
-  },
+        if (!validPasswrd) {
+            const error = new HttpError(
+                "Email ou senha inválidos, tente novamente",
+                403
+            );
+            return next(error);
+        }
 
-  async update(req, res) {
-    const { email } = req.params;
+        //if everything goes right, a token is created and sent back
+        try {
+            const token = generateToken({ id: user.id });
+            const userAtt = await User.findByIdAndUpdate(user._id, { token: token }, { new: true });
+            userAtt.password = undefined;
+            return res.send({
+                userAtt
+            });
+        } catch (err) {
+            //if token couldn't de created
+            const error = new HttpError(
+                "Falha ao realizar login, tente novamente depois",
+                500
+            );
+            return next(error);
+        }
+    },
 
-    try {
-      const user = await User.findOne({ email: email });
-      if (!user) {
-        return res
-          .status(404)
-          .send({ error: `Usuário com email: ${email} não encontrado` });
-      }
+    async update(req, res) {
+        try {
+            if (!await User.findById(req.userId)) {
+                throw new HttpError('Usuário não cadastrado.', 403);
+            }
 
-      await User.updateOne({ email });
+            const user = await User.findByIdAndUpdate(req.userId, req.body, { new: true });
 
-      return res.status(204).send();
-    } catch (err) {
-      return res
-        .status(400)
-        .send({ error: "Falha na atualização do usuário." });
+            return res.send({ user });
+        } catch (error) {
+            if (!error instanceof HttpError) {
+                error = new HttpError(error.message, 500);
+            }
+            return next(error);
+        }
+    },
+
+    async logout(req, res, next) {
+        try {
+            if (!await User.findById(req.userId)) {
+                throw new HttpError('Usuário não cadastrado.');
+            }
+
+            const user = await User.findByIdAndUpdate(req.userId, { token: "" }, { new: true });
+
+            return res.send({ user });
+        }
+        catch (error) {
+            if (!error instanceof HttpError) {
+                error = new HttpError(error.message, 500);
+            }
+            return next(error);
+        }
     }
   },
 };

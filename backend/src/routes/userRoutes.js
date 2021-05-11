@@ -10,6 +10,8 @@ const userRoutes = express.Router();
 // When a error occurs, all erros are returned
 const joiOpts = { abortEarly: false };
 
+userRoutes.use('/users/auth', authMiddleware);
+
 userRoutes.post(
   "/register",
   celebrate(
@@ -47,15 +49,10 @@ userRoutes.post(
 
 userRoutes.use('/users', authMiddleware);
 
-userRoutes.delete(
-  "/users",
-  userController.delete
-);
+userRoutes.delete("/users/auth/delete", userController.delete);
 
-userRoutes.put('/users/:email', celebrate({
-  [Segments.PARAMS]: Joi.object().keys({
-      email: Joi.string().required().email()
-  })
-}, joiOpts), userController.update);
+userRoutes.put('/users/auth/update', userController.update);
+
+userRoutes.put('/users/auth/logout', userController.logout);
 
 module.exports = userRoutes;
