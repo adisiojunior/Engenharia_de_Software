@@ -147,9 +147,11 @@ module.exports = {
   },
   async read(req, res, next) {
     const { limit = 0, offset = 0, category } = req.query;
+    
+    const query = category ? { category : { "$in" : category } } : {}
 
     try {
-      let results = await Service.find({ category });
+        let results = await Service.find( query );
 
       if (results.length === 0) {
         throw new HttpError("Não foi encontrado nenhum serviço", 404);
