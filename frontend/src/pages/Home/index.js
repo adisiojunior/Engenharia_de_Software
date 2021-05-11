@@ -10,9 +10,10 @@ import {
   Button,
 } from 'reactstrap';
 import { GiTrowel, GiKnifeFork, GiFlowerEmblem } from 'react-icons/gi';
-import { FaGlassMartini } from 'react-icons/fa';
+import { FaGlassMartini, FaHeart } from 'react-icons/fa';
 import { MdAdd } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import {
   Container,
   SearchDiv,
@@ -24,8 +25,11 @@ import {
   InputSearch,
   Subtitle,
   StyledRow,
+  SearchResult,
 } from './styles';
 import api from '../../services/api';
+import Loading from '../../Components/Loading';
+import List from '../../Components/List';
 
 const IS_SELECTED_DEFAULT = {
   jardineiro: false,
@@ -47,29 +51,43 @@ const Home = () => {
   const [searchText, setSearchText] = useState('');
   const [isSelectedFilter, setIsSelectedFilter] = useState(IS_SELECTED_DEFAULT);
   const [filterOptions, setFilterOptions] = useState([]);
+  const [buttonFilters, setButtonFilters] = useState(BUTTON_FILTERS);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newFilter, setNewFilter] = useState('');
 
+  const [wasSearched, setWasSearched] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [resultSearch, setResultSearch] = useState([]);
+  const [pages, setPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     // TODO: change to get this informations from backend
     setFilterOptions(FILTER_OPTIONS);
-  }, []);
+  }, [filterOptions]);
 
-  useEffect(() => {
-    console.log(isSelectedFilter);
-  }, [isSelectedFilter]);
+  useEffect(() => {}, [buttonFilters]);
 
   const handleSearch = () => {
-    api.get(
-      `/seach?${searchText}`,
-      {
+    setWasSearched(true);
+    setIsLoading(true);
+    api
+      .get(`/seach?${searchText}`, {
         isSelectedFilter,
-      }.then((result) => {
-        console.log(result);
+        pages,
+        limit: 6,
+        currentPage,
       })
-    );
-    return searchText + modalIsOpen;
+      .then((response) => {
+        setIsLoading(false);
+        setResultSearch(response.resullt.data.services);
+        setPages(response.result.data.pages);
+      })
+      .error((error) => {
+        toast.error(`Não foi possível realizar a busca: ${error.message}`);
+      });
   };
 
   const setFilter = (filter) => {
@@ -80,15 +98,27 @@ const Home = () => {
   };
 
   const savechangesOnfilter = () => {
-    setFilter(newFilter);
-    setModalIsOpen(!modalIsOpen);
+    if (newFilter === 'none') {
+      toast.error('Selecione uma categoria');
+      return;
+    }
+    if (!isSelectedFilter[newFilter]) {
+      setFilter(newFilter);
+      setButtonFilters([
+        ...buttonFilters,
+        { name: newFilter, icon: <FaHeart /> },
+      ]);
+      setModalIsOpen(!modalIsOpen);
+    } else {
+      toast.error('Cateogira já adicionada');
+    }
   };
 
   return (
     <Container>
       <SearchDiv>
         <StyledRow marginTop='80px'>
-          <Form onSubmit={handleSearch}>
+          <Form>
             <Title>O seu buscador de micro e pequenas empresas locais</Title>
             <FormGroup>
               <Subtitle for='inputSearchText'>O que você procura?</Subtitle>
@@ -105,7 +135,7 @@ const Home = () => {
             <FormGroup>
               <Label>Filtrar por:</Label>
               <Buttons>
-                {BUTTON_FILTERS.map((element) => {
+                {buttonFilters.map((element) => {
                   return (
                     <StyledButtonFilter
                       onClick={() => setFilter(element.name)}
@@ -125,7 +155,7 @@ const Home = () => {
               </Buttons>
             </FormGroup>
             <FormGroup>
-              <StyledButton type='submit' outline className='w-100'>
+              <StyledButton outline className='w-100' onClick={handleSearch}>
                 <BsSearch /> BUSCAR
               </StyledButton>
             </FormGroup>
@@ -160,6 +190,9 @@ const Home = () => {
             id='filters'
             onChange={(element) => setNewFilter(element.target.value)}
           >
+            <option id='none' value='none'>
+              Selecionar categoria
+            </option>
             {filterOptions.map((element) => {
               return (
                 <option id={element} value={element}>
@@ -181,6 +214,20 @@ const Home = () => {
           </Button>
         </ModalFooter>
       </Modal>
+      {wasSearched && (
+        <SearchResult>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <List
+              resultSearch={resultSearch}
+              maxPages={pages}
+              currentPageProp={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
+        </SearchResult>
+      )}
     </Container>
   );
 };

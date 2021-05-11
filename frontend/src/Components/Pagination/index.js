@@ -1,10 +1,10 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const PaginationComponent = ({ servicesPerPage, totalServices, paginate }) => {
+const PaginationComponent = ({ pages, paginate }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalServices / servicesPerPage); i += 1) {
+  for (let i = 1; i <= pages; i += 1) {
     pageNumbers.push(i);
   }
 

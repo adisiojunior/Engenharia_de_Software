@@ -107,3 +107,13 @@ export const Subtitle = styled(Label)`
 export const StyledRow = styled(Row)`
   margin: ${(props) => `${props.marginTop} 50px 0 50px`};
 `;
+
+export const SearchResult = styled.div`
+  background-color: white;
+  height: 100%;
+  width: 60%;
+  padding: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;

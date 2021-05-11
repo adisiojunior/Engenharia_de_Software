@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import List from './pages/List';
 import RegisterUser from './pages/Register/User';
 import SingIn from './pages/SingIn';
 import Home from './pages/Home';
@@ -26,7 +25,6 @@ const Routes = () => (
       <Route exact path='/' component={() => <Home />} />
       <Route exact path='/login' component={() => <SingIn />} />
       <Route path='/registerUser' component={() => <RegisterUser />} />
-      <Route path='/list' component={() => <List />} />
       <PrivateRoute path='/here' component={() => <h1>Private Route</h1>} />
       <Route path='*' component={() => <h1>Page not found</h1>} />
     </Switch>
