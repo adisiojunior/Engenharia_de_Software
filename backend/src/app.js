@@ -9,10 +9,10 @@ const ratingRoutes = require("./routes/ratingRoutes");
 
 const app = express();
 
-app.use(express.json());
-app.use(userRoutes);
-app.use(serviceRoutes);
+app.use(express.json()); 
 app.use(ratingRoutes);
+app.use(serviceRoutes);
+app.use(userRoutes);
 app.use(cors());
 app.use(errors());
 

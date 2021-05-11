@@ -37,8 +37,24 @@ const ServiceSchema = new mongoose.Schema({
 
     image: {
         type: String
-    }
+    },
 
+    whatsapp : {
+        type: String
+    },
+    
+    instagram : {
+        type: String
+    },
+    
+    email : {
+        type: String
+    },
+    
+    ratingMean : {
+        type: Number,
+        default: 0
+    }
 });
 
 const Service = mongoose.model('Service', ServiceSchema);
