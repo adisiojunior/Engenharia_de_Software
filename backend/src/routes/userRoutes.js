@@ -47,6 +47,8 @@ userRoutes.post(
   userController.login
 );
 
+userRoutes.use('/users', authMiddleware);
+
 userRoutes.delete("/users/auth/delete", userController.delete);
 
 userRoutes.put('/users/auth/update', userController.update);

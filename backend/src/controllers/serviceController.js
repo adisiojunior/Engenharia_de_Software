@@ -1,10 +1,11 @@
-const Service = require('../models/Service');
-const HttpError = require("../error/http-error");
-const User = require('../models/User');
 require('dotenv/config');
 
-module.exports = {
+const Service = require('../models/Service');
+const User = require('../models/User');
 
+const HttpError = require("../error/http-error");
+
+module.exports = {
     async create(req, res) {
         try {
 
@@ -67,11 +68,14 @@ module.exports = {
             return next(error);
         }
     },
+
     async read (req, res, next) {
         const { limit = 0, offset = 0, category } = req.query;
 
+        const query = category ? { category : { "$in" : category } } : {}
+
         try {
-            let results = await Service.find({ category });
+            let results = await Service.find( query );
 
             if (!results) {
                 throw new HttpError("Não foi encontrado nenhum serviço", 404);
