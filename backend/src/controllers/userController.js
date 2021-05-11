@@ -153,6 +153,5 @@ module.exports = {
             }
             return next(error);
         }
-    }
-  },
+    },
 };
