@@ -1,50 +1,114 @@
-import React from 'react';
-// import { useHistory } from 'react-router-dom';
-// import { toast } from 'react-toastify';
+import React, { useState } from 'react';
+import { useHistory, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-// import api from '../../../services/api';
-// import { login } from '../../../services/auth';
-import { Container, Title, StyledButton, Register, Buttons } from './styles';
+import DatePicker, { setDefaultLocale } from 'react-datepicker';
+import api from '../../../services/api';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
 
-const RegisterUser = () => {
+setDefaultLocale('pt');
+export const RegisterUser = () => {
+  const history = useHistory();
+
+  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword] = useState('');
+
+  const handleRegisterUser = async (e) => {
+    e.preventDefault();
+    if (!name || !lastname || !email || !password) {
+      toast.error('Informe todos os seus dados para realizar o cadastro');
+    } else if (password !== confirmPassword) {
+      toast.error('Senhas diferentes');
+    } else {
+      try {
+        await api.post('/register', {
+          name,
+          lastname,
+          email,
+          password,
+        });
+        history.push('/app');
+      } catch (error) {
+        toast.error(
+          'Houve um problema com seu cadastro. Tente novamente mais tarde'
+        );
+      }
+    }
+  };
   return (
     <Container>
       <Register>
-        <Form className='w-75'>
+        <Form onSubmit={handleRegisterUser} className='w-75'>
           <Title>Cadastro do usuário</Title>
           <FormGroup>
             <Label>Nome</Label>
-            <Input type='text' id='inputName' placheholder='Nome' />
+            <Input
+              type='text'
+              id='inputName'
+              onChange={(nameValue) => {
+                setName(nameValue.target.value);
+              }}
+            />
           </FormGroup>
           <FormGroup>
             <Label>Sobrenome</Label>
-            <Input type='text' id='inputLastname' placheholder='Sobrenome' />
+            <Input
+              type='text'
+              id='inputLastname'
+              onChange={(lastnameValue) => {
+                setLastname(lastnameValue.target.value);
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>Data de Nascimento</Label>
+            <br />
+            <DatePicker
+              locale='pt'
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+            />
           </FormGroup>
           <FormGroup>
             <Label>E-mail</Label>
-            <Input type='email' id='inputEmail' placheholder='E-mail' />
+            <Input
+              type='email'
+              id='inputEmail'
+              onChange={(emailValue) => {
+                setEmail(emailValue.target.value);
+              }}
+            />
           </FormGroup>
           <FormGroup>
             <Label>Senha</Label>
-            <Input type='password' id='inputPassword' placheholder='Senha' />
+            <Input
+              type='password'
+              id='inputPassword'
+              onChange={(passwordValue) => {
+                setPassword(passwordValue.target.value);
+              }}
+            />
           </FormGroup>
           <FormGroup>
             <Label>Confirme a sua senha</Label>
-            <Input
-              type='password'
-              id='confirmPassword'
-              placheholder='Confirme a sua senha'
-            />
+            <Input type='password' id='confirmPassword' />
           </FormGroup>
-          <Buttons>
-            <StyledButton type='submit' outline className='w-50'>
+          <FormButton>
+            <ButtonStyle type='submit' outline className='w-10'>
               Cadastrar
-            </StyledButton>
-            <StyledButton type='submit' outline className='w-50'>
-              Cadastrar Empresa
-            </StyledButton>
-          </Buttons>
+            </ButtonStyle>
+          </FormButton>
         </Form>
+        <Link to='/RegisterBusiness'>
+          <ButtonStyle type='submit' outline className='w-10'>
+            Cadastrar Empresa
+          </ButtonStyle>
+        </Link>
       </Register>
     </Container>
   );
