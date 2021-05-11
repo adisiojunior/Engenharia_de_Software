@@ -30,8 +30,8 @@ export const Title = styled.h1`
   margin-bottom: 50px;
 `;
 
-export const ButtonStyle = styled(Button)`
-  width: 100px;
+export const StyledButton = styled(Button)`
+  width: 100%;
   margin: 1rem;
   color: #34669a;
   border-radius: 1rem;

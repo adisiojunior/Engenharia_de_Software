@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import List from './pages/List';
 import { RegisterUser } from './pages/Register/User';
 import SingIn from './pages/SingIn';
-
+import RegisterBusiness from './pages/Register/Business';
 import { isAuthenticated } from './services/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -24,6 +24,7 @@ const Routes = () => (
     <Switch>
       <Route exact path='/' component={() => <SingIn />} />
       <Route path='/registeruser' component={() => <RegisterUser />} />
+      <Route path='/registerbusiness' component={() => <RegisterBusiness />} />
       <Route path='/list' component={() => <List />} />
       <Route path='/services/:id' component={() => <Services />} />
       <PrivateRoute path='/app' component={() => <h1>App</h1>} />
