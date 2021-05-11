@@ -1,3 +1,4 @@
+const { SchemaTypes } = require('mongoose');
 const mongoose = require('../database/index');
 
 const ServiceSchema = new mongoose.Schema({
@@ -38,7 +39,6 @@ const ServiceSchema = new mongoose.Schema({
     image: {
         type: String
     },
-
     whatsapp : {
         type: String
     },
@@ -49,8 +49,7 @@ const ServiceSchema = new mongoose.Schema({
     
     email : {
         type: String
-    },
-    
+    },    
     ratingMean : {
         type: Number,
         default: 0

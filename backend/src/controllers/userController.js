@@ -88,7 +88,7 @@ module.exports = {
             validPasswrd = await bcrypt.compare(password, user.password);
         } catch (err) {
             const error = new HttpError(
-                "Falha ao realizar login, tente novamente depois",
+                "Falha ao realizar login, tente novamente depois 2",
                 500
         );
             return next(error);
@@ -113,7 +113,7 @@ module.exports = {
         } catch (err) {
             //if token couldn't de created
             const error = new HttpError(
-                "Falha ao realizar login, tente novamente depois",
+                "Falha ao realizar login, tente novamente depois 3",
                 500
             );
             return next(error);
