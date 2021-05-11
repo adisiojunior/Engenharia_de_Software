@@ -1,35 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, FormText } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { Container, Login, StyledButton, Title } from './styles';
+import {
+  Container,
+  Register,
+  ButtonStyle,
+  ButtonDeleteStyle,
+  Title,
+} from './styles';
 import api from '../../services/api';
 
-const UpdateService = async () => {
+const UpdateService = () => {
   const { slug } = useParams();
   const [name, setName] = useState('');
   const [category, setCategory] = useState([]);
-  // const [image, setImage] = useState(currentImage);
   const [street, setStreet] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
   const [description, setDescription] = useState('');
   const [slogan, setSlogan] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [image, setImage] = useState('');
+  const history = useHistory();
 
-  try {
-    const service = await api.get(`/services/${slug}`);
-    setName(service.name);
-    setCategory(service.category);
-    setImage(service.image);
-    setStreet(service.street);
-    setNeighborhood(service.neighborhood);
-    setDescription(service.description);
-    setSlogan(service.slogan);
-    setCnpj(service.cnpj);
-  } catch (error) {
-    toast.error('Esse serviço não existe.');
-  }
+  useEffect(async () => {
+    // eslint-disable-next-line no-unused-vars
+    const fetchService = async () => {
+      try {
+        const res = await api.get(`/services/${slug}`);
+        setName(res.data.service.name);
+        setCategory(res.data.service.category);
+        setImage(res.data.service.image);
+        setStreet(res.data.service.street);
+        setNeighborhood(res.data.service.neighborhood);
+        setDescription(res.data.service.description);
+        setSlogan(res.data.service.slogan);
+        setCnpj(res.data.service.cnpj);
+      } catch (error) {
+        toast.error('Esse serviço não existe.');
+      }
+    };
+    fetchService();
+  }, []);
+
+  // try {
+  //   const service = await api.get(`/services/${slug}`);
+  //   setName(service.name);
+  //   setCategory(service.category);
+  //   setImage(service.image);
+  //   setStreet(service.street);
+  //   setNeighborhood(service.neighborhood);
+  //   setDescription(service.description);
+  //   setSlogan(service.slogan);
+  //   setCnpj(service.cnpj);
+  // } catch (error) {
+  //   toast.error('Esse serviço não existe.');
+  // }
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -45,7 +71,7 @@ const UpdateService = async () => {
         slogan,
         cnpj,
       });
-      return useHistory(`/service/${slug}`);
+      return useHistory(`/services/${slug}`);
     } catch (error) {
       return toast.error('Erro na atualização dos dados de comércio.');
     }
@@ -55,7 +81,7 @@ const UpdateService = async () => {
     e.preventDefault();
     try {
       api.delete(`/services/delete/${slug}`);
-      return useHistory('/list');
+      return history.push('/list');
     } catch (error) {
       return toast.error('Erro ao deletar comércio/serviço.');
     }
@@ -63,7 +89,7 @@ const UpdateService = async () => {
 
   return (
     <Container>
-      <Login>
+      <Register>
         <Form onSubmit={handleUpdate} className='w-75'>
           <Title>Atualizar Comércio</Title>
           <FormGroup>
@@ -182,22 +208,20 @@ const UpdateService = async () => {
             />
           </FormGroup> */}
           <FormGroup>
-            <StyledButton type='submit' outline className='w-100'>
+            <ButtonStyle type='submit' outline className='w-100'>
               Atualizar
-            </StyledButton>
-          </FormGroup>
-          <FormGroup>
-            <StyledButton
+            </ButtonStyle>
+            <ButtonDeleteStyle
               type='button'
               outline
               className='w-100'
               onClick={handleDelete}
             >
               Excluir
-            </StyledButton>
+            </ButtonDeleteStyle>
           </FormGroup>
         </Form>
-      </Login>
+      </Register>
     </Container>
   );
 };

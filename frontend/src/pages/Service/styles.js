@@ -137,5 +137,8 @@ export const Rating = styled.div`
 `;
 
 export const EditButton = styled.button`
-  display: flex;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: #ddd;
 `;
