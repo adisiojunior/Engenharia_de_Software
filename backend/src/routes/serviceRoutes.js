@@ -34,7 +34,8 @@ serviceRoutes.get("/services/:sid", serviceController.getServiceById);
 serviceRoutes.use("/services", authMiddleware);
 
 serviceRoutes.post(
-  "/services/register", multer(multerConfig).single("file"),
+  "/services/register",
+  multer(multerConfig).single("file"),
   celebrate(
     {
       [Segments.BODY]: Joi.object().keys({
@@ -76,18 +77,22 @@ serviceRoutes.put(
   serviceController.updateService
 );
 
-serviceRoutes.post("/posts", multer(multerConfig).single("file"), async (req, res) => {
-  const { originalname: name, size, key, location: url = " " } = req.file;
+serviceRoutes.post(
+  "/posts",
+  multer(multerConfig).single("file"),
+  async (req, res) => {
+    const { originalname: name, size, key, location: url = " " } = req.file;
 
-  const post = await Post.create({
-    name,
-    size,
-    key,
-    url
-  });
+    const post = await Post.create({
+      name,
+      size,
+      key,
+      url,
+    });
 
-  return res.json(post);
-});
+    return res.json(post);
+  }
+);
 
 serviceRoutes.get("/posts", async (req, res) => {
   const posts = await Post.find();
@@ -95,13 +100,11 @@ serviceRoutes.get("/posts", async (req, res) => {
   return res.json(posts);
 });
 
-
 serviceRoutes.delete("/posts/:id", async (req, res) => {
   const post = await Post.findById(req.params.id);
   await post.remove();
   return res.send();
 });
-
 
 serviceRoutes.delete("/services/delete/:serviceId", serviceController.delete);
 

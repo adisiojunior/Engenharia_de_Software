@@ -35,7 +35,6 @@ export const ButtonStyle = styled(Button)`
   color: #34669a;
   border-radius: 1rem;
   border-color: #34669a;
-
   :hover {
     background-color: #34669a;
     border-color: #34669a;

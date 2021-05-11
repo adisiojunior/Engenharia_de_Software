@@ -82,7 +82,6 @@ module.exports = {
             return next(error);
         }
     },
-
     async update(req, res, next) {
         try {
             if (!await User.findById(req.userId)) {

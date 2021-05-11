@@ -10,11 +10,11 @@ const ratingRoutes = require("./routes/ratingRoutes");
 
 const app = express();
 
-app.use(express.json()); 
+app.use(express.json());
+app.use(cors());
 app.use(ratingRoutes);
 app.use(serviceRoutes);
 app.use(userRoutes);
-app.use(cors());
 app.use(errors());
 
 //error handler, should be able to catch all errors that are passed to next() functions

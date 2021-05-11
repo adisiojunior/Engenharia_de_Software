@@ -1,7 +1,7 @@
 const categories = [
   // Categorias e modalidades mais gerais
   { value: 'agricultura', label: 'Agricultura' },
-  { value: 'jardinagem', label: 'Jarginagem' },
+  { value: 'jardinagem', label: 'Jardinagem' },
   { value: 'animais', label: 'Animais' },
   { value: 'beleza', label: 'Beleza' },
   { value: 'casa', label: 'Casa' },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Uploady from '@rpldy/uploady';
 import UploadButton from '@rpldy/upload-button';
@@ -19,6 +19,15 @@ const RegisterBusiness = () => {
   const [description, setDescription] = useState('');
   const [slogan, setSlogan] = useState('');
   const [cnpj, setCnpj] = useState('');
+  const [serviceId, setServiceId] = useState('');
+  
+  // Alterar essa parte da imagem
+  const image =
+    'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg';
+
+  useEffect(() => {
+    if (serviceId !== '') history.push(`/services/${serviceId}`);
+  }, [serviceId]);
 
   const filterBySize = (file) => {
     return file.size <= 5242880;
@@ -39,16 +48,21 @@ const RegisterBusiness = () => {
       );
     } else {
       try {
-        await api.post('/register', {
-          name,
-          category,
-          street,
-          neighborhood,
-          description,
-          slogan,
-          cnpj,
-        });
-        history.push('/app');
+        await api
+          .post('/services/register', {
+            name,
+            category,
+            street,
+            neighborhood,
+            description,
+            slogan,
+            cnpj,
+            image,
+          })
+          .then((response) => {
+            // eslint-disable-next-line no-underscore-dangle
+            setServiceId(response.data.service._id);
+          });
       } catch (error) {
         toast.error(
           'Houve um problema com o cadastro do seu negócio. Tente novamente mais tarde'

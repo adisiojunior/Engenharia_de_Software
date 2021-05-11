@@ -135,3 +135,10 @@ export const Rating = styled.div`
   font-weight: 600;
   display: inline-flex;
 `;
+
+export const EditButton = styled.button`
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: #ddd;
+`;

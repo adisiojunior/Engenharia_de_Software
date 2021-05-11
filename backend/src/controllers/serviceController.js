@@ -4,9 +4,10 @@ const HttpError = require("../error/http-error");
 const User = require("../models/User");
 const { SecretsManager } = require("aws-sdk");
 const Post = require("../models/Post");
-const { Types : { ObjectId } } = require('mongoose')
+const {
+  Types: { ObjectId },
+} = require("mongoose");
 require("dotenv/config");
-
 
 module.exports = {
   async create(req, res) {
@@ -21,7 +22,7 @@ module.exports = {
 
       user.services.push(service._id);
       user.save();
-
+      console.log(service._id);
       return res.send({
         service,
       });
@@ -35,30 +36,40 @@ module.exports = {
     const serviceId = req.params.sid;
     const userId = req.userId;
 
+    console.log(req);
+
+    console.log(userId);
     try {
-        let service = await Service.findById(serviceId);
+      let service = await Service.findById(serviceId);
 
-        if (!service) {
-            throw new HttpError("Não foi possível encontrar um serviço com o ID fornecido", 404);
+      if (!service) {
+        throw new HttpError(
+          "Não foi possível encontrar um serviço com o ID fornecido",
+          404
+        );
+      }
+
+      let editable = false;
+      if (userId) {
+        const user = await User.findOne(
+          { services: { $in: new ObjectId(serviceId) } },
+          "_id"
+        );
+        console.log(user);
+
+        if (user) {
+          editable = userId === user._id.toString();
         }
+      }
 
-        let editable = false;
-        if (userId) {
-            const user = await User.findOne({ "services" : { "$in" : new ObjectId(serviceId) } }, '_id')
-            console.log(user)
-
-            if (user) {
-                editable = (userId === user._id.toString());
-            }
-        }
-
-        service = service.toObject({ getters: true });
-        res.send({ service: { ...service, editable } });
+      console.log(userId);
+      service = service.toObject({ getters: true });
+      res.send({ service: { ...service, editable } });
     } catch (error) {
-        if (!error instanceof HttpError) {
-            new HttpError("Ocorreu um erro ao consultar o serviço", 500);
-        }
-        return next(error);
+      if (!error instanceof HttpError) {
+        new HttpError("Ocorreu um erro ao consultar o serviço", 500);
+      }
+      return next(error);
     }
   },
 

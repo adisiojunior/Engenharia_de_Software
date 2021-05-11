@@ -1,7 +1,9 @@
 // import { BsStarFill } from 'react-icons/bs';
 import React, { useState, useEffect } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
+import LogoBairro from '../../assets/LOGO BAIRRO.png';
 import api from '../../services/api';
+import { getToken } from '../../services/auth';
 import {
   Background,
   Container,
@@ -18,19 +20,24 @@ import {
   Category,
   CategoryList,
   TitleRecommended,
+  EditButton,
 } from './styles';
 
 const Service = () => {
   // TODO: Sync all data and end comments
-
+  const [userMain, setUserMain] = useState(false);
+  const history = useHistory();
   const { id } = useParams();
   const [service, setService] = useState([]);
 
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const res = await api.get(`/services/${id}`);
-        setService(res);
+        const res = await api.get(`/services/${id}`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
+        setService(res.data.service);
+        setUserMain(res.data.service.editable);
       } catch (error) {
         <Redirect to={{ pathname: '*' }} />;
       }
@@ -50,15 +57,29 @@ const Service = () => {
       <Container>
         <Title>{service.name}</Title>
         <CategoryList>
-          {category.length > 0 &&
-            category.map((name) => <Category>{name}</Category>)}
+          {service.category
+            ? service.category.map((name) => (
+                <Category key={name}>{name}</Category>
+              ))
+            : null}
           <span>{service.slogan}</span>
         </CategoryList>
+
+        {userMain ? (
+          <EditButton
+            onClick={() => {
+              // eslint-disable-next-line no-underscore-dangle
+              history.push(`/service/${service._id}`);
+            }}
+          >
+            <img src={LogoBairro} alt='Editar' />
+          </EditButton>
+        ) : null}
         <Info>
           <Photo>
             <img
               src={
-                service.img ||
+                service.image ||
                 'http://www.ifs.edu.br/images/M_images/default.png'
               }
               alt='default'
@@ -66,7 +87,8 @@ const Service = () => {
           </Photo>
           <Contacts>
             <h5>Contato:</h5>
-            {contacts.length > 0 && contacts.map((name) => <div>{name}</div>)}
+            {contacts.length > 0 &&
+              contacts.map((name) => <div key={name}>{name}</div>)}
           </Contacts>
           <Details>{service.description}</Details>
           <Address>

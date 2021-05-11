@@ -1,8 +1,7 @@
-const { SchemaTypes } = require('mongoose');
-const mongoose = require('../database/index');
+const { SchemaTypes } = require("mongoose");
+const mongoose = require("../database/index");
 
 const ServiceSchema = new mongoose.Schema({
-
     name: {
         type: String,
         require: true
@@ -56,6 +55,6 @@ const ServiceSchema = new mongoose.Schema({
     }
 });
 
-const Service = mongoose.model('Service', ServiceSchema);
+const Service = mongoose.model("Service", ServiceSchema);
 
 module.exports = Service;
