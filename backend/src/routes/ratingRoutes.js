@@ -29,6 +29,8 @@ ratingRouter.post('/services/:serviceId/ratings', celebrateWithJoiOptions({
     })
 }), authMiddleware, ratingController.create);
 
+ratingRouter.put('/services/:serviceId/ratings/:ratingId', authMiddleware, ratingController.update);
+
 ratingRouter.delete('/services/:serviceId/ratings/:ratingId', celebrateWithJoiOptions({
     [Segments.PARAMS]: Joi.object().keys({
         serviceId: Joi.string().pattern(objectIdRegex).required(),

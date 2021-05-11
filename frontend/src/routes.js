@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import List from './pages/List';
+import Services from './pages/Service';
 import RegisterUser from './pages/Register/User';
+import RegisterBusiness from './pages/Register/Business';
 import SingIn from './pages/SingIn';
 import Home from './pages/Home';
-
+import UpdateService from './pages/UpdateService';
 import { isAuthenticated } from './services/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -25,9 +26,11 @@ const Routes = () => (
     <Switch>
       <Route exact path='/' component={() => <Home />} />
       <Route exact path='/login' component={() => <SingIn />} />
-      <Route path='/registerUser' component={() => <RegisterUser />} />
-      <Route path='/list' component={() => <List />} />
-      <PrivateRoute path='/here' component={() => <h1>Private Route</h1>} />
+      <Route path='/registeruser' component={() => <RegisterUser />} />
+      <Route path='/registerbusiness' component={() => <RegisterBusiness />} />
+      <Route path='/service/:slug' component={() => <UpdateService />} />
+      <Route path='/services/:id' component={() => <Services />} />
+      <PrivateRoute path='/app' component={() => <h1>App</h1>} />
       <Route path='*' component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>
