@@ -101,8 +101,8 @@ describe('POST /services/:serviceId/ratings', () => {
 
     it('should not create a rating with a service that does not exist', async () => {
         const serviceId = (service._id).toString();
-        const nextCharOfFirstChat = String.fromCharCode(serviceId.charCodeAt(0) + 1);
-        const notExistingServiceId = nextCharOfFirstChat + (serviceId).slice(1);
+        const nextCharOfFirstChar = String.fromCharCode(serviceId.charCodeAt(0) + 1);
+        const notExistingServiceId = nextCharOfFirstChar + (serviceId).slice(1);
 
         expect(notExistingServiceId).not.toStrictEqual(serviceId)
 

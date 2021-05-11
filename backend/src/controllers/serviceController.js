@@ -62,7 +62,6 @@ module.exports = {
         }
       }
 
-      console.log(userId);
       service = service.toObject({ getters: true });
       res.send({ service: { ...service, editable } });
     } catch (error) {
@@ -152,7 +151,7 @@ module.exports = {
     try {
       let results = await Service.find({ category });
 
-      if (!results) {
+      if (results.length === 0) {
         throw new HttpError("Não foi encontrado nenhum serviço", 404);
       }
 

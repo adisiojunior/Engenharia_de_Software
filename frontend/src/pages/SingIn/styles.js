@@ -1,4 +1,4 @@
-import { Button } from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 import styled from 'styled-components';
 import Background from '../../assets/bg-image-login.jpg';
 
@@ -12,8 +12,7 @@ export const Container = styled.div`
 export const Login = styled.div`
   height: 100%;
   width: 40%;
-  background-color: white;
-  opacity: 70%;
+  background-color: rgba(255, 255, 255, 0.7);
   padding: 30px;
   position: fixed;
   display: flex;
@@ -36,4 +35,9 @@ export const StyledButton = styled(Button)`
     background-color: #34669a;
     border-color: #34669a;
   }
+`;
+
+export const StyledInput = styled(Input)`
+  background: none;
+  border-color: #34669a;
 `;
