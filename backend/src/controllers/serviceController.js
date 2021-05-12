@@ -7,6 +7,8 @@ const Post = require("../models/Post");
 const {
   Types: { ObjectId },
 } = require("mongoose");
+const { query } = require("express");
+const { off } = require("superagent");
 require("dotenv/config");
 
 module.exports = {
@@ -180,38 +182,42 @@ module.exports = {
   },
 
   async search(req, res, next) {
-    const {limit = 0, offset = 0, name} = req.query;
+    let {limit = 0, offset = 0, name, category} = req.query;
+    try{
+      limit = parseInt(limit);
+      offset = parseInt(offset);
+    } catch(err){
+      const error = new HttpError("Falha ao obter os valores para limit e offset", 400);
+      return next(error);
+    }
    
-    let regex = new RegExp(name, 'i')
-    query = regex ? { name: {"$regex":regex }} : {};
+    let regex = new RegExp(name, 'i');
+    const query = {$and:[ {name: {"$regex":regex }}, {category : {$in : category}}]};
+
+
     let results;
-    
+    let total;
     try {
-      results = await Service.where (query);
+      total = await Service.countDocuments(query);
     } catch (err) {
       const error = new HttpError("Falha ao conectar-se ao servidor", 500);
       return next(error);
     }
-        
-    if (results.length===0) {
-      error =new HttpError("Não foi encontrado nenhum serviço", 404);
+
+    if (offset>total){
+      const error = new HttpError("O valor de offset é maior que os resultados encontrados", 406);
       return next(error);
     }
- 
-     if (offset > results.length) {
-      error = new HttpError(
-        "O valor de offset é maior que os resultados encontrados",
-        406
-      );
+
+    results = await Service.find(query).skip(offset).limit(limit);
+    
+    if (results.length===0) {
+      const error =new HttpError("Não foi encontrado nenhum serviço com as especificações fornecidas", 404);
       return next(error);
-    } 
-
-     results = results.slice(offset);
-
-    if (limit > 0) {
-      results = results.slice(0, limit);
     };
 
-    return res.status(200).send(results);
+    const pages = limit? Math.ceil(total/limit):1;
+
+    return res.status(200).send({results, pages});
   },
 };
