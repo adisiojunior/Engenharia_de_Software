@@ -29,7 +29,11 @@ serviceRoutes.get(
   serviceController.read
 );
 
+serviceRoutes.post("/services/search", serviceController.search);
+
 serviceRoutes.get("/services/:sid", serviceController.getServiceById);
+
+
 
 serviceRoutes.use("/services", authMiddleware);
 
@@ -55,7 +59,7 @@ serviceRoutes.post(
 );
 
 serviceRoutes.put(
-  "/services/update",
+  "/services/update/:sid",
   celebrate(
     {
       [Segments.BODY]: Joi.object().keys({
