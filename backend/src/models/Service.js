@@ -1,7 +1,7 @@
-const mongoose = require('../database/index');
+const { SchemaTypes } = require("mongoose");
+const mongoose = require("../database/index");
 
 const ServiceSchema = new mongoose.Schema({
-
     name: {
         type: String,
         require: true
@@ -37,10 +37,24 @@ const ServiceSchema = new mongoose.Schema({
 
     image: {
         type: String
+    },
+    whatsapp : {
+        type: String
+    },
+    
+    instagram : {
+        type: String
+    },
+    
+    email : {
+        type: String
+    },    
+    ratingMean : {
+        type: Number,
+        default: 0
     }
-
 });
 
-const Service = mongoose.model('Service', ServiceSchema);
+const Service = mongoose.model("Service", ServiceSchema);
 
 module.exports = Service;
