@@ -15,8 +15,6 @@ const List = ({ resultSearch, maxPages, currentPageProp, setCurrentPage }) => {
     <>
       <h2>Foram encontrados estes resultados:</h2>
       <Container>
-        <section>
-          <ul>
             {resultSearch.map((service) => {
               return <Service service={service} />;
             })}
@@ -26,7 +24,6 @@ const List = ({ resultSearch, maxPages, currentPageProp, setCurrentPage }) => {
               currentPage={currentPage}
               paginate={paginate}
             />
-          </ul>
         </section>
         <main />
       </Container>
