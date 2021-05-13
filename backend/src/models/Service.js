@@ -35,12 +35,10 @@ const ServiceSchema = new mongoose.Schema({
     cnpj: {
         type: String
     },
-
-    postId : {
-        type: SchemaTypes.ObjectId,
-        require : true
-    }
-    
+    image: {
+        type: Array,
+        default: []
+    },
 });
 
 const Service = mongoose.model('Service', ServiceSchema);
