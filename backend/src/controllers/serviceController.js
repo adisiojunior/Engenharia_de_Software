@@ -8,6 +8,11 @@ const HttpError = require("../error/http-error");
 const Service = require("../models/Service");
 const User = require("../models/User");
 const Post = require("../models/Post");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
+const { query } = require("express");
+const { off } = require("superagent");
 
 const { validateToken } = require("../middleware/auth");
 
@@ -116,14 +121,14 @@ module.exports = {
         const error = new HttpError("Usuário não existe.", 404);
         return next(error);
       }
-      
+
       const serviceId = req.params.serviceId;
 
       if (!user.services.includes(req.params.serviceId)) {
         const error = new HttpError("Tarefa não cadastrada.", 400);
         return next(error);
       }
-      
+
       user.services.splice(user.services.indexOf(serviceId), 1);
       user.save();
 
@@ -137,11 +142,11 @@ module.exports = {
   },
   async read(req, res, next) {
     const { limit = 0, offset = 0, category } = req.query;
-    
-    const query = category ? { category : { "$in" : category } } : {}
+
+    const query = category ? { category: { $in: category } } : {};
 
     try {
-        let results = await Service.find( query );
+      let results = await Service.find(query);
 
       if (results.length === 0) {
         throw new HttpError("Não foi encontrado nenhum serviço", 404);
@@ -168,7 +173,47 @@ module.exports = {
       return next(error);
     }
   },
-}
+  
+  async search(req, res, next) {
+    let {limit = 0, offset = 0, name, category} = req.query;
+    try{
+      limit = parseInt(limit);
+      offset = parseInt(offset);
+    } catch(err){
+      const error = new HttpError("Falha ao obter os valores para limit e offset", 400);
+      return next(error);
+    }
+   
+    let regex = new RegExp(name, 'i');
+    const query = {$and:[ {name: {"$regex":regex }}, {category : {$in : category}}]};
+
+
+    let results;
+    let total;
+    try {
+      total = await Service.countDocuments(query);
+    } catch (err) {
+      const error = new HttpError("Falha ao conectar-se ao servidor", 500);
+      return next(error);
+    }
+
+    if (offset>total){
+      const error = new HttpError("O valor de offset é maior que os resultados encontrados", 406);
+      return next(error);
+    }
+
+    results = await Service.find(query).skip(offset).limit(limit);
+    
+    if (results.length===0) {
+      const error =new HttpError("Não foi encontrado nenhum serviço com as especificações fornecidas", 404);
+      return next(error);
+    };
+
+    const pages = limit? Math.ceil(total/limit):1;
+
+    return res.status(200).send({results, pages});
+  },
+};
 
 const serviceIsEditable = async (authorizationHeader, serviceId) => {
     let editable = false;
