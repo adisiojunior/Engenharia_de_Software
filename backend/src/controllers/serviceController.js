@@ -165,6 +165,16 @@ module.exports = {
         results = results.slice(0, limit);
       }
 
+      results.sort((a,b) => {
+        if (a.ratingMean > b.ratingMean) {
+          return -1;
+        }
+        if (a.ratingMean < b.ratingMean) {
+          return 1;
+        }
+        return 0;
+      });
+
       return res.status(200).send(results);
     } catch (error) {
       if (!error instanceof HttpError) {
