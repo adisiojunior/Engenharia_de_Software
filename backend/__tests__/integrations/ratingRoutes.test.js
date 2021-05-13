@@ -84,11 +84,11 @@ describe('POST /services/:serviceId/ratings', () => {
     })
 
     it('should not create a rating with not autenticated user', async () => {
-        const { status, body } = await request(app)
+        const { status} = await request(app)
             .delete(`/services/${service._id}/ratings`)
             .send();
 
-        expect(status).toBe(404);
+        expect(status).toBe(401);
     })
 
     it('should not create a rating with invalid token', async () => {
@@ -96,13 +96,13 @@ describe('POST /services/:serviceId/ratings', () => {
             .delete(`/services/${service._id}/ratings`)
             .send();
 
-        expect(status).toBe(404);
+        expect(status).toBe(401);
     })
 
     it('should not create a rating with a service that does not exist', async () => {
         const serviceId = (service._id).toString();
-        const nextCharOfFirstChar = String.fromCharCode(serviceId.charCodeAt(0) + 1);
-        const notExistingServiceId = nextCharOfFirstChar + (serviceId).slice(1);
+        const nextCharOfFirstChat = String.fromCharCode(serviceId.charCodeAt(0) + 1);
+        const notExistingServiceId = nextCharOfFirstChat + (serviceId).slice(1);
 
         expect(notExistingServiceId).not.toStrictEqual(serviceId)
 

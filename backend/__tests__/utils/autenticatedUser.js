@@ -4,11 +4,11 @@ const bcrypt = require('bcryptjs')
 const factory = require('../factories/userFactory');
 
 const getAutenticatedToken = async ({ email, password }) => {
-    const { body } = await request(app)
+    const { body : { userAtt } } = await request(app)
         .post('/login')
         .send({ email, password });
 
-    return body.token;
+    return userAtt.token;
 }
 
 const createUserWithDefinedPassword = async ( password ) => {

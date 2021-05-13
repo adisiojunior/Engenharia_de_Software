@@ -8,6 +8,13 @@ module.exports.clearCollections = async () => {
         await collection.deleteMany();
     }
 }
+module.exports.clearCollection = async (collectionKey) => {
+    const collection = mongoose.connection.collections[collectionKey];
+
+    if (collection) {
+        await collection.deleteMany();
+    }
+}
 
 module.exports.disconnect = async () => {
     mongoose.disconnect();

@@ -1,6 +1,6 @@
-const { factory } = require('factory-girl')
-const faker = require('faker')
-const User = require('../../src/models/User')
+const { factory } = require('factory-girl');
+const faker = require('faker');
+const User = require('../../src/models/User');
 
 // Will generate random values for the atributtes of an User
 factory.define('User', User, {
