@@ -74,7 +74,6 @@ module.exports = {
             return res.send({ rating });
         }
         catch (err) {
-            console.log(err)
             const error = new HttpError(
                 'Falha ao deletar avaliação, tente novamente.',
                 400

@@ -14,7 +14,7 @@ module.exports = {
     try {
       const user = await User.findById(req.userId).select("+password");
 
-      if (await Service.findOne({ name: req.name, street: req.street })) {
+      if (await Service.findOne({ name: req.body.name, street: req.body.street })) {
         return res.status(409).send({ error: `Serviço já existente` });
       }
 
@@ -22,7 +22,7 @@ module.exports = {
 
       user.services.push(service._id);
       user.save();
-      console.log(service._id);
+
       return res.send({
         service,
       });
@@ -36,9 +36,6 @@ module.exports = {
     const serviceId = req.params.sid;
     const userId = req.userId;
 
-    console.log(req);
-
-    console.log(userId);
     try {
       let service = await Service.findById(serviceId);
 
@@ -55,7 +52,6 @@ module.exports = {
           { services: { $in: new ObjectId(serviceId) } },
           "_id"
         );
-        console.log(user);
 
         if (user) {
           editable = userId === user._id.toString();
@@ -86,36 +82,38 @@ module.exports = {
 
     const serviceId = req.params.sid;
 
-    let service;
     try {
-      service = await Service.findById(serviceId);
-    } catch (err) {
-      const error = new HttpError(
-        "Ocorreu um erro ao atualizar o serviço",
-        500
-      );
-      return next(error);
-    }
+      const service = await Service.findById(serviceId);
 
-    service.name = name;
-    service.street = street;
-    service.neighborhood = neighborhood;
-    service.category = category;
-    service.description = description;
-    service.slogan = slogan;
-    service.cnpj = cnpj;
-    service.image = image;
+      if (!service) {
+        throw new HttpError(
+          "Ocorreu um erro ao atualizar o serviço",
+          500
+        );
+      }
 
-    try {
+      service.name = name;
+      service.street = street;
+      service.neighborhood = neighborhood;
+      service.category = category;
+      service.description = description;
+      service.slogan = slogan;
+      service.cnpj = cnpj;
+      service.image = image;
+
       await service.save();
-    } catch (err) {
-      const error = new HttpError(
-        "Ocorreu um erro ao atualizar o serviço",
-        500
-      );
-      return next(error);
+      
+      res.status(200).send({ service: service.toObject({ getters: true }) });
+    } catch (error) {
+      if (!error instanceof HttpError) {
+        throw new HttpError(
+          "Ocorreu um erro ao atualizar o serviço",
+          500
+        );
+      }
+      next(error);
     }
-    res.status(200).send({ service: service.toObject({ getters: true }) });
+    
   },
 
   async delete(req, res, next) {
@@ -145,6 +143,7 @@ module.exports = {
       return next(error);
     }
   },
+
   async read(req, res, next) {
     const { limit = 0, offset = 0, category } = req.query;
     
