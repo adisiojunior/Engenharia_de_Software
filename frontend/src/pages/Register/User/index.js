@@ -16,14 +16,12 @@ const RegisterUser = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
     if (!name || !lastname || !email || !password) {
       toast.error('Informe todos os seus dados para realizar o cadastro');
-    } else if (password !== confirmPassword) {
-      toast.error('Senhas diferentes');
     } else {
       try {
         await api.post('/register', {
@@ -31,6 +29,7 @@ const RegisterUser = () => {
           lastname,
           email,
           password,
+          confirmPassword,
         });
         history.push('/app');
       } catch (error) {
@@ -96,7 +95,13 @@ const RegisterUser = () => {
           </FormGroup>
           <FormGroup>
             <Label>Confirme a sua senha</Label>
-            <Input type='password' id='confirmPassword' />
+            <Input
+              type='password'
+              id='confirmPassword'
+              onChange={(confirmPasswordValue) => {
+                setConfirmPassword(confirmPasswordValue.target.value);
+              }}
+            />
           </FormGroup>
           <FormButton>
             <StyledButton type='submit' outline className='w-10'>

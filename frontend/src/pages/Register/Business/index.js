@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Uploady from '@rpldy/uploady';
-import UploadButton from '@rpldy/upload-button';
-import UploadPreview from '@rpldy/upload-preview';
+// import Uploady from '@rpldy/uploady';
+// import UploadButton from '@rpldy/upload-button';
+// import UploadPreview from '@rpldy/upload-preview';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from 'react-select';
+import Upload from '../../../Components/Upload';
 import categories from './categories';
 import api from '../../../services/api';
 import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
@@ -28,10 +29,6 @@ const RegisterBusiness = () => {
   useEffect(() => {
     if (serviceId !== '') history.push(`/services/${serviceId}`);
   }, [serviceId]);
-
-  const filterBySize = (file) => {
-    return file.size <= 5242880;
-  };
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
@@ -147,16 +144,7 @@ const RegisterBusiness = () => {
             />
           </FormGroup>
           <FormGroup>
-            <Uploady
-              multiple
-              id='Selecione'
-              destination={{ url: 'my-server.com/upload' }}
-              fileFilter={filterBySize}
-              accept='image/*'
-            >
-              <UploadButton />
-              <UploadPreview />
-            </Uploady>
+            <Upload> </Upload>
           </FormGroup>
           <FormButton>
             <ButtonStyle type='submit' outline className='w-10'>
