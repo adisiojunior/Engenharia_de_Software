@@ -80,7 +80,10 @@ const categories = [
   { value: 'perfumaria', label: 'Perfumaria' },
   { value: 'cosmeticos', label: 'Cosméticos' },
   { value: 'produtos-de-beleza', label: 'Produtos de beleza' },
-  { value: 'artigos-de-cama-mesa-e-banho', label: '' },
+  {
+    value: 'artigos-de-cama-mesa-e-banho',
+    label: 'Artigos de cama mesa e banho',
+  },
   { value: 'carpinteiro', label: 'Carpinteiro' },
   { value: 'ceramica', label: 'Cerâmica' },
   { value: 'chaveiro', label: 'Chaveiro' },

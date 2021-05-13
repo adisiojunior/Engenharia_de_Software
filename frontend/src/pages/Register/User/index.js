@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-import DatePicker, { setDefaultLocale } from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import api from '../../../services/api';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
-setDefaultLocale('pt');
 const RegisterUser = () => {
   const history = useHistory();
 
@@ -68,9 +67,9 @@ const RegisterUser = () => {
             <Label>Data de Nascimento</Label>
             <br />
             <DatePicker
-              locale='pt'
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
+              dateFormat='dd/MM/yyyy'
             />
           </FormGroup>
           <FormGroup>

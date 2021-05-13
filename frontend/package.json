@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "date-fns": "^2.21.3",
     "filesize": "^6.3.0",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.21",
