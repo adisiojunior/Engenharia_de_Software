@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Background = styled.div`
   width: 100%;
-  height: fit-content;
+  height: auto;
   background: #f8f8fb;
   position: relative;
   display: flex;
@@ -56,8 +56,8 @@ export const Info = styled.div`
   border-radius: 10px;
   display: grid;
   grid-template-columns: 77% 19%;
-  grid-template-rows: 79% 19%;
-  gap: 2% 4%;
+  grid-template-rows: 81% 17%;
+  gap: 1% 4%;
   grid-template-areas:
     'Photo Contato'
     'Historia Locals';
@@ -65,12 +65,6 @@ export const Info = styled.div`
 
 export const Photo = styled.div`
   grid-area: Photo;
-
-  img {
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export const Details = styled.div`
@@ -96,7 +90,7 @@ export const Recommended = styled.div`
   float: left;
   background-color: #ffffff;
   height: 65vh;
-  width: 50vh;
+  width: 25vw;
   box-shadow: 1px 2px 5px #888888;
   padding: 20px;
   border-radius: 10px;
@@ -109,7 +103,7 @@ export const Recommended = styled.div`
   }
 `;
 
-export const TitleRecommended = styled.h5`
+export const RecommendedTitle = styled.h5`
   text-align: center;
 `;
 
@@ -123,17 +117,88 @@ export const Highlights = styled.div`
   font-size: 1vw;
 `;
 
-export const Name = styled.div`
+export const RecommendedName = styled.div`
   float: left;
   color: #777777;
   font-weight: 900;
 `;
 
-export const Rating = styled.div`
+export const RecommendedRating = styled.div`
   float: right;
   color: #777777;
   font-weight: 600;
   display: inline-flex;
+`;
+
+export const Rating = styled.div`
+  width: 65vw;
+  background-color: #ffffff;
+  margin-top: 4vh;
+  float: left;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 1px 2px 5px #888888;
+  margin-bottom: 6vh;
+`;
+
+export const RatingTitle = styled.div`
+  font-weight: 900;
+  padding-left: 2%;
+  hr {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-color: #e1e6ee;
+    width: 100%;
+  }
+`;
+
+export const RatingPlace = styled.div`
+  overflow: auto;
+  min-height: 9.5rem;
+  max-height: 19rem;
+`;
+
+export const UserRating = styled.div`
+  height: 4rem;
+  margin-top: 2em;
+  img {
+    height: 100%;
+    width: 30%;
+  }
+`;
+
+export const UserInfo = styled.div`
+  width: 19%;
+  float: left;
+  height: 100%;
+  display: flex;
+
+  span {
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    font-weight: 700;
+  }
+`;
+
+export const UserComment = styled.div`
+  width: 72%;
+  float: left;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  font-weight: 500;
+`;
+
+export const UserStars = styled.div`
+  width: 7%;
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  font-weight: 900;
+  right: 0;
+  padding-bottom: 0.5rem;
 `;
 
 export const EditButton = styled.button`
