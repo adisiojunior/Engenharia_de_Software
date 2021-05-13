@@ -37,8 +37,8 @@ describe('DELETE /users/auth/delete', () => {
             .set('Authorization', 'Bearer ' + token) 
             .send();
 
-        expect(status).toBe(400);
-        expect(body).toStrictEqual({ error: "Usuário não existe." });
+        expect(status).toBe(401);
+        expect(body).toStrictEqual({ message: "Usuário não existe." });
     })
 
     it('should not be able to delete user without autentication', async () => {
@@ -47,7 +47,7 @@ describe('DELETE /users/auth/delete', () => {
             .send();
 
         expect(status).toBe(401);
-        expect(body).toStrictEqual({ error: "Token não fornecido." })
+        expect(body).toStrictEqual({ message: "Token não fornecido." })
     });   
 });
 
@@ -81,8 +81,8 @@ describe('UPDATE /users/auth/update', () => {
             .set('Authorization', 'Bearer ' + token)
             .send();
         
-        expect(status).toBe(400);
-        expect(body).toStrictEqual({error: "Usuário não existe."});
+        expect(status).toBe(401);
+        expect(body).toStrictEqual({message: "Usuário não existe."});
     })
 
     it('should not be able to update user without autentication', async () => {
@@ -91,7 +91,7 @@ describe('UPDATE /users/auth/update', () => {
             .send();
 
         expect(status).toBe(401);
-        expect(body).toStrictEqual({ error: "Token não fornecido." })
+        expect(body).toStrictEqual({ message: "Token não fornecido." })
     })
 });
 

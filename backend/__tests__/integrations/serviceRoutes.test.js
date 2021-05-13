@@ -161,7 +161,7 @@ describe('POST /services/register', () => {
     })
 
     it('should be able to create a valid service', async () => {
-        const { status } = await request(app)
+        const { status, body } = await request(app)
             .post('/services/register')
             .set('Authorization', 'Bearer ' + token)
             .send(fakeService);
@@ -175,7 +175,7 @@ describe('POST /services/register', () => {
             .send(fakeService);
 
             expect(status).toBe(401);
-            expect(body).toStrictEqual({ error: "Token não fornecido." })
+            expect(body).toStrictEqual({ message: "Token não fornecido." })
     })
 
     it('should not be able to create a previous created service', async () => {
@@ -263,7 +263,7 @@ describe('UPDATE /services/:sid', () => {
             .send(fakeService);
         
         expect(status).toBe(401);
-        expect(body).toStrictEqual({ error: "Token não fornecido." })
+        expect(body).toStrictEqual({ message: "Token não fornecido." })
     })
 
     it('should not be able to update a non valid service', async () => {

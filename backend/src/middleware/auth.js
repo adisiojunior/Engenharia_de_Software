@@ -25,7 +25,7 @@ module.exports = async (req, _, next) => {
     }
 }
 
-module.exports.validateToken = async (authorizationHeader) => {
+const validateToken = async (authorizationHeader) => {
     const parts = authorizationHeader.split(' ');
     const [ scheme, token ] = parts;
 
@@ -54,3 +54,5 @@ module.exports.validateToken = async (authorizationHeader) => {
         throw error;
     }
 }
+
+module.exports.validateToken = validateToken;

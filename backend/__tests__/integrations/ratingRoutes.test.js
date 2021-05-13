@@ -29,7 +29,7 @@ describe('POST /services/:serviceId/ratings', () => {
     })
 
     it('should create a valid rating with description field', async () => {
-        const { status } = await request(app)
+        const { status, body } = await request(app)
             .post(`/services/${service._id}/ratings`)
             .set('Authorization', 'Bearer ' + token) 
             .send(fakeRatingWithDescription);
