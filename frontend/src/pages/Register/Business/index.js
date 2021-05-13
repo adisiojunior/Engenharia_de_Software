@@ -20,7 +20,7 @@ const RegisterBusiness = () => {
   const [slogan, setSlogan] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [serviceId, setServiceId] = useState('');
-  
+
   // Alterar essa parte da imagem
   const image =
     'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg';
