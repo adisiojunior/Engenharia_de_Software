@@ -5,7 +5,7 @@ import { Form, FormGroup, Input, Label } from 'reactstrap';
 import DatePicker, { setDefaultLocale } from 'react-datepicker';
 import api from '../../../services/api';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
+import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
 setDefaultLocale('pt');
 export const RegisterUser = () => {
@@ -99,15 +99,15 @@ export const RegisterUser = () => {
             <Input type='password' id='confirmPassword' />
           </FormGroup>
           <FormButton>
-            <ButtonStyle type='submit' outline className='w-10'>
+            <StyledButton type='submit' outline className='w-10'>
               Cadastrar
-            </ButtonStyle>
+            </StyledButton>
           </FormButton>
         </Form>
         <Link to='/RegisterBusiness'>
-          <ButtonStyle type='submit' outline className='w-10'>
+          <StyledButton type='submit' outline className='w-10'>
             Cadastrar Empresa
-          </ButtonStyle>
+          </StyledButton>
         </Link>
       </Register>
     </Container>

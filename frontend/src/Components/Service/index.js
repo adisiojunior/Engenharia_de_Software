@@ -1,10 +1,16 @@
 import React from 'react';
+import { Div, Title, Rating } from './styles';
 
 const Service = ({ service }) => {
   return (
-    <ul>
-      <li key={service.id}>{service.name}</li>
-    </ul>
+    <Div img={service.image}>
+      <Title>
+        {service.name}
+      </Title>
+      <Rating>
+        {service.rating}
+      </Rating>
+    </Div>
   );
 };
 

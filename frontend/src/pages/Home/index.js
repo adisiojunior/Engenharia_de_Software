@@ -13,7 +13,7 @@ import { GiTrowel, GiKnifeFork, GiFlowerEmblem } from 'react-icons/gi';
 import { FaGlassMartini, FaHeart } from 'react-icons/fa';
 import { MdAdd } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import {
   Container,
   SearchDiv,
@@ -27,7 +27,7 @@ import {
   StyledRow,
   SearchResult,
 } from './styles';
-import api from '../../services/api';
+// import api from '../../services/api';
 import Loading from '../../Components/Loading';
 import List from '../../Components/List';
 
@@ -47,6 +47,15 @@ const BUTTON_FILTERS = [
 
 const FILTER_OPTIONS = ['Beleza', 'Moda', 'Educação', 'Tecnologia'];
 
+const SERVICES = [
+  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
+  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
+  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
+  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
+  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
+  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
+];
+
 const Home = () => {
   const [searchText, setSearchText] = useState('');
   const [isSelectedFilter, setIsSelectedFilter] = useState(IS_SELECTED_DEFAULT);
@@ -59,7 +68,7 @@ const Home = () => {
   const [wasSearched, setWasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [resultSearch, setResultSearch] = useState([]);
+  const [resultSearch, setResultSearch] = useState(SERVICES);
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -73,21 +82,22 @@ const Home = () => {
   const handleSearch = () => {
     setWasSearched(true);
     setIsLoading(true);
-    api
-      .get(`/seach?${searchText}`, {
-        isSelectedFilter,
-        pages,
-        limit: 6,
-        currentPage,
-      })
-      .then((response) => {
-        setIsLoading(false);
-        setResultSearch(response.resullt.data.services);
-        setPages(response.result.data.pages);
-      })
-      .error((error) => {
-        toast.error(`Não foi possível realizar a busca: ${error.message}`);
-      });
+    setIsLoading(false);
+    // api
+    //   .get(`/seach?${searchText}`, {
+    //     isSelectedFilter,
+    //     pages,
+    //     limit: 6,
+    //     currentPage,
+    //   })
+    //   .then((response) => {
+    //     setIsLoading(false);
+    //     setResultSearch(response.resullt.data.services);
+    //     setPages(response.result.data.pages);
+    //   })
+    //   .error((error) => {
+    //     toast.error(`Não foi possível realizar a busca: ${error.message}`);
+    //   });
   };
 
   const setFilter = (filter) => {

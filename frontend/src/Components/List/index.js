@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Service from '../Service';
 import PaginationComponent from '../Pagination';
-import { Container, Background, Title } from './styles';
+import { Container } from './styles';
 
 const List = ({ resultSearch, maxPages, currentPageProp, setCurrentPage }) => {
   const [pages] = useState(maxPages);
@@ -12,8 +12,8 @@ const List = ({ resultSearch, maxPages, currentPageProp, setCurrentPage }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <Background>
-      <Title>Foram encontrados estes resultados:</Title>
+    <>
+      <h2>Foram encontrados estes resultados:</h2>
       <Container>
         <section>
           <ul>
@@ -30,7 +30,7 @@ const List = ({ resultSearch, maxPages, currentPageProp, setCurrentPage }) => {
         </section>
         <main />
       </Container>
-    </Background>
+    </>
   );
 };
 
