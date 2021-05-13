@@ -3,18 +3,20 @@ const faker = require('faker')
 const Service = require('../../src/models/Service')
 
 // Will generate random values for the atributtes of an Service
-factory.define('Service', Service, {
-    name: faker.company.companyName(),
-    street: faker.address.streetName(),
-    neighborhood: faker.address.streetName(),
-    category: faker.datatype.array(),
-    description: faker.random.words(),
-    slogan: faker.company.companySuffix(),
-    cnpj: faker.random.alphaNumeric(),
-    image: faker.image.business(),
-    whatsapp: faker.phone.phoneNumber(),
-    instagram: faker.internet.url(),
-    email: faker.internet.email()
-});
+const fakeService = {
+        name: faker.company.companyName(),
+        street: faker.address.streetName(),
+        neighborhood: faker.address.streetName(),
+        category: faker.datatype.array(),
+        description: faker.random.words(),
+        slogan: faker.company.companySuffix(),
+        cnpj: faker.random.alphaNumeric(),
+        image: faker.image.business(),
+        whatsapp: faker.phone.phoneNumber(),
+        instagram: faker.internet.url(),
+        email: faker.internet.email()
+}
 
-module.exports = { serviceFactory : factory };
+factory.define('Service', Service, { fakeService });
+
+module.exports = { serviceFactory : factory, fakeService };
