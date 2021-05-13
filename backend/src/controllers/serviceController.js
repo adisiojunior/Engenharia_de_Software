@@ -1,14 +1,21 @@
-const Service = require("../models/Service");
+const {
+    Types: { ObjectId },
+  } = require("mongoose");
 const multer = require("multer");
-const HttpError = require("../error/http-error");
-const User = require("../models/User");
 const { SecretsManager } = require("aws-sdk");
+
+const HttpError = require("../error/http-error");
+const Service = require("../models/Service");
+const User = require("../models/User");
 const Post = require("../models/Post");
 const {
   Types: { ObjectId },
 } = require("mongoose");
 const { query } = require("express");
 const { off } = require("superagent");
+
+const { validateToken } = require("../middleware/auth");
+
 require("dotenv/config");
 
 module.exports = {
@@ -36,11 +43,7 @@ module.exports = {
   },
   async getServiceById(req, res, next) {
     const serviceId = req.params.sid;
-    const userId = req.userId;
 
-    console.log(req);
-
-    console.log(userId);
     try {
       let service = await Service.findById(serviceId);
 
@@ -51,18 +54,8 @@ module.exports = {
         );
       }
 
-      let editable = false;
-      if (userId) {
-        const user = await User.findOne(
-          { services: { $in: new ObjectId(serviceId) } },
-          "_id"
-        );
-        console.log(user);
-
-        if (user) {
-          editable = userId === user._id.toString();
-        }
-      }
+      const authorizationHeader = req.headers.authorization;
+      const editable = await serviceIsEditable(authorizationHeader, serviceId)
 
       service = service.toObject({ getters: true });
       res.send({ service: { ...service, editable } });
@@ -180,7 +173,7 @@ module.exports = {
       return next(error);
     }
   },
-
+  
   async search(req, res, next) {
     let {limit = 0, offset = 0, name, category} = req.query;
     try{
@@ -221,3 +214,20 @@ module.exports = {
     return res.status(200).send({results, pages});
   },
 };
+
+const serviceIsEditable = async (authorizationHeader, serviceId) => {
+    let editable = false;
+    if (authorizationHeader) {
+        const userId = await validateToken(authorizationHeader);
+
+        const user = await User.findOne(
+            { services: { $in: new ObjectId(serviceId) } },
+            "_id"
+        );
+
+        if (user) {
+            editable = userId === user._id.toString();
+        }
+    }
+    return editable;
+} 
