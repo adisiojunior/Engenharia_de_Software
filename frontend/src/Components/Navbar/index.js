@@ -17,29 +17,18 @@ import api from '../../services/api';
 const NavBar = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [userName, setUserName] = useState('');
-  // const [services, setServices] = useState();
+  const [userId, setUserId] = useState('');
 
   useEffect(async () => {
     if (getToken() !== undefined && getToken() !== null)
       try {
         const res = await api.get(`/users/auth/get`);
         setUserName(res.data.name);
+        setUserId(res.data.id);
       } catch (error) {
         toast.error(`Erro encontrado: ${error.message}`);
       }
   }, [modalIsOpen, userName]);
-
-  // useEffect(async () => {
-  //   const token = await getToken();
-  //   if (token !== null && token !== undefined) {
-  //     try {
-  //       const res = await api.get(`/users/auth/get`);
-  //       setUserName(res.data.name);
-  //     } catch (error) {
-  //       toast.error(`Erro encontrado: ${error.message}`);
-  //     }
-  //   }
-  // }, [userStatus]);
 
   const handleLogout = () => {
     api.put('/users/auth/logout');
@@ -95,11 +84,14 @@ const NavBar = () => {
               <a href='/registerbusiness'>
                 <CreateButton type='button'>+ Criar Negócio</CreateButton>
               </a>
+              <a href={`/user/edit/${userId}`}>
+                <CreateButton type='button'>Editar Perfil</CreateButton>
+              </a>
             </div>
           </ModalBody>
           <ModalFooter>
             <LogoutButton type='button' onClick={handleLogout}>
-              Deslogar
+              Encerrar sessão
             </LogoutButton>
           </ModalFooter>
         </Modal>

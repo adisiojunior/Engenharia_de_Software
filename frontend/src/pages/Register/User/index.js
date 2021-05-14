@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
@@ -8,7 +8,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
 setDefaultLocale('pt');
-const RegisterUser = () => {
+const RegisterUser = (props) => {
+  // eslint-disable-next-line react/destructuring-assignment
+  const { id } = props.match.params;
   const history = useHistory();
 
   const [name, setName] = useState('');
@@ -17,6 +19,21 @@ const RegisterUser = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword] = useState('');
+
+  useEffect(() => {
+    if (id) {
+      try {
+        api.get('/users/auth/get').then((result) => {
+          setName(result.user.name);
+          setLastname(result.user.lastName);
+          setSelectedDate(result.user.selectedDate);
+          setEmail(result.user.email);
+        });
+      } catch (error) {
+        toast.error(`Não foi possível encontrar usuário: ${error}`);
+      }
+    }
+  }, []);
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
@@ -40,16 +57,51 @@ const RegisterUser = () => {
       }
     }
   };
+
+  const handleUpdateUser = () => {
+    if (!name || !lastname || !email) {
+      toast.error(
+        'Informe todos os seus dados corretamente para realizar a edição das informações de cadastro'
+      );
+      return;
+    }
+    try {
+      api
+        .post('/users/auth/update', {
+          name,
+          lastname,
+          email,
+          password,
+        })
+        .then(() => {
+          history.push('/');
+        });
+    } catch (error) {
+      toast.error(
+        `Houve um problema com a edição das informações de cadastro: ${error}`
+      );
+    }
+  };
+
+  const handleSubmit = () => {
+    if (id) {
+      handleUpdateUser();
+    } else {
+      handleRegisterUser();
+    }
+  };
+
   return (
     <Container>
       <Register>
-        <Form onSubmit={handleRegisterUser} className='w-75'>
-          <Title>Cadastro do usuário</Title>
+        <Form onSubmit={handleSubmit} className='w-75'>
+          <Title>{id ? 'Edição de usuário ' : 'Cadastro do usuário'}</Title>
           <FormGroup>
             <Label>Nome</Label>
             <Input
               type='text'
               id='inputName'
+              value={name}
               onChange={(nameValue) => {
                 setName(nameValue.target.value);
               }}
@@ -60,6 +112,7 @@ const RegisterUser = () => {
             <Input
               type='text'
               id='inputLastname'
+              value={lastname}
               onChange={(lastnameValue) => {
                 setLastname(lastnameValue.target.value);
               }}
@@ -79,36 +132,43 @@ const RegisterUser = () => {
             <Input
               type='email'
               id='inputEmail'
+              value={email}
               onChange={(emailValue) => {
                 setEmail(emailValue.target.value);
               }}
             />
           </FormGroup>
-          <FormGroup>
-            <Label>Senha</Label>
-            <Input
-              type='password'
-              id='inputPassword'
-              onChange={(passwordValue) => {
-                setPassword(passwordValue.target.value);
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Confirme a sua senha</Label>
-            <Input type='password' id='confirmPassword' />
-          </FormGroup>
+          {!id && (
+            <>
+              <FormGroup>
+                <Label>Senha</Label>
+                <Input
+                  type='password'
+                  id='inputPassword'
+                  onChange={(passwordValue) => {
+                    setPassword(passwordValue.target.value);
+                  }}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Confirme a sua senha</Label>
+                <Input type='password' id='confirmPassword' />
+              </FormGroup>
+            </>
+          )}
           <FormButton>
             <StyledButton type='submit' outline className='w-10'>
-              Cadastrar
+              {id ? 'Editar' : 'Cadastrar'}
             </StyledButton>
           </FormButton>
         </Form>
-        <Link to='/RegisterBusiness'>
-          <StyledButton type='submit' outline className='w-10'>
-            Cadastrar Empresa
-          </StyledButton>
-        </Link>
+        {!id && (
+          <Link to='/RegisterBusiness'>
+            <StyledButton type='submit' outline className='w-10'>
+              Cadastrar Empresa
+            </StyledButton>
+          </Link>
+        )}
       </Register>
     </Container>
   );
