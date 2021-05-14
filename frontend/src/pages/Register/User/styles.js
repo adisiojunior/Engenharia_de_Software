@@ -1,5 +1,6 @@
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
+import Background from '../../../assets/bg-image-registerUser.jpg';
 
 export const Container = styled.div`
   width: auto;
@@ -8,6 +9,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url(${Background});
 `;
 
 export const Register = styled.div`
@@ -20,6 +22,7 @@ export const Register = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 export const Title = styled.h1`
@@ -28,50 +31,20 @@ export const Title = styled.h1`
 `;
 
 export const StyledButton = styled(Button)`
-  outline
   width: 100%;
   margin: 1rem;
-  color: #34669A;
+  color: #34669a;
   border-radius: 1rem;
-  border-color: #34669A;
+  border-color: #34669a;
 
   :hover {
-    background-color: #34669A;
-    border-color: #34669A;
+    background-color: #34669a;
+    border-color: #34669a;
   }
 `;
 
-export const Buttons = styled.div`
+export const FormButton = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
-
-// body {
-//   box-sizing: border-box;
-//   height: 100%;
-//   width: 100%;
-//   padding: 0;
-//   margin: 0;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-family: Raleway;
-// }
-
-// .main {
-//   background: #eeeeee;
-//   border-radius: 1rem;
-//   height: 80vh;
-//   width: 60vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .title {
-//   font-size: 2rem;
-//   font-weight: 900;
-// }

@@ -23,9 +23,9 @@ serviceRoutes.get(
   serviceController.read
 );
 
-serviceRoutes.get("/services/:sid", serviceController.getServiceById);
+serviceRoutes.post("/services/search", serviceController.search);
 
-serviceRoutes.use("/services", authMiddleware);
+serviceRoutes.get("/services/:sid", serviceController.getServiceById);
 
 serviceRoutes.post(
   "/services/register",
@@ -40,6 +40,9 @@ serviceRoutes.post(
         slogan: Joi.string(),
         cnpj: Joi.string(),
         image: Joi.array(),
+        instagram: Joi.string(),
+        whatsapp: Joi.string(),
+        email: Joi.string().email(),
       }),
     },
     joiOpts
@@ -48,7 +51,7 @@ serviceRoutes.post(
 );
 
 serviceRoutes.put(
-  "/services/update",
+  "/services/update/:sid",
   celebrate(
     {
       [Segments.BODY]: Joi.object().keys({
@@ -60,6 +63,9 @@ serviceRoutes.put(
         slogan: Joi.string(),
         cnpj: Joi.string(),
         image: Joi.string(),
+        instagram: Joi.string(),
+        whatsapp: Joi.string(),
+        email: Joi.string().email(),
       }),
     },
     joiOpts

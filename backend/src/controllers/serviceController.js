@@ -1,17 +1,26 @@
-const Service = require("../models/Service");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
 const multer = require("multer");
+const { query } = require("express");
+const { off } = require("superagent");
 const HttpError = require("../error/http-error");
+const Service = require("../models/Service");
 const User = require("../models/User");
-const { SecretsManager } = require("aws-sdk");
 require("dotenv/config");
 
+const { validateToken } = require("../middleware/auth");
+
+require("dotenv/config");
 
 module.exports = {
   async create(req, res) {
     try {
       const user = await User.findById(req.userId).select("+password");
 
-      if (await Service.findOne({ name: req.name, street: req.street })) {
+      if (
+        await Service.findOne({ name: req.body.name, street: req.body.street })
+      ) {
         return res.status(409).send({ error: `Serviço já existente` });
       }
 
@@ -28,30 +37,30 @@ module.exports = {
         .send({ error: "Falha no cadastro do serviço ou comércio." });
     }
   },
-
   async getServiceById(req, res, next) {
     const serviceId = req.params.sid;
 
-    let service;
     try {
-      service = await Service.findById(serviceId);
-    } catch (err) {
-      const error = new HttpError(
-        "Ocorreu um erro ao consultar o serviço",
-        500
-      );
+      let service = await Service.findById(serviceId);
+
+      if (!service) {
+        throw new HttpError(
+          "Não foi possível encontrar um serviço com o ID fornecido",
+          404
+        );
+      }
+
+      const authorizationHeader = req.headers.authorization;
+      const editable = await serviceIsEditable(authorizationHeader, serviceId);
+
+      service = service.toObject({ getters: true });
+      res.send({ service: { ...service, editable } });
+    } catch (error) {
+      if (!error instanceof HttpError) {
+        new HttpError("Ocorreu um erro ao consultar o serviço", 500);
+      }
       return next(error);
     }
-
-    if (!service) {
-      const error = new HttpError(
-        "Não foi possível encontrar um serviço com o ID fornecido",
-        404
-      );
-      return next(error);
-    }
-
-    res.send({ service: service.toObject({ getters: true }) });
   },
 
   async updateService(req, res, next) {
@@ -68,37 +77,31 @@ module.exports = {
 
     const serviceId = req.params.sid;
 
-    let service;
     try {
-      service = await Service.findById(serviceId);
-    } catch (err) {
-      const error = new HttpError(
-        "Ocorreu um erro ao atualizar o serviço",
-        500
-      );
-      return next(error);
-    }
+      const service = await Service.findById(serviceId);
 
-    service.name = name;
-    service.street = street;
-    service.neighborhood = neighborhood;
-    service.category = category;
-    service.description = description;
-    service.slogan = slogan;
-    service.cnpj = cnpj;
-    service.image = image;
+      if (!service) {
+        throw new HttpError("Ocorreu um erro ao atualizar o serviço", 500);
+      }
 
-    try {
+      service.name = name;
+      service.street = street;
+      service.neighborhood = neighborhood;
+      service.category = category;
+      service.description = description;
+      service.slogan = slogan;
+      service.cnpj = cnpj;
+      service.image = image;
+
       await service.save();
-    } catch (err) {
-      const error = new HttpError(
-        "Ocorreu um erro ao atualizar o serviço",
-        500
-      );
-      return next(error);
-    }
 
-    res.status(200).send({ service: service.toObject({ getters: true }) });
+      res.status(200).send({ service: service.toObject({ getters: true }) });
+    } catch (error) {
+      if (!error instanceof HttpError) {
+        throw new HttpError("Ocorreu um erro ao atualizar o serviço", 500);
+      }
+      next(error);
+    }
   },
 
   async delete(req, res, next) {
@@ -128,13 +131,16 @@ module.exports = {
       return next(error);
     }
   },
+
   async read(req, res, next) {
     const { limit = 0, offset = 0, category } = req.query;
 
-    try {
-      let results = await Service.find({ category });
+    const query = category ? { category: { $in: category } } : {};
 
-      if (!results) {
+    try {
+      let results = await Service.find(query);
+
+      if (results.length === 0) {
         throw new HttpError("Não foi encontrado nenhum serviço", 404);
       }
 
@@ -151,6 +157,16 @@ module.exports = {
         results = results.slice(0, limit);
       }
 
+      results.sort((a, b) => {
+        if (a.ratingMean > b.ratingMean) {
+          return -1;
+        }
+        if (a.ratingMean < b.ratingMean) {
+          return 1;
+        }
+        return 0;
+      });
+
       return res.status(200).send(results);
     } catch (error) {
       if (!error instanceof HttpError) {
@@ -158,6 +174,72 @@ module.exports = {
       }
       return next(error);
     }
+  },
+
+  async search(req, res, next) {
+    let { limit = 0, offset = 0, name, category } = req.query;
+    try {
+      limit = parseInt(limit);
+      offset = parseInt(offset);
+    } catch (err) {
+      const error = new HttpError(
+        "Falha ao obter os valores para limit e offset",
+        400
+      );
+      return next(error);
+    }
+
+    let regex = new RegExp(name, "i");
+    const query = {
+      $and: [{ name: { $regex: regex } }, { category: { $in: category } }],
+    };
+
+    let results;
+    let total;
+    try {
+      total = await Service.countDocuments(query);
+    } catch (err) {
+      const error = new HttpError("Falha ao conectar-se ao servidor", 500);
+      return next(error);
+    }
+
+    if (offset > total) {
+      const error = new HttpError(
+        "O valor de offset é maior que os resultados encontrados",
+        406
+      );
+      return next(error);
+    }
+
+    results = await Service.find(query).skip(offset).limit(limit);
+
+    if (results.length === 0) {
+      const error = new HttpError(
+        "Não foi encontrado nenhum serviço com as especificações fornecidas",
+        404
+      );
+      return next(error);
+    }
+
+    const pages = limit ? Math.ceil(total / limit) : 1;
+
+    return res.status(200).send({ results, pages });
+  },
+};
+
+const serviceIsEditable = async (authorizationHeader, serviceId) => {
+  let editable = false;
+  if (authorizationHeader) {
+    const userId = await validateToken(authorizationHeader);
+
+    const user = await User.findOne(
+      { services: { $in: new ObjectId(serviceId) } },
+      "_id"
+    );
+
+    if (user) {
+      editable = userId === user._id.toString();
+    }
   }
-  
-}
+  return editable;
+};
