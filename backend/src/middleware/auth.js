@@ -1,38 +1,58 @@
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const jwtVerifyAsync = promisify(jwt.verify, { context: jwt })
+
 const User = require('../models/User');
+const HttpError = require('../error/http-error');
 require('dotenv/config');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, _, next) => {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader) {
-        return res.status(401).send({ error: 'Token não fornecido.' });
+    try {
+        if (!authHeader) {
+            throw new HttpError('Token não fornecido.', 401);
+        }
+
+        req.userId = await validateToken(authHeader);
+    
+        next();
+    } catch (error) {
+        if (!error instanceof HttpError) {
+            error = new HttpError(error.message, 500);
+        }
+        next(error)
     }
+}
 
-    const parts = authHeader.split(' ');
-
+const validateToken = async (authorizationHeader) => {
+    const parts = authorizationHeader.split(' ');
     const [ scheme, token ] = parts;
 
-    if (!/Bearer$/i.test(scheme)) {
-        return res.status(401).send({ error: 'Token mal formado.' });
-    }
-
-    jwt.verify(token, process.env.SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(401).send({ error: 'Token inválido.' });
+    try {
+        if (!/Bearer$/i.test(scheme)) {
+            throw new HttpError('Token mal formado.', 401);
         }
+
+        const decoded = await jwtVerifyAsync(token, process.env.SECRET);
 
         const user = await User.findOne({ _id: decoded.id });
 
         if (!user) {
-            return res.status(400).send({ error: 'Usuário não existe.' });
+            throw new HttpError('Usuário não existe.', 401);
         }
 
         if (user.token !== token) {
-            return res.status(401).send({ error: 'Token vencido.' });
+            throw new HttpError('Token vencido.', 401);
         }
-
-        req.userId = decoded.id;
-        next();
-    });
+        
+        return decoded.id;
+    } catch (error) {
+        if (!(error instanceof HttpError)) {
+            error = new HttpError('Token inválido.', 401);
+        }
+        throw error;
+    }
 }
+
+module.exports.validateToken = validateToken;
