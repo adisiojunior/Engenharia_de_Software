@@ -8,22 +8,35 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
+import { toast } from 'react-toastify';
 import LogoMicroExplorer from '../../assets/LOGO MICRO EXPLORER 04.png';
 import { StyledImg, Div, Login, LogoutButton, CreateButton } from './styles';
 import { getToken, logout } from '../../services/auth';
 import api from '../../services/api';
 
 const NavBar = () => {
-  const [user, setUser] = useState();
+  const [userStatus, setUserStatus] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const token = getToken();
+  const [userName, setUserName] = useState('');
   // const [services, setServices] = useState();
 
   useEffect(() => {
-    if (token !== null && token !== undefined) setUser(true);
-    else setUser(false);
-    console.log(user);
-  }, [modalIsOpen]);
+    if (token !== null && token !== undefined) setUserStatus(true);
+    else setUserStatus(false);
+    console.log(userStatus);
+  }, [modalIsOpen, userName]);
+
+  useEffect(async () => {
+    if (token !== null && token !== undefined) {
+      try {
+        const res = await api.get(`/users/auth/get`);
+        setUserName(res.data.name);
+      } catch (error) {
+        toast.error(`Erro encontrado: ${error.message}`);
+      }
+    }
+  }, [userStatus]);
 
   const handleLogout = () => {
     api.put('/users/auth/logout');
@@ -49,13 +62,15 @@ const NavBar = () => {
         </Container>
 
         <div>
-          {!user ? (
-            <Login type='button'>
-              <a href='/login'>Entrar</a>
-            </Login>
+          {!userStatus ? (
+            <a href='/login'>
+              <Login type='button'>
+                <strong>Entrar</strong>
+              </Login>
+            </a>
           ) : (
             <Login type='button' onClick={() => setModalIsOpen(!modalIsOpen)}>
-              <p>User123</p>
+              <strong>{userName}</strong>
             </Login>
           )}
         </div>
@@ -74,9 +89,9 @@ const NavBar = () => {
           <ModalBody>
             <div>
               {}
-              <CreateButton type='button' onClick={handleLogout}>
-                + Criar Negócio
-              </CreateButton>
+              <a href='/registerbusiness'>
+                <CreateButton type='button'>+ Criar Negócio</CreateButton>
+              </a>
             </div>
           </ModalBody>
           <ModalFooter>

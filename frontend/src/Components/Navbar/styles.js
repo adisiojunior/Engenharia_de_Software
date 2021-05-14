@@ -67,7 +67,19 @@ export const CreateButton = styled.button`
   height: 40px;
   align-self: end;
   color: white;
-  background: #34669a;
+  background: #61c4e3;
   border: none;
   border-radius: 5px;
+  transition: 0.2s;
+
+  :hover {
+    filter: 0.2;
+  }
+
+  a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+  }
 `;
