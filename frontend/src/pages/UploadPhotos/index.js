@@ -10,7 +10,7 @@ import { uniqueId } from 'lodash';
 import Upload from '../../Components/Upload';
 import FileList from '../../Components/FileList';
 import api from '../../services/api';
-import { Container, Content, ButtonStyle } from '../Register/Business/styles';
+import { Container, Content, ButtonStyle } from './styles';
 
 class UploadPhotos extends Component {
   state = {
@@ -122,7 +122,7 @@ class UploadPhotos extends Component {
         </Content>
         <a href={`/services/${serviceId}`}>
           <ButtonStyle type='link' outline className='w-10'>
-            Voltar
+            Ir para a página do serviço
           </ButtonStyle>
         </a>
       </Container>
