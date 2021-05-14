@@ -1,8 +1,13 @@
-// import { BsStarFill } from 'react-icons/bs';
+import { BsStarFill } from 'react-icons/bs';
+import { MdLocationOn } from 'react-icons/md';
+import { FaWhatsapp, FaInstagram } from 'react-icons/fa';
+import { HiOutlineMail } from 'react-icons/hi';
 import React, { useState, useEffect } from 'react';
-import { Redirect, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import { getToken } from '../../services/auth';
+import Footer from '../../Components/Footer';
+import CarouselComponent from '../../Components/Carousel';
 import {
   Background,
   Container,
@@ -10,24 +15,38 @@ import {
   Address,
   Contacts,
   Details,
-  // Highlights,
+  Highlights,
   Info,
-  // Name,
   Photo,
-  // Rating,
   Recommended,
   Category,
   CategoryList,
-  TitleRecommended,
+  RecommendedRating,
+  UserInfo,
+  RecommendedName,
+  RecommendedTitle,
+  Rating,
+  RatingTitle,
+  UserRating,
+  UserComment,
+  UserStars,
+  RatingPlace,
   EditButton,
 } from './styles';
 
 const Service = () => {
-  // TODO: Sync all data and end comments
   const [userMain, setUserMain] = useState(false);
   const history = useHistory();
   const { id } = useParams();
   const [service, setService] = useState([]);
+  const [recommended, setRecommended] = useState([]);
+  const [rating, setRating] = useState([]);
+
+  const chosenCategory = () => {
+    return service.category[
+      Math.floor(Math.random() * service.category.length)
+    ];
+  };
 
   useEffect(() => {
     const fetchService = async () => {
@@ -38,18 +57,30 @@ const Service = () => {
         setService(res.data.service);
         setUserMain(res.data.service.editable);
       } catch (error) {
-        <Redirect to={{ pathname: '*' }} />;
+        history.push();
       }
     };
 
     fetchService();
   }, []);
 
-  const category = [];
-  const contacts = [];
-  const chosenCategory = () => {
-    return category[Math.floor(Math.random() * category.length)];
-  };
+  useEffect(() => {
+    const fetchService = async () => {
+      const res = await api.get(`/services?limit=8&category=${chosenCategory}`);
+      setRecommended(res.data);
+    };
+
+    fetchService();
+  }, []);
+
+  useEffect(() => {
+    const fetchService = async () => {
+      const res = await api.get(`/services/${id}/ratings`);
+      setRating(res.data.ratings);
+    };
+
+    fetchService();
+  }, []);
 
   return (
     <Background>
@@ -76,47 +107,91 @@ const Service = () => {
         ) : null}
         <Info>
           <Photo>
-            <img
-              src={
-                service.image ||
-                'http://www.ifs.edu.br/images/M_images/default.png'
-              }
-              alt='default'
-            />
+            {service.imgList ? (
+              <CarouselComponent
+                items={service.imgList}
+                imgHeight='50vh'
+                imgWidth='48.8vw'
+              />
+            ) : null}
           </Photo>
           <Contacts>
             <h5>Contato:</h5>
-            {contacts.length > 0 &&
-              contacts.map((name) => <div key={name}>{name}</div>)}
+            {service.instagram ? (
+              <div>
+                <FaInstagram style={{ marginRight: '10px' }} />
+                {service.instagram}
+              </div>
+            ) : null}
+            {service.whatsapp ? (
+              <div>
+                <FaWhatsapp style={{ marginRight: '10px' }} />
+                {service.whatsapp}
+              </div>
+            ) : null}
+            {service.email ? (
+              <div>
+                <HiOutlineMail style={{ marginRight: '10px' }} />
+                {service.email}
+              </div>
+            ) : null}
           </Contacts>
           <Details>{service.description}</Details>
           <Address>
             <h5>Localização:</h5>
-            {service.street}
-            {service.neighborhood}
+            <MdLocationOn /> {service.street},{service.neighborhood}
           </Address>
         </Info>
         <Recommended>
-          <TitleRecommended>
+          <RecommendedTitle>
             Outros resultados para {chosenCategory}
-          </TitleRecommended>
+          </RecommendedTitle>
           <hr />
-          {/* recommended.length > 0 &&
-            recommended.map((name) => (
-              <Highlights>
-                <Name>{name.name}</Name>
-                <Rating>
-                  {name.vote_average}
+          {recommended
+            ? recommended.map((item) => (
+                <Highlights key={item}>
+                  <RecommendedName>{item.name}</RecommendedName>
+                  <RecommendedRating>
+                    {item.vote_average}
+                    <BsStarFill
+                      color='F5CE6A'
+                      size='1.5em'
+                      style={{ alignSelf: 'center', marginLeft: '10px' }}
+                    />
+                  </RecommendedRating>
+                </Highlights>
+              ))
+            : null}
+        </Recommended>
+        <Rating>
+          <RatingTitle>Avaliações dos Clientes</RatingTitle>
+          <hr />
+          <RatingPlace>
+            {rating.map((item) => (
+              // eslint-disable-next-line no-underscore-dangle
+              <UserRating key={item._id}>
+                <UserInfo>
+                  <img
+                    src='https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png'
+                    alt='Default'
+                  />
+                  <span>Usuário</span>
+                </UserInfo>
+                <UserComment>{item.description}</UserComment>
+                <UserStars>
+                  {item.stars}
                   <BsStarFill
                     color='F5CE6A'
-                    size='1.5em'
-                    style={{ alignSelf: 'center', marginLeft: '10px' }}
+                    size='1.5rem'
+                    style={{ marginLeft: '0.5rem' }}
                   />
-                </Rating>
-              </Highlights>
-            )) */}
-        </Recommended>
+                </UserStars>
+              </UserRating>
+            ))}
+          </RatingPlace>
+        </Rating>
       </Container>
+      <Footer />
     </Background>
   );
 };
