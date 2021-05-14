@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import DatePicker, { setDefaultLocale } from 'react-datepicker';
@@ -8,9 +8,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
 setDefaultLocale('pt');
-const RegisterUser = (props) => {
-  // eslint-disable-next-line react/destructuring-assignment
-  const { id } = props.match.params;
+const RegisterUser = () => {
+  const { id } = useParams();
   const history = useHistory();
 
   const [name, setName] = useState('');
