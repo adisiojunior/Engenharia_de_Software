@@ -28,9 +28,9 @@ const RegisterBusiness = () => {
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    if (!name || !street || !neighborhood || !description || !cnpj) {
+    if (!name || !street || !neighborhood || !cnpj) {
       toast.error(
-        'Informe todos os dados do seu negócio para realizar o cadastro'
+        'Informe todos os dados marcados com um * para cadastrar sua empresa'
       );
     } else {
       try {
@@ -68,7 +68,7 @@ const RegisterBusiness = () => {
           <Row>
             <Col lg='6'>
               <FormGroup>
-                <Label>Nome</Label>
+                <Label>Nome *</Label>
                 <Input
                   type='text'
                   id='inputName'
@@ -95,7 +95,7 @@ const RegisterBusiness = () => {
           <Row>
             <Col lg='6'>
               <FormGroup>
-                <Label>Rua</Label>
+                <Label>Rua *</Label>
                 <Input
                   type='street'
                   id='inputStreet'
@@ -107,7 +107,7 @@ const RegisterBusiness = () => {
             </Col>
             <Col lg='6'>
               <FormGroup>
-                <Label>Bairro</Label>
+                <Label>Bairro *</Label>
                 <Input
                   type='text'
                   id='inputNeighborhood'
@@ -145,7 +145,7 @@ const RegisterBusiness = () => {
             </Col>
           </Row>
           <FormGroup>
-            <Label>CNPJ</Label>
+            <Label>CNPJ *</Label>
             <Input
               type='number'
               id='inputCnpj'
