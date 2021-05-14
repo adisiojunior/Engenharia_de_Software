@@ -114,4 +114,6 @@ serviceRoutes.delete("/posts/:id", async (req, res) => {
 
 serviceRoutes.delete("/services/delete/:serviceId", serviceController.delete);
 
+serviceRoutes.get('/getServicesByUser', authMiddleware, serviceController.getServicesByUser);
+
 module.exports = serviceRoutes;
