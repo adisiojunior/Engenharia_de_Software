@@ -15,28 +15,31 @@ import { getToken, logout } from '../../services/auth';
 import api from '../../services/api';
 
 const NavBar = () => {
-  const [userStatus, setUserStatus] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const token = getToken();
   const [userName, setUserName] = useState('');
   // const [services, setServices] = useState();
 
-  useEffect(() => {
-    if (token !== null && token !== undefined) setUserStatus(true);
-    else setUserStatus(false);
-    console.log(userStatus);
-  }, [modalIsOpen, userName]);
-
   useEffect(async () => {
-    if (token !== null && token !== undefined) {
+    if (getToken() !== undefined && getToken() !== null)
       try {
         const res = await api.get(`/users/auth/get`);
         setUserName(res.data.name);
       } catch (error) {
         toast.error(`Erro encontrado: ${error.message}`);
       }
-    }
-  }, [userStatus]);
+  }, [modalIsOpen, userName]);
+
+  // useEffect(async () => {
+  //   const token = await getToken();
+  //   if (token !== null && token !== undefined) {
+  //     try {
+  //       const res = await api.get(`/users/auth/get`);
+  //       setUserName(res.data.name);
+  //     } catch (error) {
+  //       toast.error(`Erro encontrado: ${error.message}`);
+  //     }
+  //   }
+  // }, [userStatus]);
 
   const handleLogout = () => {
     api.put('/users/auth/logout');
@@ -62,7 +65,7 @@ const NavBar = () => {
         </Container>
 
         <div>
-          {!userStatus ? (
+          {!window.localStorage['@airbnb-Token'] ? (
             <a href='/login'>
               <Login type='button'>
                 <strong>Entrar</strong>
