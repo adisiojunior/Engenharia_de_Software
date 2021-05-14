@@ -24,10 +24,10 @@ const RegisterUser = (props) => {
     if (id) {
       try {
         api.get('/users/auth/get').then((result) => {
-          setName(result.user.name);
-          setLastname(result.user.lastName);
-          setSelectedDate(result.user.selectedDate);
-          setEmail(result.user.email);
+          setName(result.data.user.name);
+          setLastname(result.data.user.lastName);
+          setSelectedDate(result.data.user.selectedDate);
+          setEmail(result.data.user.email);
         });
       } catch (error) {
         toast.error(`Não foi possível encontrar usuário: ${error}`);
