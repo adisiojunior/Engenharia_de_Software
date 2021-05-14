@@ -3,7 +3,6 @@ const { celebrate, Segments, Joi } = require("celebrate");
 const serviceController = require("../controllers/serviceController");
 const authMiddleware = require("../middleware/auth");
 
-
 const serviceRoutes = express.Router();
 
 // When an error occurs, all erros are returned
@@ -28,7 +27,6 @@ serviceRoutes.get("/services/:sid", serviceController.getServiceById);
 
 serviceRoutes.use("/services", authMiddleware);
 
-
 serviceRoutes.post(
   "/services/register",
   celebrate(
@@ -41,7 +39,7 @@ serviceRoutes.post(
         description: Joi.string().required(),
         slogan: Joi.string(),
         cnpj: Joi.string(),
-        image: Joi.string(),
+        image: Joi.array(),
       }),
     },
     joiOpts
