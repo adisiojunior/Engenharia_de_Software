@@ -55,8 +55,8 @@ export const DivLogout = styled.div`
 
 export const LogoutButton = styled.button`
   width: 100px;
-  height: auto;
-  padding: 5px;
+  height: 100px;
+  padding: 5px
   align-self: end;
   color: white;
   background: #f87c7c;
