@@ -35,6 +35,7 @@ const NavBar = () => {
     api.put('/users/auth/logout');
     logout();
     setModalIsOpen(false);
+    toast.success('Sessão encerrada.');
     window.location.reload('/');
   };
 

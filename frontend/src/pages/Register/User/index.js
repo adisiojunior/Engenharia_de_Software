@@ -65,12 +65,13 @@ const RegisterUser = () => {
       return;
     }
     try {
-      await api.put('/users/auth/update', {
+      api.put('/users/auth/update', {
         name,
         lastname,
         email,
         selectedDate,
       });
+      toast.success('Alterações realizadas com sucesso.');
       window.location.replace('/');
     } catch (error) {
       toast.error(
