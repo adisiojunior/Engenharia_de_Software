@@ -21,6 +21,9 @@ userRoutes.post(
         password: Joi.string()
           .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
           .required(),
+        confirmPassword: Joi.string()
+          .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
+          .required(),
         birthDay: Joi.date().required(),
       }),
     },
@@ -52,5 +55,7 @@ userRoutes.delete("/users/auth/delete", userController.delete);
 userRoutes.put('/users/auth/update', userController.update);
 
 userRoutes.put('/users/auth/logout', userController.logout);
+
+userRoutes.get('/users/auth/get', userController.get);
 
 module.exports = userRoutes;
