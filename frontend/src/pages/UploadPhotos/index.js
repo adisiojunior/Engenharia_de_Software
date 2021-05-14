@@ -4,7 +4,7 @@
 /* eslint-disable react/sort-comp */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import filesize from 'filesize';
 import { uniqueId } from 'lodash';
 import Upload from '../../Components/Upload';
@@ -18,18 +18,21 @@ class UploadPhotos extends Component {
   };
 
   async componentDidMount() {
-    const response = await api.get('posts');
+    const serviceId = localStorage.getItem('serviceId');
+    const response = await api.get(`/images/${serviceId}`);
 
-    this.setState({
-      uploadedFiles: response.data.map((file) => ({
-        id: file._id,
-        name: file.name,
-        readableSize: filesize(file.size),
-        preview: file.url,
-        uploaded: true,
-        url: file.url,
-      })),
-    });
+    if (response.data.length > 0) {
+      this.setState({
+        uploadedFiles: response.data.map((file) => ({
+          id: file._id,
+          name: file.name,
+          readableSize: filesize(file.size),
+          preview: file.url,
+          uploaded: true,
+          url: file.url,
+        })),
+      });
+    }
   }
 
   handleUpload = (files) => {
@@ -64,11 +67,12 @@ class UploadPhotos extends Component {
 
   processUpload = (uploadedFile) => {
     const data = new FormData();
+    const serviceId = localStorage.getItem('serviceId');
 
     data.append('file', uploadedFile.file, uploadedFile.name);
 
     api
-      .post('posts', data, {
+      .post(`/image/${serviceId}`, data, {
         onUploadProgress: (e) => {
           const progress = parseInt(Math.round((e.loaded * 100) / e.total));
 
@@ -107,7 +111,7 @@ class UploadPhotos extends Component {
 
   render() {
     const { uploadedFiles } = this.state;
-
+    const serviceId = localStorage.getItem('serviceId');
     return (
       <Container>
         <Content>
@@ -116,14 +120,15 @@ class UploadPhotos extends Component {
             <FileList files={uploadedFiles} onDelete={this.handleDelete} />
           )}
         </Content>
-        <Link to='/'>
+        <a href={`/services/${serviceId}`}>
           <ButtonStyle type='link' outline className='w-10'>
             Voltar
           </ButtonStyle>
-        </Link>
+        </a>
       </Container>
     );
   }
 }
+localStorage.removeItem('serviceId');
 
 export default UploadPhotos;

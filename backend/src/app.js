@@ -11,11 +11,11 @@ const postRoutes = require("./routes/postRoutes");
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 app.use(userRoutes);
 app.use(serviceRoutes);
 app.use(ratingRoutes);
 app.use(postRoutes);
-app.use(cors());
 app.use(ratingRoutes);
 app.use(serviceRoutes);
 app.use(userRoutes);

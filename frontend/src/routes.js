@@ -28,12 +28,14 @@ const Routes = () => (
       <Route exact path='/' component={() => <Home />} />
       <Route exact path='/login' component={() => <SingIn />} />
       <Route path='/registeruser' component={() => <RegisterUser />} />
-      <Route path='/service/:slug' component={() => <UpdateService />} />
       <PrivateRoute
         path='/registerbusiness'
         component={() => <RegisterBusiness />}
       />
-      <PrivateRoute path='/uploadphotos' component={() => <UploadPhotos />} />
+      <PrivateRoute
+        path='/uploadphotos/:serviceId'
+        component={() => <UploadPhotos />}
+      />
       <PrivateRoute
         path='/service/update/:slug'
         component={() => <UpdateService />}

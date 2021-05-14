@@ -32,6 +32,14 @@ import {
   UserStars,
   RatingPlace,
   EditButton,
+  StarsInput,
+  DescriptionInput,
+  InputRatesDiv,
+  InputsAndButtonDiv,
+  RateButton,
+  InputnLabel,
+  LabelInput,
+  Slogan,
 } from './styles';
 
 const Service = () => {
@@ -41,6 +49,9 @@ const Service = () => {
   const [service, setService] = useState([]);
   const [recommended, setRecommended] = useState([]);
   const [rating, setRating] = useState([]);
+  const [images, setImages] = useState([]);
+  const [description, setDescription] = useState([]);
+  const [stars, setStars] = useState([]);
 
   const chosenCategory = () => {
     return service.category[
@@ -56,6 +67,7 @@ const Service = () => {
         });
         setService(res.data.service);
         setUserMain(res.data.service.editable);
+        setImages(res.data.service.image);
       } catch (error) {
         history.push();
       }
@@ -82,6 +94,12 @@ const Service = () => {
     fetchService();
   }, []);
 
+  useEffect(() => {}, []);
+
+  const handleRate = () => {
+    api.post(`/services/${id}/ratings`, { stars, description });
+  };
+
   return (
     <Background>
       <Container>
@@ -92,7 +110,7 @@ const Service = () => {
                 <Category key={name}>{name}</Category>
               ))
             : null}
-          <span>{service.slogan}</span>
+          <Slogan>{service.slogan}</Slogan>
         </CategoryList>
 
         {userMain ? (
@@ -107,9 +125,9 @@ const Service = () => {
         ) : null}
         <Info>
           <Photo>
-            {service.imgList ? (
+            {service.image ? (
               <CarouselComponent
-                items={service.imgList}
+                items={images}
                 imgHeight='50vh'
                 imgWidth='48.8vw'
               />
@@ -171,12 +189,9 @@ const Service = () => {
               // eslint-disable-next-line no-underscore-dangle
               <UserRating key={item._id}>
                 <UserInfo>
-                  <img
-                    src='https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png'
-                    alt='Default'
-                  />
-                  <span>Usuário</span>
+                  <span>{item.user}</span>
                 </UserInfo>
+                <span>Descrição</span>
                 <UserComment>{item.description}</UserComment>
                 <UserStars>
                   {item.stars}
@@ -189,6 +204,34 @@ const Service = () => {
               </UserRating>
             ))}
           </RatingPlace>
+          <hr />
+          <InputsAndButtonDiv>
+            <InputRatesDiv>
+              <InputnLabel width='90%'>
+                <LabelInput for='inputDescription'>Comentário</LabelInput>
+                <DescriptionInput
+                  type='text'
+                  id='inputDescription'
+                  onChange={(descriptionValue) => {
+                    setDescription(descriptionValue.target.value);
+                  }}
+                />
+              </InputnLabel>
+              <InputnLabel width='1 0%'>
+                <LabelInput for='inputStars'>Nota</LabelInput>
+                <StarsInput
+                  type='number'
+                  id='inputStars'
+                  onChange={(starsValue) => {
+                    setStars(starsValue.target.value);
+                  }}
+                />
+              </InputnLabel>
+            </InputRatesDiv>
+            <RateButton type='submit' onClick={handleRate}>
+              Avaliar
+            </RateButton>
+          </InputsAndButtonDiv>
         </Rating>
       </Container>
       <Footer />
