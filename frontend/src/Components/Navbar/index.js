@@ -83,7 +83,7 @@ const NavBar = () => {
               {}
               <a href='/registerbusiness'>
                 <CreateButton type='button'>+ Criar Negócio</CreateButton>
-              </a>
+              </a>{' '}
               <a href={`/user/edit/${userId}`}>
                 <CreateButton type='button'>Editar Perfil</CreateButton>
               </a>
