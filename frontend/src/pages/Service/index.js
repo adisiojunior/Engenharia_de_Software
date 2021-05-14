@@ -1,7 +1,6 @@
 // import { BsStarFill } from 'react-icons/bs';
 import React, { useState, useEffect } from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
-import LogoBairro from '../../assets/LOGO BAIRRO.png';
 import api from '../../services/api';
 import { getToken } from '../../services/auth';
 import {
@@ -69,10 +68,10 @@ const Service = () => {
           <EditButton
             onClick={() => {
               // eslint-disable-next-line no-underscore-dangle
-              history.push(`/service/${service._id}`);
+              history.push(`/service/update/${service._id}`);
             }}
           >
-            <img src={LogoBairro} alt='Editar' />
+            <p>Editar</p>
           </EditButton>
         ) : null}
         <Info>
@@ -93,7 +92,8 @@ const Service = () => {
           <Details>{service.description}</Details>
           <Address>
             <h5>Localização:</h5>
-            {service.street},{service.neighborhood}
+            {service.street}
+            {service.neighborhood}
           </Address>
         </Info>
         <Recommended>

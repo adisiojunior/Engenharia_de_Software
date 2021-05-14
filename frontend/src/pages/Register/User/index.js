@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
 setDefaultLocale('pt');
-export const RegisterUser = () => {
+const RegisterUser = () => {
   const history = useHistory();
 
   const [name, setName] = useState('');
@@ -32,7 +32,7 @@ export const RegisterUser = () => {
           email,
           password,
         });
-        history.push('/app');
+        history.push('/');
       } catch (error) {
         toast.error(
           'Houve um problema com seu cadastro. Tente novamente mais tarde'

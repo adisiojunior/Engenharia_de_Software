@@ -20,8 +20,8 @@ const SingIn = () => {
     } else {
       try {
         const response = await api.post('/login', { email, password });
-        login(response.data.token);
-        history.push('/app');
+        login(response.data.userAtt.token);
+        history.push('/');
       } catch (error) {
         toast.error(`Houve um problema com o login: ${error.error}`);
       }

@@ -1,20 +1,40 @@
 import styled from 'styled-components';
 
 export const Div = styled.div`
-  width: 150px;
-  height: 100px;
-  border-radius: 5px;
-  background-image: ${(props) => url(props.img)};
-  
-  :after {
-    background-color: linear-gradient(to bottom, back 0%, transparent 40%);
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  flex-direction: column-reverse;
+  padding: 10px;
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+  background-size: 100%;
+  background-image: ${(props) => `url(${props.img})`};
+
+  ::before {
+    content: '';
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 52px 42px rgb(0 0 0 / 43%);
+    display: block;
+    height: 15%;
+    width: 100%;
+    position: relative;
+    transition: all 0.5s;
+    z-index: 1;
   }
 `;
 
 export const Title = styled.h4`
-  margin-bottom: 10px;
+  margin-top: 5px;
+  color: white;
+  z-index: 2;
 `;
 
 export const Rating = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  color: white;
+  z-index: 2;
 `;

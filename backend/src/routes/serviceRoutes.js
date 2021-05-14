@@ -30,11 +30,9 @@ serviceRoutes.get(
   serviceController.read
 );
 
-serviceRoutes.post("/services/search", serviceController.search);
+serviceRoutes.get("/services/search", serviceController.search);
 
 serviceRoutes.get("/services/:sid", serviceController.getServiceById);
-
-
 
 serviceRoutes.use("/services", authMiddleware);
 

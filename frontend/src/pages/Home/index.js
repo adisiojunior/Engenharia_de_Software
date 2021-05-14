@@ -13,7 +13,7 @@ import { GiTrowel, GiKnifeFork, GiFlowerEmblem } from 'react-icons/gi';
 import { FaGlassMartini, FaHeart } from 'react-icons/fa';
 import { MdAdd } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import {
   Container,
   SearchDiv,
@@ -27,19 +27,19 @@ import {
   StyledRow,
   SearchResult,
 } from './styles';
-// import api from '../../services/api';
+import api from '../../services/api';
 import Loading from '../../Components/Loading';
 import List from '../../Components/List';
 
 const IS_SELECTED_DEFAULT = {
-  jardineiro: false,
+  jardinagem: false,
   pedreiro: false,
   garçom: false,
   alimentação: false,
 };
 
 const BUTTON_FILTERS = [
-  { name: 'Jardineiro', icon: <GiFlowerEmblem /> },
+  { name: 'Jardinagem', icon: <GiFlowerEmblem /> },
   { name: 'Pedreiro', icon: <GiTrowel /> },
   { name: 'Garçom', icon: <FaGlassMartini /> },
   { name: 'Alimentação', icon: <GiKnifeFork /> },
@@ -48,12 +48,102 @@ const BUTTON_FILTERS = [
 const FILTER_OPTIONS = ['Beleza', 'Moda', 'Educação', 'Tecnologia'];
 
 const SERVICES = [
-  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
-  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
-  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
-  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
-  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
-  {name: 'Teste', image:'http://www.ifs.edu.br/images/M_images/default.png', rating: '4'},
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
+  {
+    name: 'Teste',
+    image:
+      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
+    rating: '4',
+  },
 ];
 
 const Home = () => {
@@ -82,23 +172,39 @@ const Home = () => {
   const handleSearch = () => {
     setWasSearched(true);
     setIsLoading(true);
-    setIsLoading(false);
-    // api
-    //   .get(`/seach?${searchText}`, {
-    //     isSelectedFilter,
-    //     pages,
-    //     limit: 6,
-    //     currentPage,
-    //   })
-    //   .then((response) => {
-    //     setIsLoading(false);
-    //     setResultSearch(response.resullt.data.services);
-    //     setPages(response.result.data.pages);
-    //   })
-    //   .error((error) => {
-    //     toast.error(`Não foi possível realizar a busca: ${error.message}`);
-    //   });
+    // console.log(searchText);
+    try {
+      const query = Object.keys(
+        Object.fromEntries(
+          // eslint-disable-next-line no-unused-vars
+          Object.entries(isSelectedFilter).filter(([key, value]) =>
+            Boolean(value)
+          )
+        )
+      );
+      api
+        .get(`/services/search?${searchText}&category=${query}`, {
+          isSelectedFilter,
+          pages,
+          limit: 6,
+          currentPage,
+        })
+        .then((response) => {
+          console.log(response);
+          setIsLoading(false);
+          setResultSearch(response.data.results);
+          setPages(response.data.pages);
+        });
+    } catch (error) {
+      toast.error(`Não foi possível realizar a busca: ${error.message}`);
+    }
   };
+
+  useEffect(() => {
+    if (wasSearched) {
+      handleSearch();
+    }
+  }, [currentPage]);
 
   const setFilter = (filter) => {
     setIsSelectedFilter({

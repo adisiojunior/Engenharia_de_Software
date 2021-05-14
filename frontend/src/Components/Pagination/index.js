@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Div } from './styles';
 
 const PaginationComponent = ({ pages, paginate }) => {
   const pageNumbers = [];
@@ -9,16 +10,17 @@ const PaginationComponent = ({ pages, paginate }) => {
   }
 
   return (
-    <Pagination>
-      {pageNumbers.map((number) => (
-        <PaginationItem key={number}>
-          <PaginationLink href='#' onClick={() => paginate(number)}>
-            {number}
-          </PaginationLink>
-          ;
-        </PaginationItem>
-      ))}
-    </Pagination>
+    <Div>
+      <Pagination>
+        {pageNumbers.map((number) => (
+          <PaginationItem key={number}>
+            <PaginationLink href='#' onClick={() => paginate(number)}>
+              {number}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+      </Pagination>
+    </Div>
   );
 };
 
