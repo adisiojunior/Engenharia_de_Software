@@ -49,6 +49,7 @@ const RegisterBusiness = () => {
             // eslint-disable-next-line no-underscore-dangle
             setServiceId(response.data.service._id);
           });
+        history.push('/uploadphotos');
       } catch (error) {
         toast.error(
           'Houve um problema com o cadastro do seu negócio. Tente novamente mais tarde'

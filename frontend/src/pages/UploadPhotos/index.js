@@ -4,12 +4,12 @@
 /* eslint-disable react/sort-comp */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-import Upload from '../../../Components/Upload';
-import FileList from '../../../Components/FileList';
-import api from '../../../services/api';
-import { Container, Content } from './styles';
+import Upload from '../../Components/Upload';
+import FileList from '../../Components/FileList';
+import api from '../../services/api';
+import { Container, Content } from '../Register/Business/styles';
 
-class RegisterBusiness extends Component {
+class UploadPhotos extends Component {
   state = {
     uploadedFiles: [],
   };
@@ -118,4 +118,4 @@ class RegisterBusiness extends Component {
   }
 }
 
-export default RegisterBusiness;
+export default UploadPhotos;
