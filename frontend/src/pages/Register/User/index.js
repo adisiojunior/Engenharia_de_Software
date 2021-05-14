@@ -71,7 +71,7 @@ const RegisterUser = () => {
         email,
         selectedDate,
       });
-      history.push('/');
+      window.location.replace('/');
     } catch (error) {
       toast.error(
         `Houve um problema com a edição das informações de cadastro: ${error}`
