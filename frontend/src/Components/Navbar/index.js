@@ -35,6 +35,7 @@ const NavBar = () => {
     api.put('/users/auth/logout');
     logout();
     setModalIsOpen(false);
+    window.location.reload('/');
   };
 
   return (
