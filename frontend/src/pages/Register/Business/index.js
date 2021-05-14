@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-// import Uploady from '@rpldy/uploady';
-// import UploadButton from '@rpldy/upload-button';
-// import UploadPreview from '@rpldy/upload-preview';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from 'react-select';
-import Upload from '../../../Components/Upload';
 import categories from './categories';
 import api from '../../../services/api';
 import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
@@ -32,14 +28,7 @@ const RegisterBusiness = () => {
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    if (
-      !name ||
-      !category ||
-      !street ||
-      !neighborhood ||
-      !description ||
-      !cnpj
-    ) {
+    if (!name || !street || !neighborhood || !description || !cnpj) {
       toast.error(
         'Informe todos os dados do seu negócio para realizar o cadastro'
       );
@@ -142,9 +131,6 @@ const RegisterBusiness = () => {
                 setCnpj(cnpjValue.target.value);
               }}
             />
-          </FormGroup>
-          <FormGroup>
-            <Upload> </Upload>
           </FormGroup>
           <FormButton>
             <ButtonStyle type='submit' outline className='w-10'>
