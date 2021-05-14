@@ -18,6 +18,11 @@ const UserSchema = new mongoose.Schema({
         require: true,
         select: false
     },
+    confirmPassowrd: {
+        type: String,
+        require: true,
+        select: false
+    },
     services: {
         type: Array,
         default: []
