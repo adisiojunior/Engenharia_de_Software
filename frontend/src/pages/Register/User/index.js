@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import DatePicker from 'react-datepicker';
@@ -8,32 +10,37 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
 const RegisterUser = () => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const [name, setName] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [lastName, setLastName] = useState('');
+  const [birthDay, setBirthDay] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    if (!name || !lastname || !email || !password) {
+    if (!name || !lastName || !email || !password) {
       toast.error('Informe todos os seus dados para realizar o cadastro');
     } else {
       try {
-        await api.post('/register', {
-          name,
-          lastname,
-          email,
-          password,
-          confirmPassword,
-        });
-        history.push('/app');
+        api
+          .post('/register', {
+            name,
+            lastName,
+            email,
+            password,
+            birthDay,
+            confirmPassword,
+          })
+          .then((res) => {
+            console.log(res);
+            console.log(res.data);
+          });
       } catch (error) {
         toast.error(
-          'Houve um problema com seu cadastro. Tente novamente mais tarde'
+          'Houve um problema com seu cadastro. Verifique novamente seus dados'
         );
       }
     }
@@ -58,8 +65,8 @@ const RegisterUser = () => {
             <Input
               type='text'
               id='inputLastname'
-              onChange={(lastnameValue) => {
-                setLastname(lastnameValue.target.value);
+              onChange={(lastNameValue) => {
+                setLastName(lastNameValue.target.value);
               }}
             />
           </FormGroup>
@@ -67,8 +74,8 @@ const RegisterUser = () => {
             <Label>Data de Nascimento</Label>
             <br />
             <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
+              selected={birthDay}
+              onChange={(date) => setBirthDay(date)}
               dateFormat='dd/MM/yyyy'
             />
           </FormGroup>

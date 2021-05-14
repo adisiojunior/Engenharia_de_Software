@@ -34,7 +34,7 @@ const RegisterBusiness = () => {
       );
     } else {
       try {
-        await api
+        api
           .post('/services/register', {
             name,
             category,
