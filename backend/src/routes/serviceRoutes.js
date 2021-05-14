@@ -31,6 +31,7 @@ serviceRoutes.use("/services", authMiddleware);
 
 serviceRoutes.post(
   "/services/register",
+  authMiddleware,
   celebrate(
     {
       [Segments.BODY]: Joi.object().keys({

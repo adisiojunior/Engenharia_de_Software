@@ -32,11 +32,11 @@ const Routes = () => (
         path='/registerbusiness'
         component={() => <RegisterBusiness />}
       />
+      <PrivateRoute path='/uploadphotos' component={() => <UploadPhotos />} />
       <PrivateRoute
         path='/service/update/:slug'
         component={() => <UpdateService />}
       />
-      <Route path='/uploadphotos' component={() => <UploadPhotos />} />
       <Route path='/services/:id' component={() => <Services />} />
       <Route path='*' component={() => <h1>Page not found</h1>} />
     </Switch>

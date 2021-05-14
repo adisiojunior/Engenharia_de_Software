@@ -15,6 +15,7 @@ import { FaGlassMartini, FaHeart } from 'react-icons/fa';
 import { MdAdd } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
 import { toast } from 'react-toastify';
+import categories from '../Register/Business/categories';
 import {
   Container,
   SearchDiv,
@@ -46,111 +47,10 @@ const BUTTON_FILTERS = [
   { name: 'Alimentação', icon: <GiKnifeFork /> },
 ];
 
-const FILTER_OPTIONS = ['Beleza', 'Moda', 'Educação', 'Tecnologia'];
-
-const SERVICES = [
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-];
-
 const Home = () => {
   const [searchText, setSearchText] = useState('');
   const [isSelectedFilter, setIsSelectedFilter] = useState(IS_SELECTED_DEFAULT);
-  const [filterOptions, setFilterOptions] = useState([]);
+  const [filterOptions] = useState(categories);
   const [buttonFilters, setButtonFilters] = useState(BUTTON_FILTERS);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -159,14 +59,9 @@ const Home = () => {
   const [wasSearched, setWasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [resultSearch, setResultSearch] = useState(SERVICES);
+  const [resultSearch, setResultSearch] = useState([]);
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    // TODO: change to get this informations from backend
-    setFilterOptions(FILTER_OPTIONS);
-  }, [filterOptions]);
 
   useEffect(() => {}, [buttonFilters]);
 
@@ -184,14 +79,13 @@ const Home = () => {
         )
       );
       api
-        .get(`/services/search?${searchText}&category=${query}`, {
+        .get(`/services/search?name=${searchText}&category=${query}`, {
           isSelectedFilter,
           pages,
           limit: 6,
           currentPage,
         })
         .then((response) => {
-          console.log(response);
           setIsLoading(false);
           setResultSearch(response.data.results);
           setPages(response.data.pages);
@@ -284,7 +178,10 @@ const Home = () => {
             O Micro Explorer te ajuda e você ajuda os pequenos negócios a
             crescer.
             <br />
-            <a href='/registerUser'>Clique aqui</a> e cadastre-se agora!
+            <a href='/registerUser'>
+              <strong>Clique aqui</strong>
+            </a>{' '}
+            e cadastre-se agora!
           </Description>
         </StyledRow>
       </SearchDiv>

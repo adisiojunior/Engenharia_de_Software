@@ -4,6 +4,7 @@ import { FaWhatsapp, FaInstagram } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import api from '../../services/api';
 import { getToken } from '../../services/auth';
 import Footer from '../../Components/Footer';
@@ -40,6 +41,8 @@ import {
   InputnLabel,
   LabelInput,
   Slogan,
+  LabelUserTitle,
+  DivUserRating,
 } from './styles';
 
 const Service = () => {
@@ -52,11 +55,18 @@ const Service = () => {
   const [images, setImages] = useState([]);
   const [description, setDescription] = useState([]);
   const [stars, setStars] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const [allCategories, setAllCategories] = useState([]);
 
-  const chosenCategory = () => {
-    return service.category[
-      Math.floor(Math.random() * service.category.length)
-    ];
+  // const chosenCategory = () => {
+  //   return allCategories[Math.floor(Math.random() * allCategories.length)];
+  // };
+
+  const recommendSideBox = async () => {
+    // const arrayCategory = [chosenCategory()];
+    console.log(allCategories);
+    const res = await api.get(`/services?limit=8&category=[${allCategories}]`);
+    setRecommended(res.data);
   };
 
   useEffect(() => {
@@ -65,25 +75,39 @@ const Service = () => {
         const res = await api.get(`/services/${id}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
+        console.log(res.data.service.editable);
         setService(res.data.service);
         setUserMain(res.data.service.editable);
         setImages(res.data.service.image);
+        setUpdate(!update);
+        console.log(res.data.service);
+        setAllCategories(res.data.service.category);
+        // res.data.service.category.map((category) => {
+        //   if (typeof category === 'string') {
+        //     return allCategories.push(category);
+        //   }
+        //   return null;
+        // })
+        console.log(allCategories);
+        recommendSideBox();
       } catch (error) {
-        history.push();
+        toast.error(error);
       }
     };
 
     fetchService();
   }, []);
 
-  useEffect(() => {
-    const fetchService = async () => {
-      const res = await api.get(`/services?limit=8&category=${chosenCategory}`);
-      setRecommended(res.data);
-    };
-
-    fetchService();
-  }, []);
+  // useEffect(async () => {
+  //   if (service !== []) {
+  //     try {
+  //       const res = await api.get(`/images/${id}`);
+  //       setImages(res);
+  //     } catch (error) {
+  //       toast.error('Erro ao carregar imagem.');
+  //     }
+  //   }
+  // }, [service]);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -92,12 +116,11 @@ const Service = () => {
     };
 
     fetchService();
-  }, []);
-
-  useEffect(() => {}, []);
+  }, [update]);
 
   const handleRate = () => {
     api.post(`/services/${id}/ratings`, { stars, description });
+    setUpdate(!update);
   };
 
   return (
@@ -105,24 +128,26 @@ const Service = () => {
       <Container>
         <Title>{service.name}</Title>
         <CategoryList>
-          {service.category
-            ? service.category.map((name) => (
-                <Category key={name}>{name}</Category>
+          {allCategories
+            ? allCategories.map((serviceNew) => (
+                <Category key={allCategories.indexOf(serviceNew)}>
+                  {serviceNew}
+                </Category>
               ))
             : null}
           <Slogan>{service.slogan}</Slogan>
+          {userMain ? (
+            <EditButton
+              onClick={() => {
+                // eslint-disable-next-line no-underscore-dangle
+                history.push(`/service/update/${service._id}`);
+              }}
+            >
+              <p>Editar</p>
+            </EditButton>
+          ) : null}
         </CategoryList>
 
-        {userMain ? (
-          <EditButton
-            onClick={() => {
-              // eslint-disable-next-line no-underscore-dangle
-              history.push(`/service/update/${service._id}`);
-            }}
-          >
-            <p>Editar</p>
-          </EditButton>
-        ) : null}
         <Info>
           <Photo>
             {service.image ? (
@@ -162,7 +187,7 @@ const Service = () => {
         </Info>
         <Recommended>
           <RecommendedTitle>
-            Outros resultados para {chosenCategory}
+            Outros resultados para {allCategories}
           </RecommendedTitle>
           <hr />
           {recommended
@@ -188,17 +213,24 @@ const Service = () => {
             {rating.map((item) => (
               // eslint-disable-next-line no-underscore-dangle
               <UserRating key={item._id}>
-                <UserInfo>
-                  <span>{item.user}</span>
-                </UserInfo>
-                <span>Descrição</span>
-                <UserComment>{item.description}</UserComment>
+                <DivUserRating>
+                  <LabelUserTitle for='username'>Usuário</LabelUserTitle>
+                  <UserInfo id='username'>
+                    <span>{item.user}</span>
+                  </UserInfo>
+                </DivUserRating>
+                <DivUserRating>
+                  <LabelUserTitle for='description'>Descrição</LabelUserTitle>
+                  <UserComment for='description'>
+                    {item.description}
+                  </UserComment>
+                </DivUserRating>
                 <UserStars>
                   {item.stars}
                   <BsStarFill
                     color='F5CE6A'
-                    size='1.5rem'
-                    style={{ marginLeft: '0.5rem' }}
+                    size='20px'
+                    style={{ marginLeft: '3px', marginBottom: '3px' }}
                   />
                 </UserStars>
               </UserRating>
@@ -217,7 +249,7 @@ const Service = () => {
                   }}
                 />
               </InputnLabel>
-              <InputnLabel width='1 0%'>
+              <InputnLabel width='10%'>
                 <LabelInput for='inputStars'>Nota</LabelInput>
                 <StarsInput
                   type='number'

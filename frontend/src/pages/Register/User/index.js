@@ -21,7 +21,14 @@ const RegisterUser = () => {
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    if (!name || !lastName || !email || !password) {
+    if (
+      !name ||
+      !lastName ||
+      !birthDay ||
+      !email ||
+      !password ||
+      !confirmPassword
+    ) {
       toast.error('Informe todos os seus dados para realizar o cadastro');
     } else {
       try {

@@ -165,17 +165,25 @@ export const RatingPlace = styled.div`
 export const UserRating = styled.div`
   height: 4rem;
   margin-top: 2em;
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
   img {
     height: 100%;
     width: 30%;
   }
 `;
 
+export const DivUserRating = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const UserInfo = styled.div`
-  width: 19%;
+  width: 180px;
   float: left;
   height: 100%;
-  display: flex;
+  display: block;
 
   span {
     width: 100%;
@@ -206,10 +214,21 @@ export const UserStars = styled.div`
 `;
 
 export const EditButton = styled.button`
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  background-color: #ddd;
+  width: 100px;
+  height: auto;
+  margin-left: 80%;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #34669a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    margin: 0;
+    align-self: center;
+  }
 `;
 
 export const InputsAndButtonDiv = styled.div`
@@ -263,4 +282,9 @@ export const RateButton = styled.button`
   height: 48px;
   color: white;
   background: #34669a;
+`;
+
+export const LabelUserTitle = styled(Label)`
+  font-weight: 900;
+  padding-left: 2px;
 `;

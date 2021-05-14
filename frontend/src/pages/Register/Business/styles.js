@@ -18,7 +18,6 @@ export const Register = styled.div`
   background-color: white;
   opacity: 70%;
   padding: 30px;
-  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;

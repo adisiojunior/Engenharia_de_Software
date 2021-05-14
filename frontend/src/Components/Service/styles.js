@@ -5,7 +5,8 @@ export const Div = styled.div`
   justify-self: center;
   align-self: center;
   flex-direction: column-reverse;
-  padding: 10px;
+  padding-top: 15px;
+  padding-left: 10px;
   width: 300px;
   height: 200px;
   overflow: hidden;
@@ -27,14 +28,18 @@ export const Div = styled.div`
   }
 `;
 
+export const TitlenRating = styled.div`
+  position: absolute;
+  z-index: 2;
+`;
+
 export const Title = styled.h4`
+  width: 95%;
   margin-top: 5px;
   color: white;
-  z-index: 2;
 `;
 
 export const Rating = styled.div`
   margin-bottom: 5px;
   color: white;
-  z-index: 2;
 `;

@@ -4,10 +4,13 @@
 /* eslint-disable react/sort-comp */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import filesize from 'filesize';
+import { uniqueId } from 'lodash';
 import Upload from '../../Components/Upload';
 import FileList from '../../Components/FileList';
 import api from '../../services/api';
-import { Container, Content } from '../Register/Business/styles';
+import { Container, Content, ButtonStyle } from '../Register/Business/styles';
 
 class UploadPhotos extends Component {
   state = {
@@ -21,7 +24,7 @@ class UploadPhotos extends Component {
       uploadedFiles: response.data.map((file) => ({
         id: file._id,
         name: file.name,
-        readableSize: 3072,
+        readableSize: filesize(file.size),
         preview: file.url,
         uploaded: true,
         url: file.url,
@@ -32,9 +35,9 @@ class UploadPhotos extends Component {
   handleUpload = (files) => {
     const uploadedFiles = files.map((file) => ({
       file,
-      id: 1,
+      id: uniqueId(),
       name: file.name,
-      readableSize: 3072,
+      readableSize: filesize(file.size),
       preview: URL.createObjectURL(file),
       progress: 0,
       uploaded: false,
@@ -113,6 +116,11 @@ class UploadPhotos extends Component {
             <FileList files={uploadedFiles} onDelete={this.handleDelete} />
           )}
         </Content>
+        <Link to='/'>
+          <ButtonStyle type='link' outline className='w-10'>
+            Voltar
+          </ButtonStyle>
+        </Link>
       </Container>
     );
   }
