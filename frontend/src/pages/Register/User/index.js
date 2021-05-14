@@ -59,8 +59,10 @@ const RegisterUser = (props) => {
   };
 
   const handleUpdateUser = () => {
-    if (!name || !lastname || !email || !password) {
-      toast.error('Informe todos os seus dados para realizar o cadastro');
+    if (!name || !lastname || !email) {
+      toast.error(
+        'Informe todos os seus dados corretamente para realizar a edição das informações de cadastro'
+      );
       return;
     }
     try {
@@ -75,7 +77,9 @@ const RegisterUser = (props) => {
           history.push('/');
         });
     } catch (error) {
-      toast.error(`Houve um problema com sua edição: ${error}`);
+      toast.error(
+        `Houve um problema com a edição das informações de cadastro: ${error}`
+      );
     }
   };
 
