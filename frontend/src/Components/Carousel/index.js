@@ -4,7 +4,6 @@ import {
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
-  CarouselCaption,
 } from 'reactstrap';
 
 const Example = ({ items, imgHeight, imgWidth }) => {
@@ -33,16 +32,12 @@ const Example = ({ items, imgHeight, imgWidth }) => {
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        key={item.src}
+        key={item}
       >
         <img
-          src={item.src}
-          alt={item.altText}
+          src={item}
+          alt={item}
           style={{ height: imgHeight, width: imgWidth }}
-        />
-        <CarouselCaption
-          captionText={item.caption}
-          captionHeader={item.caption}
         />
       </CarouselItem>
     );

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Label } from 'reactstrap';
 
 export const Background = styled.div`
   width: 100%;
@@ -23,14 +24,17 @@ export const CategoryList = styled.div`
   height: auto;
   padding: 10px 0px;
   margin-bottom: 4vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+`;
 
-  span {
-    font-size: 1.2rem;
-    vertical-align: middle;
-  }
+export const Slogan = styled.p`
+  font-size: 24px;
 `;
 
 export const Category = styled.div`
+  margin-top: 5px;
   height: fit-content;
   font-size: 15px;
   font-weight: bold;
@@ -192,7 +196,7 @@ export const UserComment = styled.div`
 `;
 
 export const UserStars = styled.div`
-  width: 7%;
+  width: 6%;
   display: flex;
   height: 100%;
   align-items: flex-end;
@@ -206,4 +210,57 @@ export const EditButton = styled.button`
   width: 40px;
   height: 40px;
   background-color: #ddd;
+`;
+
+export const InputsAndButtonDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+`;
+
+export const InputRatesDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  gap: 10px;
+`;
+
+export const InputnLabel = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: ${(props) => props.width};
+`;
+
+export const LabelInput = styled(Label)`
+  font-weight: 900;
+  padding-left: 2px;
+`;
+
+export const DescriptionInput = styled.input`
+  resize: none;
+  width: 100%;
+  height: 60%;
+  border: none;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+`;
+
+export const StarsInput = styled.input`
+  width: 100%;
+  height: 60%;
+  border: none;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+`;
+
+export const RateButton = styled.button`
+  margin-top: 30px;
+  align-self: center;
+  border: none;
+  border-radius: 10px;
+  width: 90px;
+  height: 48px;
+  color: white;
+  background: #34669a;
 `;

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Services from './pages/Service';
 import RegisterUser from './pages/Register/User';
 import RegisterBusiness from './pages/Register/Business';
+import UploadPhotos from './pages/UploadPhotos';
 import SingIn from './pages/SingIn';
 import Home from './pages/Home';
 import UpdateService from './pages/UpdateService';
@@ -35,6 +36,7 @@ const Routes = () => (
         path='/service/update/:slug'
         component={() => <UpdateService />}
       />
+      <Route path='/uploadphotos' component={() => <UploadPhotos />} />
       <Route path='/services/:id' component={() => <Services />} />
       <Route path='*' component={() => <h1>Page not found</h1>} />
     </Switch>

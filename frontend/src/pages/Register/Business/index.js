@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Uploady from '@rpldy/uploady';
-import UploadButton from '@rpldy/upload-button';
-import UploadPreview from '@rpldy/upload-preview';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from 'react-select';
@@ -29,26 +26,15 @@ const RegisterBusiness = () => {
     if (serviceId !== '') history.push(`/services/${serviceId}`);
   }, [serviceId]);
 
-  const filterBySize = (file) => {
-    return file.size <= 5242880;
-  };
-
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    if (
-      !name ||
-      !category ||
-      !street ||
-      !neighborhood ||
-      !description ||
-      !cnpj
-    ) {
+    if (!name || !street || !neighborhood || !description || !cnpj) {
       toast.error(
         'Informe todos os dados do seu negócio para realizar o cadastro'
       );
     } else {
       try {
-        await api
+        api
           .post('/services/register', {
             name,
             category,
@@ -63,6 +49,7 @@ const RegisterBusiness = () => {
             // eslint-disable-next-line no-underscore-dangle
             setServiceId(response.data.service._id);
           });
+        history.push('/uploadphotos');
       } catch (error) {
         toast.error(
           'Houve um problema com o cadastro do seu negócio. Tente novamente mais tarde'
@@ -145,18 +132,6 @@ const RegisterBusiness = () => {
                 setCnpj(cnpjValue.target.value);
               }}
             />
-          </FormGroup>
-          <FormGroup>
-            <Uploady
-              multiple
-              id='Selecione'
-              destination={{ url: 'my-server.com/upload' }}
-              fileFilter={filterBySize}
-              accept='image/*'
-            >
-              <UploadButton />
-              <UploadPreview />
-            </Uploady>
           </FormGroup>
           <FormButton>
             <ButtonStyle type='submit' outline className='w-10'>
