@@ -184,7 +184,7 @@ module.exports = {
         throw new HttpError("Usuário não cadastrado.", 409);
       }
 
-      return res.send({ name: user.name });
+      return res.send({ user });
     } catch (error) {
       if (!error instanceof HttpError) {
         error = new HttpError(error.message, 500);
