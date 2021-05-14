@@ -13,7 +13,7 @@ const celebrateWithJoiOptions = (schema) => {
 
 const objectIdRegex = new RegExp('^[0-9a-fA-F]{24}$');
 
-ratingRouter.get('/services/:serviceId/ratings', celebrateWithJoiOptions({
+ratingRouter.get('/service/:serviceId/ratings', celebrateWithJoiOptions({
     [Segments.PARAMS] : Joi.object().keys({
         serviceId: Joi.string().pattern(objectIdRegex).required()
     })
