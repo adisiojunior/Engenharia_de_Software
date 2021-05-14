@@ -22,10 +22,6 @@ const RegisterBusiness = () => {
   const [email, setEmail] = useState('');
   const [serviceId, setServiceId] = useState('');
 
-  // Alterar essa parte da imagem
-  // const image =
-  //   'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg';
-
   useEffect(() => {
     if (serviceId !== '') history.push(`/services/${serviceId}`);
   }, [serviceId]);
