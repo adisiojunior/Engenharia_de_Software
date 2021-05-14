@@ -109,7 +109,7 @@ const Service = () => {
           <Photo>
             {service.imgList ? (
               <CarouselComponent
-                items={service.imgList}
+                items={service.image}
                 imgHeight='50vh'
                 imgWidth='48.8vw'
               />
