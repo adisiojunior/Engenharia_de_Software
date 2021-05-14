@@ -23,8 +23,8 @@ const NavBar = () => {
     if (getToken() !== undefined && getToken() !== null)
       try {
         const res = await api.get(`/users/auth/get`);
-        setUserName(res.data.name);
-        setUserId(res.data.id);
+        setUserName(res.data.user.name);
+        setUserId(res.data.user.id);
       } catch (error) {
         toast.error(`Erro encontrado: ${error.message}`);
       }
