@@ -57,7 +57,7 @@ const RegisterUser = () => {
     }
   };
 
-  const handleUpdateUser = () => {
+  const handleUpdateUser = async () => {
     if (!name || !lastname || !email) {
       toast.error(
         'Informe todos os seus dados corretamente para realizar a edição das informações de cadastro'
@@ -65,16 +65,13 @@ const RegisterUser = () => {
       return;
     }
     try {
-      api
-        .post('/users/auth/update', {
-          name,
-          lastname,
-          email,
-          password,
-        })
-        .then(() => {
-          history.push('/');
-        });
+      await api.put('/users/auth/update', {
+        name,
+        lastname,
+        email,
+        selectedDate,
+      });
+      history.push('/');
     } catch (error) {
       toast.error(
         `Houve um problema com a edição das informações de cadastro: ${error}`
