@@ -65,7 +65,7 @@ const RegisterUser = () => {
       return;
     }
     try {
-      api.put('/users/auth/update', {
+      await api.put('/users/auth/update', {
         name,
         lastname,
         email,
@@ -91,7 +91,7 @@ const RegisterUser = () => {
   return (
     <Container>
       <Register>
-        <Form onSubmit={handleSubmit} className='w-75'>
+        <Form className='w-75'>
           <Title>{id ? 'Edição de usuário ' : 'Cadastro do usuário'}</Title>
           <FormGroup>
             <Label>Nome</Label>
@@ -154,7 +154,7 @@ const RegisterUser = () => {
             </>
           )}
           <FormButton>
-            <StyledButton type='submit' outline className='w-10'>
+            <StyledButton onClick={handleSubmit} outline className='w-10'>
               {id ? 'Editar' : 'Cadastrar'}
             </StyledButton>
           </FormButton>
