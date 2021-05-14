@@ -28,11 +28,17 @@ const Routes = () => (
       <Route exact path='/' component={() => <Home />} />
       <Route exact path='/login' component={() => <SingIn />} />
       <Route path='/registeruser' component={() => <RegisterUser />} />
-      <Route path='/registerbusiness' component={() => <RegisterBusiness />} />
-      <Route path='/uploadphotos' component={() => <UploadPhotos />} />
       <Route path='/service/:slug' component={() => <UpdateService />} />
+      <PrivateRoute
+        path='/registerbusiness'
+        component={() => <RegisterBusiness />}
+      />
+      <PrivateRoute path='/uploadphotos' component={() => <UploadPhotos />} />
+      <PrivateRoute
+        path='/service/update/:slug'
+        component={() => <UpdateService />}
+      />
       <Route path='/services/:id' component={() => <Services />} />
-      <PrivateRoute path='/app' component={() => <h1>App</h1>} />
       <Route path='*' component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>

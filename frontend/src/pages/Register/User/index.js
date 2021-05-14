@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import DatePicker from 'react-datepicker';
@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
 const RegisterUser = () => {
-  // const history = useHistory();
+  const history = useHistory();
 
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -34,9 +34,8 @@ const RegisterUser = () => {
             birthDay,
             confirmPassword,
           })
-          .then((res) => {
-            console.log(res);
-            console.log(res.data);
+          .then(() => {
+            history.push('/');
           });
       } catch (error) {
         toast.error(

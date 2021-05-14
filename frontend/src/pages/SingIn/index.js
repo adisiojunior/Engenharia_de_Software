@@ -8,7 +8,6 @@ import { Container, Login, StyledButton, Title, StyledInput } from './styles';
 
 const SingIn = () => {
   const history = useHistory();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,8 +19,9 @@ const SingIn = () => {
     } else {
       try {
         const response = await api.post('/login', { email, password });
-        login(response.data.token);
-        history.push('/app');
+        await login(response.data.userAtt.token);
+        history.push('/');
+        window.location.reload();
       } catch (error) {
         toast.error(`Houve um problema com o login: ${error.error}`);
       }

@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import Upload from '../../Components/Upload';
 import FileList from '../../Components/FileList';
 import api from '../../services/api';
-import { Container, Content } from '../Register/Business/styles';
+import { Container, Content } from './styles';
 
 class UploadPhotos extends Component {
   state = {

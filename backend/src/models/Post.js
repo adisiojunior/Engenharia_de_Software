@@ -1,3 +1,4 @@
+const {SchemaTypes} = require('../database/index')
 const mongoose = require("mongoose");
 const aws = require("aws-sdk");
 const s3 = new aws.S3();
@@ -10,7 +11,15 @@ const PostSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  userId : {
+    type: SchemaTypes.ObjectId,
+    require : true
+  },
+  serviceId : {
+    type: SchemaTypes.ObjectId,
+    require : true
+  },
 });
 
 PostSchema.pre("remove", function() {
