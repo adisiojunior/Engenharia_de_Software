@@ -114,7 +114,7 @@ module.exports = {
                 throw new HttpError('Serviço não cadastrado.', 403);
             }
 
-            const ratings = await Rating.find({ serviceId });
+            const ratings = await Rating.find({ serviceId }).populate('userId');
 
             if (!ratings) {
                 throw new HttpError('Nenhuma avaliação foi encontrada', 409);
