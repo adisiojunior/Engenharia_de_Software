@@ -24,7 +24,8 @@ const NavBar = () => {
       try {
         const res = await api.get(`/users/auth/get`);
         setUserName(res.data.user.name);
-        setUserId(res.data.user.id);
+        // eslint-disable-next-line no-underscore-dangle
+        setUserId(res.data.user._id);
       } catch (error) {
         toast.error(`Erro encontrado: ${error.message}`);
       }
