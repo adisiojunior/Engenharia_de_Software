@@ -14,6 +14,7 @@ const RatingSchema = new Schema({
     },
     userId : {
         type: SchemaTypes.ObjectId,
+        ref: 'User',
         require : true
     },
     serviceId : {

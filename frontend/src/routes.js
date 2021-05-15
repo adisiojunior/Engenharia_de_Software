@@ -40,6 +40,7 @@ const Routes = () => (
         path='/service/update/:slug'
         component={() => <UpdateService />}
       />
+      <PrivateRoute path='/user/edit/:id' component={() => <RegisterUser />} />
       <Route path='/services/:id' component={() => <Services />} />
       <Route path='*' component={() => <h1>Page not found</h1>} />
     </Switch>

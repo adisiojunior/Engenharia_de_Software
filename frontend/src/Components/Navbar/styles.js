@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ModalFooter, ModalBody } from 'reactstrap';
 
 export const StyledImg = styled.img`
   width: 30px;
@@ -19,11 +20,27 @@ export const Div = styled.div`
   align-self: end;
 `;
 
+export const DivServices = styled(ModalBody)`
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  grid-column-gap: 3px;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 24px;
+
+  p {
+    margin-top: 18px;
+    margin-left: 85px;
+    position: absolute;
+  }
+`;
+
 export const Login = styled.button`
   align-items: center;
   justify-content: center;
   margin-right: 1rem;
-  width: 100px;
+  min-width: 140px;
+  width: auto;
   height: 40px;
   color: black;
   border: none;
@@ -54,27 +71,29 @@ export const DivLogout = styled.div`
 `;
 
 export const LogoutButton = styled.button`
-  width: 100px;
+  width: 150px;
   height: 40px;
+  padding: 5px;
   align-self: end;
   color: white;
   background: #f87c7c;
   border: none;
   border-radius: 5px;
 `;
-export const CreateButton = styled.button`
+
+export const ModalTitle = styled.h4`
+  margin-top: 5px;
+  align-self: center;
+`;
+
+export const ServiceButton = styled.button`
+  margin-top: 8px;
   width: 130px;
   height: 40px;
-  align-self: end;
   color: white;
   background: #61c4e3;
   border: none;
   border-radius: 5px;
-  transition: 0.2s;
-
-  :hover {
-    filter: 0.2;
-  }
 
   a {
     width: 100%;
@@ -82,4 +101,26 @@ export const CreateButton = styled.button`
     text-decoration: none;
     color: white;
   }
+`;
+export const CreateButton = styled.button`
+  width: 130px;
+  height: 40px;
+  color: white;
+  background: #61c4e3;
+  border: none;
+  border-radius: 5px;
+
+  a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+  }
+`;
+
+export const NewModalFooter = styled(ModalFooter)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;

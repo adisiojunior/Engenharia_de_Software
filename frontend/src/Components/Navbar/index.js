@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import {
   Container,
@@ -5,46 +6,48 @@ import {
   NavbarBrand,
   NavbarToggler,
   Modal,
-  ModalBody,
-  ModalFooter,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import LogoMicroExplorer from '../../assets/LOGO MICRO EXPLORER 04.png';
-import { StyledImg, Div, Login, LogoutButton, CreateButton } from './styles';
+import {
+  StyledImg,
+  Div,
+  Login,
+  LogoutButton,
+  CreateButton,
+  NewModalFooter,
+  DivServices,
+  ServiceButton,
+  ModalTitle,
+} from './styles';
 import { getToken, logout } from '../../services/auth';
 import api from '../../services/api';
 
 const NavBar = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [userName, setUserName] = useState('');
-  // const [services, setServices] = useState();
+  const [userId, setUserId] = useState('');
+  const [userServices, setUserServices] = useState([]);
 
   useEffect(async () => {
     if (getToken() !== undefined && getToken() !== null)
       try {
         const res = await api.get(`/users/auth/get`);
-        setUserName(res.data.name);
+        setUserName(res.data.user.name);
+        setUserId(res.data.user._id);
+        const response = await api.get('/getServicesByUser');
+        setUserServices(response.data.result);
       } catch (error) {
         toast.error(`Erro encontrado: ${error.message}`);
       }
   }, [modalIsOpen, userName]);
 
-  // useEffect(async () => {
-  //   const token = await getToken();
-  //   if (token !== null && token !== undefined) {
-  //     try {
-  //       const res = await api.get(`/users/auth/get`);
-  //       setUserName(res.data.name);
-  //     } catch (error) {
-  //       toast.error(`Erro encontrado: ${error.message}`);
-  //     }
-  //   }
-  // }, [userStatus]);
-
   const handleLogout = () => {
     api.put('/users/auth/logout');
     logout();
     setModalIsOpen(false);
+    toast.success('Sessão encerrada.');
+    window.location.reload('/');
   };
 
   return (
@@ -73,12 +76,13 @@ const NavBar = () => {
             </a>
           ) : (
             <Login type='button' onClick={() => setModalIsOpen(!modalIsOpen)}>
-              <strong>{userName}</strong>
+              <strong>{userName || 'Entrar'}</strong>
             </Login>
           )}
         </div>
         <Modal isOpen={modalIsOpen} toggle={() => setModalIsOpen(!modalIsOpen)}>
           <div className='modal-header justify-content-center'>
+            <ModalTitle>Serviços</ModalTitle>
             <button
               type='button'
               className='close'
@@ -89,19 +93,30 @@ const NavBar = () => {
               <span aria-hidden='true'>×</span>
             </button>
           </div>
-          <ModalBody>
-            <div>
-              {}
-              <a href='/registerbusiness'>
-                <CreateButton type='button'>+ Criar Negócio</CreateButton>
-              </a>
-            </div>
-          </ModalBody>
-          <ModalFooter>
+          <DivServices>
+            {userServices.length > 0 ? (
+              userServices.map((service) => {
+                return (
+                  <a href={`/services/${service._id}`}>
+                    <ServiceButton type='button'>{service.name}</ServiceButton>
+                  </a>
+                );
+              })
+            ) : (
+              <p>Você não possui serviços cadastrados.</p>
+            )}
+          </DivServices>
+          <NewModalFooter>
+            <a href='/registerbusiness'>
+              <CreateButton type='button'>+ Criar Negócio</CreateButton>
+            </a>{' '}
+            <a href={`/user/edit/${userId}`}>
+              <CreateButton type='button'>Editar Perfil</CreateButton>
+            </a>
             <LogoutButton type='button' onClick={handleLogout}>
-              Deslogar
+              Encerrar sessão
             </LogoutButton>
-          </ModalFooter>
+          </NewModalFooter>
         </Modal>
       </Div>
     </Navbar>

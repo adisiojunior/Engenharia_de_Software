@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import DatePicker from 'react-datepicker';
@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Container, Title, StyledButton, Register, FormButton } from './styles';
 
 const RegisterUser = () => {
+  const { id } = useParams();
   const history = useHistory();
 
   const [name, setName] = useState('');
@@ -19,8 +20,22 @@ const RegisterUser = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleRegisterUser = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (id) {
+      try {
+        api.get('/users/auth/get').then((result) => {
+          setName(result.data.user.name);
+          setLastName(result.data.user.lastName);
+          setBirthDay(result.data.user.birthDay);
+          setEmail(result.data.user.email);
+        });
+      } catch (error) {
+        toast.error(`Não foi possível encontrar usuário: ${error}`);
+      }
+    }
+  }, []);
+
+  const handleRegisterUser = async () => {
     if (
       !name ||
       !lastName ||
@@ -42,7 +57,7 @@ const RegisterUser = () => {
             confirmPassword,
           })
           .then(() => {
-            history.push('/');
+            history.push('/login');
           });
       } catch (error) {
         toast.error(
@@ -51,16 +66,49 @@ const RegisterUser = () => {
       }
     }
   };
+
+  const handleUpdateUser = async () => {
+    if (!name || !lastName || !email) {
+      toast.error(
+        'Informe todos os seus dados corretamente para realizar a edição das informações de cadastro'
+      );
+      return;
+    }
+    try {
+      await api.put('/users/auth/update', {
+        name,
+        lastName,
+        email,
+        birthDay,
+      });
+      toast.success('Alterações realizadas com sucesso.');
+      window.location.replace('/');
+    } catch (error) {
+      toast.error(
+        `Houve um problema com a edição das informações de cadastro: ${error}`
+      );
+    }
+  };
+
+  const handleSubmit = () => {
+    if (id) {
+      handleUpdateUser();
+    } else {
+      handleRegisterUser();
+    }
+  };
+
   return (
     <Container>
       <Register>
-        <Form onSubmit={handleRegisterUser} className='w-75'>
-          <Title>Cadastro do usuário</Title>
+        <Form className='w-75'>
+          <Title>{id ? 'Edição de usuário ' : 'Cadastro do usuário'}</Title>
           <FormGroup>
             <Label>Nome</Label>
             <Input
               type='text'
               id='inputName'
+              value={name}
               onChange={(nameValue) => {
                 setName(nameValue.target.value);
               }}
@@ -71,8 +119,9 @@ const RegisterUser = () => {
             <Input
               type='text'
               id='inputLastname'
-              onChange={(lastNameValue) => {
-                setLastName(lastNameValue.target.value);
+              value={lastName}
+              onChange={(lastnameValue) => {
+                setLastName(lastnameValue.target.value);
               }}
             />
           </FormGroup>
@@ -90,6 +139,7 @@ const RegisterUser = () => {
             <Input
               type='email'
               id='inputEmail'
+              value={email}
               onChange={(emailValue) => {
                 setEmail(emailValue.target.value);
               }}
@@ -116,16 +166,18 @@ const RegisterUser = () => {
             />
           </FormGroup>
           <FormButton>
-            <StyledButton type='submit' outline className='w-10'>
-              Cadastrar
+            <StyledButton onClick={handleSubmit} outline className='w-10'>
+              {id ? 'Concluir' : 'Cadastrar'}
             </StyledButton>
           </FormButton>
         </Form>
-        <Link to='/RegisterBusiness'>
-          <StyledButton type='submit' outline className='w-10'>
-            Cadastrar Empresa
-          </StyledButton>
-        </Link>
+        {!id && (
+          <Link to='/RegisterBusiness'>
+            <StyledButton type='submit' outline className='w-10'>
+              Cadastrar Empresa
+            </StyledButton>
+          </Link>
+        )}
       </Register>
     </Container>
   );
