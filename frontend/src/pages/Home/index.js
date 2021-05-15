@@ -11,7 +11,7 @@ import {
   Button,
 } from 'reactstrap';
 import { GiTrowel, GiKnifeFork, GiFlowerEmblem } from 'react-icons/gi';
-import { FaGlassMartini, FaHeart } from 'react-icons/fa';
+import { FaGlassMartini, FaSuitcase } from 'react-icons/fa';
 import { MdAdd } from 'react-icons/md';
 import { BsSearch } from 'react-icons/bs';
 import { toast } from 'react-toastify';
@@ -46,105 +46,198 @@ const BUTTON_FILTERS = [
   { name: 'Alimentação', icon: <GiKnifeFork /> },
 ];
 
-const FILTER_OPTIONS = ['Beleza', 'Moda', 'Educação', 'Tecnologia'];
-
-const SERVICES = [
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
-  {
-    name: 'Teste',
-    image:
-      'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg',
-    rating: '4',
-  },
+const FILTER_OPTIONS = [
+  'Agricultura',
+  'Jardinagem',
+  'Animais',
+  'Beleza',
+  'Casa',
+  'Construção',
+  'Decoração',
+  'Comunicação',
+  'Artes',
+  'Festas',
+  'Eventos',
+  'Ensino',
+  'Moda',
+  'Saúde',
+  'Esportes',
+  'Telefonia',
+  'Informática',
+  'Variedades',
+  'Veículos',
+  'Viagem',
+  'Turismo',
+  'Outros Serviços',
+  'Ferramentas',
+  'Produtos Agrícolas',
+  'Serviços de poda',
+  'Jardinagem',
+  'Açogue',
+  'Frigorífico',
+  'Bar',
+  'Bolos',
+  'Doces',
+  'Tortas',
+  'Bomboniere',
+  'Buffet',
+  'Cestas para café da manhã',
+  'Cozinheiro(a)',
+  'Distribuidor de água',
+  'Conveniência',
+  'Bebidas em geral',
+  'Espetinhos',
+  'Hamburgueria',
+  'Hortifruti',
+  'Lanches e salgados',
+  'Marmitas',
+  'Quentinhas',
+  'Padaria',
+  'Pescados',
+  'Pizzaria',
+  'Polpas de fruta',
+  'Produtos naturais',
+  'Orgânicos',
+  'Queijeiro(a)',
+  'Mantegueiro(a)',
+  'Quiosque',
+  'Restaurante',
+  'Sorveteria',
+  'Açaiteria',
+  'Supermercado',
+  'Mini-box',
+  'Suplementos alimentares',
+  'Banho de animais domésticos',
+  'Tosa de animais domésticos',
+  'Clínica Veterinária',
+  'Pet Shop',
+  'Ração',
+  'Barbearia',
+  'Cabeleireiro(a)',
+  'Depilação',
+  'Designer de sobrancelhas',
+  'Estética',
+  'Manicure',
+  'Peticure',
+  'Maquiador(a)',
+  'Perfumaria',
+  'Cosméticos',
+  'Produtos de beleza',
+  'Artigos de cama mesa e banho',
+  'Carpinteiro',
+  'Cerâmica',
+  'Chaveiro',
+  'Decoração',
+  'Distribuidor de gás de cozinha',
+  'Eletricista',
+  'Eletrodomésticos',
+  'Eletroeletrônicos',
+  'Encanador',
+  'Estofador',
+  'Ferreiro',
+  'Gesseiro',
+  'Instalação de antenas de TV',
+  'Lavador(a) de colchões e estofados',
+  'Madeireira',
+  'Manutenção de eletrodomésticos',
+  'Marceneiro',
+  'Material de construção',
+  'Material elétrico',
+  'Hidráulico',
+  'Movelaria',
+  'Montador de móveis',
+  'Pedreiro',
+  'Pintos de parede',
+  'Produtos de limpeza',
+  'Reparo de máquinas e aparelhos de refrigeração',
+  'Serralharia',
+  'Vidraçaria',
+  'Artista plástico',
+  'Designer gráfico',
+  'Editor de jornais',
+  'Assessor(a) de imprensa',
+  'Editor(a) de vídeos',
+  'Fotografo(a)',
+  'Freelancer',
+  'Gráfica',
+  'Impressão digital',
+  'Locutor(a)',
+  'Manutenção de TV',
+  'Manutenção de rádio',
+  'Manutenção de som',
+  'Produtor(a) de conteúdo digital',
+  'Serigrafia',
+  'Servios de marketing',
+  'Web designer',
+  'Animador de festa infantil',
+  'Artigos para festas',
+  'Cantor(a)',
+  'Banda Musical',
+  'Instrumentista',
+  'Musicista',
+  'Salão de festas',
+  'Salão de jogos',
+  'Instrutor(a) de cursos preparatórios',
+  'Instrutor(a) de dança',
+  'Instrutor(a) de música',
+  'Professor(a) particular',
+  'Revisor(a) de trabalhos acadêmicos',
+  'Aluguel de vestuário social',
+  'Bijuterias',
+  'Jóias e semi-jóias',
+  'Bolsas e acessórios',
+  'Calçados',
+  'Costureira',
+  'Relojoeiro(a)',
+  'Roupas íntimas e acessórios',
+  'Sapateiro(a)',
+  'Tecidos e aviamentos',
+  'Vestuário e acessórios',
+  'Academia',
+  'Artigos esportivos',
+  'Clínica Médica',
+  'Clínica Odontológica',
+  'Farmácia',
+  'Laboratório de análises clínicas',
+  'Ótica',
+  'Profissional de saúde',
+  'Serviços de prótese dentária',
+  'Celular e acessórios',
+  'Lan House',
+  'Manutenção de celular',
+  'Manutenção de computador',
+  'Suprimentos de informática',
+  'Artesanato',
+  'Artigos de papelaria e escritório',
+  'Brinquedos e artigos infantis',
+  'Loja de variedades',
+  'Promotor(a) de vendas',
+  'Utilidades domésticas',
+  'Adesivagem',
+  'Bicicletas',
+  'Borracharia',
+  'Caminhoneiro(a)',
+  'Funileiro',
+  'Lanterneiro',
+  'Lava a jato',
+  'Moto-táxi',
+  'Oficina mecânica',
+  'Peças e acessórios para veículos',
+  'Pintor de veículos',
+  'Posto de combustível',
+  'Táxi',
+  'Transportador de mudanças',
+  'Transporte alternativo',
+  'Transporte escolar',
+  'Aluguel de veículos',
+  'Guia turístico',
+  'Hotel',
+  'Malas e artigos de viagem',
+  'Pousada',
+  'Restaurante',
+  'Certificadora',
+  'Escritório de advocacia',
+  'Escritório de contabilidade',
 ];
 
 const Home = () => {
@@ -159,7 +252,7 @@ const Home = () => {
   const [wasSearched, setWasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [resultSearch, setResultSearch] = useState(SERVICES);
+  const [resultSearch, setResultSearch] = useState([]);
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -223,7 +316,7 @@ const Home = () => {
       setFilter(newFilter);
       setButtonFilters([
         ...buttonFilters,
-        { name: newFilter, icon: <FaHeart /> },
+        { name: newFilter, icon: <FaSuitcase /> },
       ]);
       setModalIsOpen(!modalIsOpen);
     } else {
