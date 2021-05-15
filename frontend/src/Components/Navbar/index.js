@@ -103,7 +103,11 @@ const NavBar = () => {
                 );
               })
             ) : (
-              <p>Você não possui serviços cadastrados.</p>
+              <div>
+                <p>
+                  Se você possui algum serviço cadastrado, espere um momento.
+                </p>
+              </div>
             )}
           </DivServices>
           <NewModalFooter>

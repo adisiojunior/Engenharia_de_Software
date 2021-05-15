@@ -24,14 +24,20 @@ export const DivServices = styled(ModalBody)`
   display: grid;
   grid-template-columns: 2fr 2fr 2fr;
   grid-column-gap: 3px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-left: 24px;
 
   p {
-    margin-top: 18px;
-    margin-left: 85px;
+    margin-left: -12px;
     position: absolute;
+  }
+
+  div {
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 40px;
   }
 `;
 
@@ -94,13 +100,8 @@ export const ServiceButton = styled.button`
   background: #61c4e3;
   border: none;
   border-radius: 5px;
-
-  a {
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    color: white;
-  }
+  font-weight: 600;
+  font-size: 13px;
 `;
 export const CreateButton = styled.button`
   width: 130px;
