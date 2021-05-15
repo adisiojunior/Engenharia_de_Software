@@ -115,9 +115,12 @@ const Service = () => {
   }, [update]);
 
   const handleRate = () => {
-    api.post(`/services/${id}/ratings`, { stars, description });
-    setUpdate(!update);
-    window.location.reload(`/services/${id}`);
+    if (stars > 0 && stars <= 5) {
+      api.post(`/services/${id}/ratings, { stars, description }`);
+      setUpdate(!update);
+      window.location.reload(`/services/${id}`);
+    }
+    toast.error('O campo de nota está com um valor inválido.');
   };
 
   return (
