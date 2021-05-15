@@ -16,16 +16,16 @@ import {
   Address,
   Contacts,
   Details,
-  Highlights,
+  // Highlights,
   Info,
   Photo,
-  Recommended,
+  // Recommended,
   Category,
   CategoryList,
-  RecommendedRating,
+  // RecommendedRating,
   UserInfo,
-  RecommendedName,
-  RecommendedTitle,
+  // RecommendedName,
+  // RecommendedTitle,
   Rating,
   RatingTitle,
   UserRating,
@@ -43,6 +43,7 @@ import {
   Slogan,
   LabelUserTitle,
   DivUserRating,
+  DivUsernDescription,
 } from './styles';
 
 const Service = () => {
@@ -50,7 +51,7 @@ const Service = () => {
   const history = useHistory();
   const { id } = useParams();
   const [service, setService] = useState([]);
-  const [recommended, setRecommended] = useState([]);
+  // const [recommended, setRecommended] = useState([]);
   const [rating, setRating] = useState([]);
   const [images, setImages] = useState([]);
   const [description, setDescription] = useState([]);
@@ -62,12 +63,12 @@ const Service = () => {
   //   return allCategories[Math.floor(Math.random() * allCategories.length)];
   // };
 
-  const recommendSideBox = async () => {
-    // const arrayCategory = [chosenCategory()];
-    console.log(allCategories);
-    const res = await api.get(`/services?limit=8&category=[${allCategories}]`);
-    setRecommended(res.data);
-  };
+  // const recommendSideBox = async () => {
+  //   // const arrayCategory = [chosenCategory()];
+  //   console.log(allCategories);
+  //   const res = await api.get(`/services?limit=8&category=[${allCategories}]`);
+  //   setRecommended(res.data);
+  // };
 
   useEffect(() => {
     const fetchService = async () => {
@@ -75,12 +76,10 @@ const Service = () => {
         const res = await api.get(`/services/${id}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
-        console.log(res.data.service.editable);
         setService(res.data.service);
         setUserMain(res.data.service.editable);
         setImages(res.data.service.image);
         setUpdate(!update);
-        console.log(res.data.service);
         setAllCategories(res.data.service.category);
         // res.data.service.category.map((category) => {
         //   if (typeof category === 'string') {
@@ -89,7 +88,7 @@ const Service = () => {
         //   return null;
         // })
         console.log(allCategories);
-        recommendSideBox();
+        // recommendSideBox();
       } catch (error) {
         toast.error(error);
       }
@@ -113,6 +112,7 @@ const Service = () => {
     const fetchService = async () => {
       const res = await api.get(`/services/${id}/ratings`);
       setRating(res.data.ratings);
+      console.log(rating);
     };
 
     fetchService();
@@ -185,7 +185,7 @@ const Service = () => {
             <MdLocationOn /> {service.street},{service.neighborhood}
           </Address>
         </Info>
-        <Recommended>
+        {/* <Recommended>
           <RecommendedTitle>
             Outros resultados para {allCategories}
           </RecommendedTitle>
@@ -193,7 +193,7 @@ const Service = () => {
           {recommended
             ? recommended.map((item) => (
                 <Highlights key={item}>
-                  <RecommendedName>{item.name}</RecommendedName>
+                  <RecommendedName>{item.userId}</RecommendedName>
                   <RecommendedRating>
                     {item.vote_average}
                     <BsStarFill
@@ -205,7 +205,7 @@ const Service = () => {
                 </Highlights>
               ))
             : null}
-        </Recommended>
+        </Recommended> */}
         <Rating>
           <RatingTitle>Avaliações dos Clientes</RatingTitle>
           <hr />
@@ -213,18 +213,20 @@ const Service = () => {
             {rating.map((item) => (
               // eslint-disable-next-line no-underscore-dangle
               <UserRating key={item._id}>
-                <DivUserRating>
-                  <LabelUserTitle for='username'>Usuário</LabelUserTitle>
-                  <UserInfo id='username'>
-                    <span>{item.user}</span>
-                  </UserInfo>
-                </DivUserRating>
-                <DivUserRating>
-                  <LabelUserTitle for='description'>Descrição</LabelUserTitle>
-                  <UserComment for='description'>
-                    {item.description}
-                  </UserComment>
-                </DivUserRating>
+                <DivUsernDescription>
+                  <DivUserRating>
+                    <LabelUserTitle for='username'>Usuário</LabelUserTitle>
+                    <UserInfo id='username'>
+                      <span>{item.user}</span>
+                    </UserInfo>
+                  </DivUserRating>
+                  <DivUserRating>
+                    <LabelUserTitle for='description'>Descrição</LabelUserTitle>
+                    <UserComment for='description'>
+                      {item.description}
+                    </UserComment>
+                  </DivUserRating>
+                </DivUsernDescription>
                 <UserStars>
                   {item.stars}
                   <BsStarFill

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Form, FormGroup, Input, Label, FormText } from 'reactstrap';
+import { Form, FormGroup, Input, Label } from 'reactstrap';
+import Select from 'react-select';
 import { toast } from 'react-toastify';
+import categories from '../Register/Business/categories';
 import {
   Container,
   Register,
@@ -20,7 +22,6 @@ const UpdateService = () => {
   const [description, setDescription] = useState('');
   const [slogan, setSlogan] = useState('');
   const [cnpj, setCnpj] = useState('');
-  const [image, setImage] = useState('');
   const history = useHistory();
 
   useEffect(async () => {
@@ -28,9 +29,10 @@ const UpdateService = () => {
     const fetchService = async () => {
       try {
         const res = await api.get(`/services/${slug}`);
-        setName(res.data.service.name);
+
         setCategory(res.data.service.category);
-        setImage(res.data.service.image);
+        console.log(category);
+        setName(res.data.service.name);
         setStreet(res.data.service.street);
         setNeighborhood(res.data.service.neighborhood);
         setDescription(res.data.service.description);
@@ -60,18 +62,16 @@ const UpdateService = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/posts');
-      await api.put(`/services/${slug}`, {
+      await api.put(`/services/update/${slug}`, {
         name,
         category,
-        image,
         street,
         neighborhood,
         description,
         slogan,
         cnpj,
       });
-      return useHistory(`/services/${slug}`);
+      return useHistory(`/uploadphotos/${slug}`);
     } catch (error) {
       return toast.error('Erro na atualização dos dados de comércio.');
     }
@@ -105,30 +105,17 @@ const UpdateService = () => {
             />
           </FormGroup>
           <FormGroup>
-            <Label for='inputCategoria'>Categoria</Label>
-            <Input
-              type='text'
-              id='inputCategoria'
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-              }}
+            <Label>Categoria</Label>
+            <Select
+              isMulti
+              name='categories'
+              options={categories}
+              onChange={setCategory}
+              className='basic-multi-select'
+              classNamePrefix='select'
+              placeholder='Selecione'
+              isSearchable
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for='inputImage'>Imagem</Label>
-            <Input
-              type='file'
-              name='file'
-              id='inputImage'
-              onChange={(e) => {
-                setImage(e.target.value);
-              }}
-            />
-            <FormText color='muted'>
-              Selecione o arquivo png ou jpeg da imagem do seu
-              estabelecimento/serviço.
-            </FormText>
           </FormGroup>
           <FormGroup>
             <Label for='inputStreet'>Rua</Label>
@@ -209,7 +196,7 @@ const UpdateService = () => {
           </FormGroup> */}
           <FormGroup>
             <ButtonStyle type='submit' outline className='w-100'>
-              Atualizar
+              Continuar
             </ButtonStyle>
             <ButtonDeleteStyle
               type='button'

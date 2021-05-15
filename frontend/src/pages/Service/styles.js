@@ -174,6 +174,12 @@ export const UserRating = styled.div`
   }
 `;
 
+export const DivUsernDescription = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 export const DivUserRating = styled.div`
   display: flex;
   flex-direction: column;

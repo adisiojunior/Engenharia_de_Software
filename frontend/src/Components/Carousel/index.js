@@ -26,12 +26,12 @@ const Example = ({ items, imgHeight, imgWidth }) => {
     if (animating) return;
     setActiveIndex(newIndex);
   };
-
   const slides = items.map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
+        // eslint-disable-next-line no-underscore-dangle
         key={item}
       >
         <img
