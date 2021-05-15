@@ -68,7 +68,6 @@ const Service = () => {
   //   const res = await api.get(`/services?limit=8&category=[${allCategories}]`);
   //   setRecommended(res.data);
   // };
-
   useEffect(() => {
     const fetchService = async () => {
       try {
@@ -77,6 +76,7 @@ const Service = () => {
         });
         setService(res.data.service);
         setUserMain(res.data.service.editable);
+        console.log(service);
         setUpdate(!update);
         setAllCategories(res.data.service.category);
         // res.data.service.category.map((category) => {
@@ -115,9 +115,14 @@ const Service = () => {
   }, [update]);
 
   const handleRate = () => {
-    api.post(`/services/${id}/ratings`, { stars, description });
-    setUpdate(!update);
-    window.location.reload(`/services/${id}`);
+    console.log(stars, description);
+    if (stars > 0 && stars <= 5) {
+      api.post(`/services/${id}/ratings`, { stars, description }).then(() => {
+        setUpdate(!update);
+        window.location.reload(`/services/${id}`);
+      });
+    }
+    toast.error('O campo de nota está com um valor inválido.');
   };
 
   return (
