@@ -52,7 +52,7 @@ export const Category = styled.div`
 export const Info = styled.div`
   background-color: #ffffff;
   height: 65vh;
-  width: 65vw;
+  width: 97.5%;
   box-shadow: 1px 2px 5px #888888;
   padding: 1em;
   float: left;
@@ -78,6 +78,7 @@ export const Details = styled.div`
 
 export const Contacts = styled.div`
   grid-area: Contato;
+  padding-left: 50px;
   padding-top: 5%;
 
   .h5 {
@@ -87,6 +88,7 @@ export const Contacts = styled.div`
 
 export const Address = styled.div`
   grid-area: Locals;
+  padding-left: 50px;
   padding-top: 10%;
 `;
 
@@ -147,7 +149,6 @@ export const Rating = styled.div`
 
 export const RatingTitle = styled.div`
   font-weight: 900;
-  padding-left: 2%;
   hr {
     margin-top: 5%;
     margin-bottom: 5%;
@@ -164,10 +165,11 @@ export const RatingPlace = styled.div`
 
 export const UserRating = styled.div`
   height: 4rem;
-  margin-top: 2em;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   gap: 60px;
+  justify-content: space-between;
   img {
     height: 100%;
     width: 30%;
@@ -206,7 +208,7 @@ export const UserComment = styled.div`
   display: flex;
   align-items: center;
   padding-left: 1rem;
-  font-weight: 500;
+  font-weight: 400;
 `;
 
 export const UserStars = styled.div`
@@ -222,7 +224,7 @@ export const UserStars = styled.div`
 export const EditButton = styled.button`
   width: 100px;
   height: auto;
-  margin-left: 80%;
+  margin-left: 78.4%;
   font-size: 15px;
   border: none;
   border-radius: 10px;

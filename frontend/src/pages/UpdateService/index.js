@@ -31,7 +31,6 @@ const UpdateService = () => {
         const res = await api.get(`/services/${slug}`);
 
         setCategory(res.data.service.category);
-        console.log(category);
         setName(res.data.service.name);
         setStreet(res.data.service.street);
         setNeighborhood(res.data.service.neighborhood);

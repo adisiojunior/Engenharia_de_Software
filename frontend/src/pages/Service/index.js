@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { BsStarFill } from 'react-icons/bs';
 import { MdLocationOn } from 'react-icons/md';
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa';
@@ -8,7 +9,6 @@ import { toast } from 'react-toastify';
 import api from '../../services/api';
 import { getToken } from '../../services/auth';
 import Footer from '../../Components/Footer';
-import CarouselComponent from '../../Components/Carousel';
 import {
   Background,
   Container,
@@ -85,7 +85,6 @@ const Service = () => {
         //   }
         //   return null;
         // })
-        console.log(allCategories);
         // recommendSideBox();
       } catch (error) {
         toast.error(error);
@@ -108,17 +107,19 @@ const Service = () => {
 
   useEffect(() => {
     const fetchService = async () => {
-      const res = await api.get(`/services/${id}/ratings`);
+      const res = await api.get(`/service/${id}/ratings`);
+      console.log(res);
       setRating(res.data.ratings);
-      console.log(rating);
     };
 
     fetchService();
   }, [update]);
 
   const handleRate = () => {
+    console.log(stars, description);
     api.post(`/services/${id}/ratings`, { stars, description });
     setUpdate(!update);
+    window.location.reload(`/services/${id}`);
   };
 
   return (
@@ -129,7 +130,7 @@ const Service = () => {
           {allCategories
             ? allCategories.map((serviceNew) => (
                 <Category key={allCategories.indexOf(serviceNew)}>
-                  {serviceNew}
+                  {serviceNew.label}
                 </Category>
               ))
             : null}
@@ -205,31 +206,35 @@ const Service = () => {
           <hr />
           <RatingPlace>
             {rating.map((item) => (
-              // eslint-disable-next-line no-underscore-dangle
-              <UserRating key={item._id}>
-                <DivUsernDescription>
-                  <DivUserRating>
-                    <LabelUserTitle for='username'>Usuário</LabelUserTitle>
-                    <UserInfo id='username'>
-                      <span>{item.user}</span>
-                    </UserInfo>
-                  </DivUserRating>
-                  <DivUserRating>
-                    <LabelUserTitle for='description'>Descrição</LabelUserTitle>
-                    <UserComment for='description'>
-                      {item.description}
-                    </UserComment>
-                  </DivUserRating>
-                </DivUsernDescription>
-                <UserStars>
-                  {item.stars}
-                  <BsStarFill
-                    color='F5CE6A'
-                    size='20px'
-                    style={{ marginLeft: '3px', marginBottom: '3px' }}
-                  />
-                </UserStars>
-              </UserRating>
+              <>
+                <UserRating key={item._id}>
+                  <DivUsernDescription>
+                    <DivUserRating>
+                      <LabelUserTitle for='username'>Usuário</LabelUserTitle>
+                      <UserInfo id='username'>
+                        <span>{item.userId.name}</span>
+                      </UserInfo>
+                    </DivUserRating>
+                    <DivUserRating>
+                      <LabelUserTitle for='description'>
+                        Descrição
+                      </LabelUserTitle>
+                      <UserComment for='description'>
+                        {item.description}
+                      </UserComment>
+                    </DivUserRating>
+                  </DivUsernDescription>
+                  <UserStars>
+                    {item.stars}
+                    <BsStarFill
+                      color='F5CE6A'
+                      size='20px'
+                      style={{ marginLeft: '3px', marginBottom: '3px' }}
+                    />
+                  </UserStars>
+                </UserRating>
+                <hr />
+              </>
             ))}
           </RatingPlace>
           <hr />
@@ -249,6 +254,9 @@ const Service = () => {
                 <LabelInput for='inputStars'>Nota</LabelInput>
                 <StarsInput
                   type='number'
+                  min={1}
+                  max={5}
+                  placeholder='1 - 5'
                   id='inputStars'
                   onChange={(starsValue) => {
                     setStars(starsValue.target.value);

@@ -18,7 +18,6 @@ const SingIn = () => {
       toast.error('Informe um e-mail e uma senha para efetuar login.');
     } else {
       try {
-        console.log(email, password);
         const response = await api.post('/login', { email, password });
         login(response.data.userAtt.token);
         history.push('/');
