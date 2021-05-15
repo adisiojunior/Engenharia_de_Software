@@ -53,7 +53,6 @@ const Service = () => {
   const [service, setService] = useState([]);
   // const [recommended, setRecommended] = useState([]);
   const [rating, setRating] = useState([]);
-  const [images, setImages] = useState([]);
   const [description, setDescription] = useState([]);
   const [stars, setStars] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -78,7 +77,6 @@ const Service = () => {
         });
         setService(res.data.service);
         setUserMain(res.data.service.editable);
-        setImages(res.data.service.image);
         setUpdate(!update);
         setAllCategories(res.data.service.category);
         // res.data.service.category.map((category) => {
@@ -151,11 +149,7 @@ const Service = () => {
         <Info>
           <Photo>
             {service.image ? (
-              <CarouselComponent
-                items={images}
-                imgHeight='50vh'
-                imgWidth='48.8vw'
-              />
+              <img src={service.image} alt={service.name} />
             ) : null}
           </Photo>
           <Contacts>
