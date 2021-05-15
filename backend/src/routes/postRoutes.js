@@ -17,11 +17,9 @@ postRoutes.use(authMiddleware);
 
 postRoutes.post("/image/:serviceId", multer(multerConfig).single("file"), authMiddleware, postController.create);
 
-postRoutes.get("/images/:serviceId", multer(multerConfig).single("file"), postController.readAll);
+postRoutes.get("/images/:serviceId", multer(multerConfig).single("file"), postController.readOne);
 
-postRoutes.get("/image/:serviceId/:postId", multer(multerConfig).single("file"), postController.readOne);
-
-postRoutes.delete('/image/delete/:serviceId/:postId', multer(multerConfig).single("file"), postController.delete);
+postRoutes.delete('/image/delete/:serviceId', multer(multerConfig).single("file"), postController.delete);
 
 
 module.exports = postRoutes;

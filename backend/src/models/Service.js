@@ -35,8 +35,7 @@ const ServiceSchema = new mongoose.Schema({
     type: String,
   },
   image: {
-    type: Array,
-    default: [],
+    type: String,
   },
   whatsapp: {
     type: String,
