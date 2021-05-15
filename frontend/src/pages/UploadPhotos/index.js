@@ -19,20 +19,19 @@ class UploadPhotos extends Component {
 
   async componentDidMount() {
     const serviceId = localStorage.getItem('serviceId');
+    console.log(serviceId);
     const response = await api.get(`/images/${serviceId}`);
 
-    if (response.data.length > 0) {
-      this.setState({
-        uploadedFiles: response.data.map((file) => ({
-          id: file._id,
-          name: file.name,
-          readableSize: filesize(file.size),
-          preview: file.url,
-          uploaded: true,
-          url: file.url,
-        })),
-      });
-    }
+    this.setState({
+      uploadedFiles: response.data.map((file) => ({
+        id: file._id,
+        name: file.name,
+        readableSize: filesize(file.size),
+        preview: file.url,
+        uploaded: true,
+        url: file.url,
+      })),
+    });
   }
 
   handleUpload = (files) => {

@@ -29,9 +29,7 @@ export const Title = styled.h1`
 `;
 
 export const ButtonStyle = styled(Button)`
-  margin: 1rem;
   color: #34669a;
-  border-radius: 1rem;
   border-color: #34669a;
   :hover {
     background-color: #34669a;
@@ -39,9 +37,7 @@ export const ButtonStyle = styled(Button)`
   }
 `;
 export const ButtonDeleteStyle = styled(Button)`
-  margin: 1rem;
   color: red;
-  border-radius: 1rem;
   border-color: red;
   :hover {
     background-color: red;
@@ -53,4 +49,16 @@ export const FormButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const ButtonGroup = styled.div`
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    border-radius: 15px;
+  }
 `;

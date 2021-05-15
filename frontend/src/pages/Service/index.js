@@ -108,7 +108,6 @@ const Service = () => {
   useEffect(() => {
     const fetchService = async () => {
       const res = await api.get(`/service/${id}/ratings`);
-      console.log(res);
       setRating(res.data.ratings);
     };
 
@@ -116,7 +115,6 @@ const Service = () => {
   }, [update]);
 
   const handleRate = () => {
-    console.log(stars, description);
     api.post(`/services/${id}/ratings`, { stars, description });
     setUpdate(!update);
     window.location.reload(`/services/${id}`);

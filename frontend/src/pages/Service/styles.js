@@ -23,7 +23,7 @@ export const Title = styled.h1`
 export const CategoryList = styled.div`
   height: auto;
   padding: 10px 0px;
-  margin-bottom: 4vh;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: row;
   justify-content: end;
