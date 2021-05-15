@@ -53,6 +53,7 @@ const Service = () => {
   const [service, setService] = useState([]);
   // const [recommended, setRecommended] = useState([]);
   const [rating, setRating] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [description, setDescription] = useState([]);
   const [stars, setStars] = useState([]);
   const [update, setUpdate] = useState(false);

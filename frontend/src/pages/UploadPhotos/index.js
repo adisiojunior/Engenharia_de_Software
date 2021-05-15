@@ -20,9 +20,7 @@ class UploadPhotos extends Component {
 
   async componentDidMount() {
     const serviceId = localStorage.getItem('serviceId');
-    console.log(serviceId);
     const response = await api.get(`/images/${serviceId}`);
-    console.log(response);
 
     if (response.data.length > 0) {
       this.setState({
