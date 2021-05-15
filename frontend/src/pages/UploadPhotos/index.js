@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable radix */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/destructuring-assignment */
@@ -96,7 +97,15 @@ class UploadPhotos extends Component {
   };
 
   handleDelete = async (id) => {
-    await api.delete(`posts/${id}`);
+    const serviceId = localStorage.getItem('serviceId');
+    const post = await api.get(`/images/${serviceId}`);
+    const img = [];
+
+    Object.entries(post.data).forEach(([key, value]) => {
+      img.push(value[0]._id);
+    });
+
+    await api.delete(`/image/delete/${serviceId}/${img[0]}`);
 
     this.setState({
       uploadedFiles: this.state.uploadedFiles.filter((file) => file.id !== id),

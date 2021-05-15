@@ -14,8 +14,9 @@ const FileList = ({ files, onDelete }) => (
             <strong>{uploadedFile.name}</strong>
             <span>
               {uploadedFile.readableSize}{' '}
-              {!!uploadedFile.url && (
-                <button type='button' onClick={() => onDelete(uploadedFile.id)}>
+              {!uploadedFile.url && (
+                // eslint-disable-next-line react/button-has-type
+                <button onClick={() => onDelete(uploadedFile.id)}>
                   Excluir
                 </button>
               )}
