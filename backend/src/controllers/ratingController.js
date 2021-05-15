@@ -27,7 +27,8 @@ module.exports = {
             }
 
             const count = await Rating.countDocuments({ serviceId })
-            service.ratingMean = (( service.ratingMean * count ) + stars ) / (count + 1)
+            const conta = (( service.ratingMean * count ) + stars ) / (count + 1)
+            service.ratingMean = parseFloat(conta.toFixed(1));
             await service.save();
 
             rating = await Rating.create({ ...req.body, userId: userId, serviceId: serviceId});

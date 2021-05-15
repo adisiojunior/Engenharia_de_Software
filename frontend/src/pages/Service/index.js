@@ -44,6 +44,7 @@ import {
   LabelUserTitle,
   DivUserRating,
   DivUsernDescription,
+  DivSlogan,
 } from './styles';
 
 const Service = () => {
@@ -53,6 +54,7 @@ const Service = () => {
   const [service, setService] = useState([]);
   // const [recommended, setRecommended] = useState([]);
   const [rating, setRating] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [description, setDescription] = useState([]);
   const [stars, setStars] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -76,7 +78,6 @@ const Service = () => {
         });
         setService(res.data.service);
         setUserMain(res.data.service.editable);
-        console.log(service);
         setUpdate(!update);
         setAllCategories(res.data.service.category);
         // res.data.service.category.map((category) => {
@@ -115,14 +116,16 @@ const Service = () => {
   }, [update]);
 
   const handleRate = () => {
-    console.log(stars, description);
-    if (stars > 0 && stars <= 5) {
-      api.post(`/services/${id}/ratings`, { stars, description }).then(() => {
-        setUpdate(!update);
-        window.location.reload(`/services/${id}`);
-      });
+    try {
+      if (stars > 0 && stars <= 5) {
+        api.post(`/services/${id}/ratings`, { stars, description }).then(() => {
+          setUpdate(!update);
+          window.location.reload(`/services/${id}`);
+        });
+      }
+    } catch (error) {
+      toast.error('O campo de nota está com um valor inválido.');
     }
-    toast.error('O campo de nota está com um valor inválido.');
   };
 
   return (
@@ -137,7 +140,9 @@ const Service = () => {
                 </Category>
               ))
             : null}
-          <Slogan>{service.slogan}</Slogan>
+          <DivSlogan>
+            <Slogan>{service.slogan}</Slogan>
+          </DivSlogan>
           {userMain ? (
             <EditButton
               onClick={() => {

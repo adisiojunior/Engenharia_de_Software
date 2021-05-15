@@ -44,7 +44,7 @@ export const Login = styled.button`
   height: 40px;
   color: black;
   border: none;
-  border-radius: 1rem;
+  border-radius: 10px;
   background-color: white;
 
   :hover {

@@ -29,6 +29,12 @@ export const CategoryList = styled.div`
   justify-content: end;
 `;
 
+export const DivSlogan = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+`;
+
 export const Slogan = styled.p`
   font-size: 24px;
 `;
@@ -223,16 +229,22 @@ export const UserStars = styled.div`
 
 export const EditButton = styled.button`
   width: 100px;
-  height: auto;
-  margin-left: 78.4%;
+  height: 50px;
+  margin-left: 86.5%;
   font-size: 15px;
   border: none;
   border-radius: 10px;
-  background-color: #34669a;
+  background-color: #61c4e3;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+
+  :hover {
+    background-color: #34669a;
+    border-color: #34669a;
+  }
   p {
     margin: 0;
     align-self: center;
@@ -290,6 +302,10 @@ export const RateButton = styled.button`
   height: 48px;
   color: white;
   background: #34669a;
+
+  :hover {
+    background-color: #61c4e3;
+  }
 `;
 
 export const LabelUserTitle = styled(Label)`
