@@ -63,7 +63,7 @@ const Home = () => {
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {}, [buttonFilters]);
+  // useEffect(() => {}, [buttonFilters]);
 
   const handleSearch = () => {
     setWasSearched(true);

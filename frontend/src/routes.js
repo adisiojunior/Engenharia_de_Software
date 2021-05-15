@@ -32,7 +32,10 @@ const Routes = () => (
         path='/registerbusiness'
         component={() => <RegisterBusiness />}
       />
-      <PrivateRoute path='/uploadphotos' component={() => <UploadPhotos />} />
+      <PrivateRoute
+        path='/uploadphotos/:serviceId'
+        component={() => <UploadPhotos />}
+      />
       <PrivateRoute
         path='/service/update/:slug'
         component={() => <UpdateService />}

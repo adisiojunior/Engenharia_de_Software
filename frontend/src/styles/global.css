@@ -27,3 +27,18 @@ h1 {
 button {
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  border: none;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 15px;
+  border: 3px solid #d3d3d3;
+}

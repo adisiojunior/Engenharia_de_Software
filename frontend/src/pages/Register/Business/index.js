@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -23,7 +24,7 @@ const RegisterBusiness = () => {
   const [serviceId, setServiceId] = useState('');
 
   useEffect(() => {
-    if (serviceId !== '') history.push(`/services/${serviceId}`);
+    if (serviceId !== '') history.push(`/uploadphotos/${serviceId}`);
   }, [serviceId]);
 
   const handleRegisterUser = async (e) => {
@@ -48,9 +49,9 @@ const RegisterBusiness = () => {
             email,
           })
           .then((response) => {
-            // eslint-disable-next-line no-underscore-dangle
+            localStorage.setItem('serviceId', response.data.service._id);
             setServiceId(response.data.service._id);
-            history.push('/uploadphotos');
+            // history.push(`/uploadphotos/${serviceId}`);
           });
       } catch (error) {
         toast.error(
