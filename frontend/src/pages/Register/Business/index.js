@@ -1,10 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Uploady from '@rpldy/uploady';
-import UploadButton from '@rpldy/upload-button';
-import UploadPreview from '@rpldy/upload-preview';
 import { toast } from 'react-toastify';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Row, Col } from 'reactstrap';
 import Select from 'react-select';
 import categories from './categories';
 import api from '../../../services/api';
@@ -12,56 +10,48 @@ import { Container, Title, ButtonStyle, Register, FormButton } from './styles';
 
 const RegisterBusiness = () => {
   const history = useHistory();
+
   const [name, setName] = useState('');
-  const [category] = useState('');
   const [street, setStreet] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
+  const [category] = useState([]);
   const [description, setDescription] = useState('');
   const [slogan, setSlogan] = useState('');
   const [cnpj, setCnpj] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [email, setEmail] = useState('');
   const [serviceId, setServiceId] = useState('');
-  
-  // Alterar essa parte da imagem
-  const image =
-    'https://poltronanerd.com.br/wp-content/uploads/2020/04/baby-yoda.jpg';
 
   useEffect(() => {
-    if (serviceId !== '') history.push(`/services/${serviceId}`);
+    if (serviceId !== '') history.push(`/uploadphotos/${serviceId}`);
   }, [serviceId]);
-
-  const filterBySize = (file) => {
-    return file.size <= 5242880;
-  };
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    if (
-      !name ||
-      !category ||
-      !street ||
-      !neighborhood ||
-      !description ||
-      !cnpj
-    ) {
+    if (!name || !street || !neighborhood || !cnpj) {
       toast.error(
-        'Informe todos os dados do seu negócio para realizar o cadastro'
+        'Informe todos os dados marcados com um * para cadastrar sua empresa'
       );
     } else {
       try {
-        await api
+        api
           .post('/services/register', {
             name,
-            category,
             street,
             neighborhood,
+            category,
             description,
             slogan,
             cnpj,
-            image,
+            whatsapp,
+            instagram,
+            email,
           })
           .then((response) => {
-            // eslint-disable-next-line no-underscore-dangle
+            localStorage.setItem('serviceId', response.data.service._id);
             setServiceId(response.data.service._id);
+            // history.push(`/uploadphotos/${serviceId}`);
           });
       } catch (error) {
         toast.error(
@@ -75,88 +65,130 @@ const RegisterBusiness = () => {
       <Register>
         <Form onSubmit={handleRegisterUser} className='w-75'>
           <Title>Cadastro do negócio</Title>
+          <Row>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Nome *</Label>
+                <Input
+                  type='text'
+                  id='inputName'
+                  onChange={(nameValue) => {
+                    setName(nameValue.target.value);
+                  }}
+                />
+              </FormGroup>
+            </Col>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Categoria</Label>
+                <Select
+                  isMulti
+                  name='categories'
+                  options={categories}
+                  className='basic-multi-select'
+                  classNamePrefix='select'
+                  placeholder='Selecione'
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Rua *</Label>
+                <Input
+                  type='street'
+                  id='inputStreet'
+                  onChange={(streetValue) => {
+                    setStreet(streetValue.target.value);
+                  }}
+                />
+              </FormGroup>
+            </Col>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Bairro *</Label>
+                <Input
+                  type='text'
+                  id='inputNeighborhood'
+                  onChange={(neighborhoodValue) => {
+                    setNeighborhood(neighborhoodValue.target.value);
+                  }}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Descrição</Label>
+                <Input
+                  type='text'
+                  id='inputDescription'
+                  onChange={(descriptionValue) => {
+                    setDescription(descriptionValue.target.value);
+                  }}
+                />
+              </FormGroup>
+            </Col>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Slogan</Label>
+                <Input
+                  type='text'
+                  id='inputSlogan'
+                  onChange={(sloganValue) => {
+                    setSlogan(sloganValue.target.value);
+                  }}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
           <FormGroup>
-            <Label>Nome</Label>
+            <Label>CNPJ *</Label>
             <Input
-              type='text'
-              id='inputName'
-              onChange={(nameValue) => {
-                setName(nameValue.target.value);
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Categoria</Label>
-            <Select
-              isMulti
-              name='categories'
-              options={categories}
-              className='basic-multi-select'
-              classNamePrefix='select'
-              placeholder='Selecione'
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Rua</Label>
-            <Input
-              type='street'
-              id='inputStreet'
-              onChange={(streetValue) => {
-                setStreet(streetValue.target.value);
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Bairro</Label>
-            <Input
-              type='text'
-              id='inputNeighborhood'
-              onChange={(neighborhoodValue) => {
-                setNeighborhood(neighborhoodValue.target.value);
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Descrição</Label>
-            <Input
-              type='text'
-              id='inputDescription'
-              onChange={(descriptionValue) => {
-                setDescription(descriptionValue.target.value);
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Slogan</Label>
-            <Input
-              type='text'
-              id='inputSlogan'
-              onChange={(sloganValue) => {
-                setSlogan(sloganValue.target.value);
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>CNPJ</Label>
-            <Input
-              type='text'
+              type='number'
               id='inputCnpj'
               onChange={(cnpjValue) => {
                 setCnpj(cnpjValue.target.value);
               }}
             />
           </FormGroup>
+          <Row>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Whatsapp</Label>
+                <Input
+                  type='number'
+                  id='inputNumber'
+                  onChange={(whatsappValue) => {
+                    setWhatsapp(whatsappValue.target.value);
+                  }}
+                />
+              </FormGroup>
+            </Col>
+            <Col lg='6'>
+              <FormGroup>
+                <Label>Instagram</Label>
+                <Input
+                  type='text'
+                  id='inputInstagram'
+                  onChange={(instagramValue) => {
+                    setInstagram(instagramValue.target.value);
+                  }}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
           <FormGroup>
-            <Uploady
-              multiple
-              id='Selecione'
-              destination={{ url: 'my-server.com/upload' }}
-              fileFilter={filterBySize}
-              accept='image/*'
-            >
-              <UploadButton />
-              <UploadPreview />
-            </Uploady>
+            <Label>E-mail</Label>
+            <Input
+              type='email'
+              id='inputEmail'
+              onChange={(emailValue) => {
+                setEmail(emailValue.target.value);
+              }}
+            />
           </FormGroup>
           <FormButton>
             <ButtonStyle type='submit' outline className='w-10'>

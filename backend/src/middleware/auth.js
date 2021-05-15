@@ -8,7 +8,7 @@ require('dotenv/config');
 
 module.exports = async (req, _, next) => {
     const authHeader = req.headers.authorization;
-
+    
     try {
         if (!authHeader) {
             throw new HttpError('Token não fornecido.', 401);

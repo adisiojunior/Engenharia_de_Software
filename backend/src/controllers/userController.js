@@ -9,7 +9,7 @@ function generateToken(params = {}) {
 }
 
 module.exports = {
-  async create(req, res) {
+  async create(req, res, next) {
     const { email } = req.body;
 
     try {
@@ -17,6 +17,10 @@ module.exports = {
         return res
           .status(409)
           .send({ error: `Já existe um usuário com o e-mail: ${email}` });
+      }
+
+      if (req.body.password !== req.body.confirmPassword) {
+        throw new HttpError("Senha não é igual!", 400);
       }
 
       const hash = await bcrypt.hash(req.body.password, 10);
@@ -33,12 +37,16 @@ module.exports = {
       );
 
       userAtt.password = undefined;
+      userAtt.confirmPassword = undefined;
 
       return res.send({
         userAtt,
       });
     } catch (err) {
-      return res.status(400).send({ error: "Falha no cadastro de usuário." });
+      if (!err instanceof HttpError) {
+        err = new HttpError(err.message, 400);
+      }
+      return next(err);
     }
   },
 
@@ -150,7 +158,7 @@ module.exports = {
   async logout(req, res, next) {
     try {
       if (!(await User.findById(req.userId))) {
-        throw new HttpError("Usuário não cadastrado.");
+        throw new HttpError("Usuário não cadastrado.", 409);
       }
 
       const user = await User.findByIdAndUpdate(
@@ -160,6 +168,23 @@ module.exports = {
       );
 
       return res.send({ user });
+    } catch (error) {
+      if (!error instanceof HttpError) {
+        error = new HttpError(error.message, 500);
+      }
+      return next(error);
+    }
+  },
+
+  async get(req, res, next) {
+    try {
+      const user = await User.findById(req.userId);
+
+      if (!user) {
+        throw new HttpError("Usuário não cadastrado.", 409);
+      }
+
+      return res.send({ name: user.name });
     } catch (error) {
       if (!error instanceof HttpError) {
         error = new HttpError(error.message, 500);

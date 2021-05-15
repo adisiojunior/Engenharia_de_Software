@@ -225,6 +225,31 @@ module.exports = {
 
     return res.status(200).send({ results, pages });
   },
+
+  async getServicesByUser(req, res, next) {
+    try {
+      const user = await User.findById(req.userId);
+
+      if (!user) {
+        throw new HttpError('Usuário não cadastrado.', 409);
+      }
+
+      let result = [];
+
+      for (let serviceId of user.services) {
+        let service = await Service.findById(serviceId);
+        result.push(service);
+      }
+
+      return res.send({ result });
+    }
+    catch (error) {
+      if (!error instanceof HttpError) {
+        error = new HttpError(error.message, 400);
+      }
+      return next(error);
+    }
+  }
 };
 
 const serviceIsEditable = async (authorizationHeader, serviceId) => {
