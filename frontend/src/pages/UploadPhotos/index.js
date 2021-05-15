@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable radix */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/destructuring-assignment */
@@ -21,17 +22,20 @@ class UploadPhotos extends Component {
     const serviceId = localStorage.getItem('serviceId');
     console.log(serviceId);
     const response = await api.get(`/images/${serviceId}`);
+    console.log(response);
 
-    this.setState({
-      uploadedFiles: response.data.map((file) => ({
-        id: file._id,
-        name: file.name,
-        readableSize: filesize(file.size),
-        preview: file.url,
-        uploaded: true,
-        url: file.url,
-      })),
-    });
+    if (response.data.length > 0) {
+      this.setState({
+        uploadedFiles: response.data.map((file) => ({
+          id: file._id,
+          name: file.name,
+          readableSize: filesize(file.size),
+          preview: file.url,
+          uploaded: true,
+          url: file.url,
+        })),
+      });
+    }
   }
 
   handleUpload = (files) => {
@@ -95,7 +99,9 @@ class UploadPhotos extends Component {
   };
 
   handleDelete = async (id) => {
-    await api.delete(`posts/${id}`);
+    const serviceId = localStorage.getItem('serviceId');
+
+    await api.delete(`/image/delete/${serviceId}`);
 
     this.setState({
       uploadedFiles: this.state.uploadedFiles.filter((file) => file.id !== id),

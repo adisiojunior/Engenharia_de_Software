@@ -26,7 +26,6 @@ const categories = [
   { value: 'ferramentas', label: 'Ferramentas' },
   { value: 'produtos-agricolas', label: 'Produtos Agrícolas' },
   { value: 'servicos-de-poda', label: 'Serviços de poda' },
-  { value: 'jardinagem', label: 'Jardinagem' },
   { value: 'acogue', label: 'Açogue' },
   { value: 'frigorifico', label: 'Frigorífico' },
   { value: 'bar', label: 'Bar' },
