@@ -100,22 +100,18 @@ const UpdateService = () => {
   const handleUpdateToService = async (e) => {
     e.preventDefault();
     try {
-      await api
-        .put(`/services/update/${slug}`, {
-          name,
-          category,
-          street,
-          neighborhood,
-          description,
-          slogan,
-          cnpj,
-          whatsapp,
-          instagram,
-          email,
-        })
-        .then(() => {
-          setId(slug);
-        });
+      await api.put(`/services/update/${slug}`, {
+        name,
+        category,
+        street,
+        neighborhood,
+        description,
+        slogan,
+        cnpj,
+        whatsapp,
+        instagram,
+        email,
+      });
       return history.push(`/services/${slug}`);
     } catch (error) {
       return toast.error('Erro na atualização dos dados de comércio.');
