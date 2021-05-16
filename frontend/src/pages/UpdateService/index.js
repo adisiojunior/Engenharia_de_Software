@@ -83,6 +83,9 @@ const UpdateService = () => {
           description,
           slogan,
           cnpj,
+          whatsapp,
+          instagram,
+          email,
         })
         .then(() => {
           localStorage.setItem('serviceId', slug);
@@ -106,6 +109,9 @@ const UpdateService = () => {
           description,
           slogan,
           cnpj,
+          whatsapp,
+          instagram,
+          email,
         })
         .then(() => {
           setId(slug);
