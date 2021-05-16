@@ -6,7 +6,7 @@ Grupo criado, para poder realizar o projeto da disciplinas de Engenharia de Soft
 
 - ADISIO PEREIRA FIALHO JUNIOR adisio.junior@ccc.ufcg.edu.br
 - DANIELLE DE LIMA VIEIRA danielle.vieira@ccc.ufcg.edu.br
-- EDSON ESLLEY ALMEIDA DO NASCIMENTO edson.weslley.nascimento@ccc.ufcg.edu.br
+- EDSON WESLLEY ALMEIDA DO NASCIMENTO edson.weslley.nascimento@ccc.ufcg.edu.br
 - EUCLIDES RAMOS DE ARAUJO FILHO euclides.filho@ccc.ufcg.edu.br
 - GABRIEL CARVALHO DE LIMA gabriel.lima@ccc.ufcg.edu.br
 - GABRIEL MAX VIEIRA MATOS gabriel.matos@ccc.ufcg.edu.br
